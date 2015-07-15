@@ -1,0 +1,2 @@
+# ViewFinder
+proto viewfinder
