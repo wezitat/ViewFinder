@@ -1,2 +1,3 @@
 # ViewFinder
-proto viewfinder
+proto viewfinder - part of wezitat project
+
