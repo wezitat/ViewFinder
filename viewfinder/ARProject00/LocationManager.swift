@@ -64,6 +64,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         if(newLocation.verticalAccuracy > 0) {
             if delegate != nil {
                 delegate.altitudeUpdated(newLocation.altitude)
+                println("distance from previous location: \(newLocation.altitude)")
             }
         }
         
@@ -74,18 +75,20 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         println("accuracy: \(newLocation.horizontalAccuracy)")
         if previousLocation == nil {
             if newLocation.horizontalAccuracy < LOCATION_ACCURACCY {
-                previousLocation = newLocation
                 if delegate != nil {
                     let str = NSString(format: "%.6f", previousLocation.coordinate.latitude)
                     let stry = NSString(format: "%.6f", previousLocation.coordinate.longitude)
                     delegate.showLocationInfo("lat: \(str)  lon: \(stry)")
                     
                 }
-                var distance: Double = newLocation.distanceFromLocation(previousLocation)
-                var bearing: Double = newLocation.bearingToLocationRadian(previousLocation)
+                
                 if calibrateHeadingDelegate != nil {
-                    ViewFinderManager.sharedInstance.setupCenterPoint(previousLocation.coordinate.latitude, lon: previousLocation.coordinate.longitude)//CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
-                    calibrateHeadingDelegate.initLocationReceived()
+                    ViewFinderManager.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude)//CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
+                    if(newLocation.verticalAccuracy > 0) {
+                        ViewFinderManager.sharedInstance.centerAltitude = newLocation.altitude
+                        calibrateHeadingDelegate.initLocationReceived()
+                        previousLocation = newLocation
+                    }
                 }
  
             }

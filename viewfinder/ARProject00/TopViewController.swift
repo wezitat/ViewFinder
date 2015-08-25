@@ -13,7 +13,7 @@ import CoreLocation
 /** TopViewController - is a class which represent upper layer of app.
     It shows all the statuses and WitMarkers. Can be used to
     represent additional GUI */
-class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateDelegate, RotationManagerDelegate {
+class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateDelegate, RotationManagerDelegate, WitMarkerDelegate {
     
     enum AppStatus {
         case GettingLocation
@@ -185,6 +185,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         // add new witmarker on screen
         var marker: WitMarker = WitMarker()
         marker.registerObject(wObject)
+        marker.delegate = self
         self.witMarkers.append(marker)
         
         marker.view.frame = CGRectMake(CGFloat(30), CGFloat(markerPos), marker.view.frame.size.width, marker.view.frame.size.height)
@@ -261,6 +262,18 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         dispatch_async(dispatch_get_main_queue(), {
             self.topInfoLabel.text = strign
         })
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return true
+    }
+    
+    override func supportedInterfaceOrientations() -> Int {
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
+        } else {
+            return Int(UIInterfaceOrientationMask.All.rawValue)
+        }
     }
 
 }

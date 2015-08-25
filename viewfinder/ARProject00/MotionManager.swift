@@ -13,6 +13,7 @@ import SceneKit
 
 protocol MotionManagerDelegate {
     func rotationChanged(orientation: SCNQuaternion)
+    func drasticDeviceMove()
 }
 
 protocol RotationManagerDelegate {
@@ -51,6 +52,9 @@ class MotionManager {
     func outputDeviceMotion(motion: CMDeviceMotion) {
         if self.delegate != nil {
             self.delegate.rotationChanged(self.orientationFromCMQuaternion(motion.attitude))
+            if self.deviceMadeDrasticMove(motion) {
+                self.delegate.drasticDeviceMove()
+            }
         }
         
         if self.rotationDelegate != nil {
@@ -59,6 +63,11 @@ class MotionManager {
         }
     }
 
+    func deviceMadeDrasticMove(motion: CMDeviceMotion) -> Bool {
+        //somehow moving camera rotates scene to small angle - this is the way to update rotation only when device moved
+        return abs(motion.rotationRate.x) > 0.1 || abs(motion.rotationRate.y) > 0.1 || abs(motion.rotationRate.z) > 0.1
+    }
+    
     func orientationFromCMQuaternion(attitude:CMAttitude) -> SCNQuaternion {
         var q: CMQuaternion = attitude.quaternion
         var rq: CMQuaternion = CMQuaternion()

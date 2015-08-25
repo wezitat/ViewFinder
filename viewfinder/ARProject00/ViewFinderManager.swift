@@ -23,6 +23,8 @@ class ViewFinderManager {
     var centerPoint: CLLocation = CLLocation(latitude: 0, longitude: 0)
     var userLocation: CLLocation = CLLocation(latitude: 0, longitude: 0)
     
+    var centerAltitude: CLLocationDistance = CLLocationDistance()
+    
     func startMotionManager() {
          motionManager.initMotionManger()
     }

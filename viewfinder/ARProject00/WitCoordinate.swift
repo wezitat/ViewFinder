@@ -19,7 +19,7 @@ class WitCoordinate {
     init(lat: Double, lon: Double, alt: Double) {
         self.lat   = lat
         self.lon   = lon
-        self.alt   = alt
+        self.alt   = alt * DEFAULT_METR_SCALE
         
         var newLocation: CLLocation = CLLocation(latitude: lat, longitude: lon)
         var centerLocation: CLLocation = ViewFinderManager.sharedInstance.centerPoint

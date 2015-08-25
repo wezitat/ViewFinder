@@ -11,11 +11,13 @@ import CoreLocation
 
 class DemoDataClass {
     
+    let LVIV_ALTITUDE: Double = 280
+    
     var objects: [WitObject] = [WitObject]()
     
     func initData() {
-        //objects = self.generateLvivDemoObjects()
-        objects = self.generateUSDemoObjects()
+        objects = self.generateLvivDemoObjects()
+        //objects = self.generateUSDemoObjects()
     }
     
     func generateLvivDemoObjects() -> [WitObject] {
@@ -27,31 +29,31 @@ class DemoDataClass {
         
         var objects: [WitObject] = [WitObject]()
         
-        var coor: WitCoordinate = WitCoordinate(lat: opera.coordinate.latitude, lon: opera.coordinate.longitude, alt: 0)
+        var coor: WitCoordinate = WitCoordinate(lat: opera.coordinate.latitude, lon: opera.coordinate.longitude, alt: LVIV_ALTITUDE)
         var witObject: WitObject = WitObject(coord: coor)
         witObject.witName = "Opera"
         witObject.witDescription = "Main opera house of Lviv"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: ratusha.coordinate.latitude, lon: ratusha.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: ratusha.coordinate.latitude, lon: ratusha.coordinate.longitude, alt: LVIV_ALTITUDE)
         witObject = WitObject(coord: coor)
         witObject.witName = "Ratusha"
         witObject.witDescription = "City Inn building"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: danylo.coordinate.latitude, lon: danylo.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: danylo.coordinate.latitude, lon: danylo.coordinate.longitude, alt: LVIV_ALTITUDE)
         witObject = WitObject(coord: coor)
         witObject.witName = "Danylo Galytskyi Monument"
         witObject.witDescription = "Monument of Lviv city founder"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: arsenal.coordinate.latitude, lon: arsenal.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: arsenal.coordinate.latitude, lon: arsenal.coordinate.longitude, alt: LVIV_ALTITUDE)
         witObject = WitObject(coord: coor)
         witObject.witName = "Arsenal"
         witObject.witDescription = "Main defensive structure of old Lviv"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: ibis.coordinate.latitude, lon: ibis.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: ibis.coordinate.latitude, lon: ibis.coordinate.longitude, alt: LVIV_ALTITUDE)
         witObject = WitObject(coord: coor)
         witObject.witName = "Ibis"
         witObject.witDescription = "Hotel"
@@ -80,97 +82,97 @@ class DemoDataClass {
         
         var objects: [WitObject] = [WitObject]()
         
-        var coor: WitCoordinate = WitCoordinate(lat: hooverTower.coordinate.latitude, lon: hooverTower.coordinate.longitude, alt: 0)
+        var coor: WitCoordinate = WitCoordinate(lat: hooverTower.coordinate.latitude, lon: hooverTower.coordinate.longitude, alt: 297)
         var witObject: WitObject = WitObject(coord: coor)
         witObject.witName = "w1"
         witObject.witDescription = "hoover tower"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: rodin.coordinate.latitude, lon: rodin.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: rodin.coordinate.latitude, lon: rodin.coordinate.longitude, alt: 95)
         witObject = WitObject(coord: coor)
         witObject.witName = "w2"
         witObject.witDescription = "rodin"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: memChurch.coordinate.latitude, lon: memChurch.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: memChurch.coordinate.latitude, lon: memChurch.coordinate.longitude, alt: 145)
         witObject = WitObject(coord: coor)
         witObject.witName = "w3"
         witObject.witDescription = "memChurch"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: volleyballLawn.coordinate.latitude, lon: volleyballLawn.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: volleyballLawn.coordinate.latitude, lon: volleyballLawn.coordinate.longitude, alt: 72)
         witObject = WitObject(coord: coor)
         witObject.witName = "w4"
         witObject.witDescription = "volleyballLawn"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: myLocation.coordinate.latitude, lon: myLocation.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: myLocation.coordinate.latitude, lon: myLocation.coordinate.longitude, alt: 72)
         witObject = WitObject(coord: coor)
         witObject.witName = "w5"
         witObject.witDescription = "myLocation"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: samuels.coordinate.latitude, lon: samuels.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: samuels.coordinate.latitude, lon: samuels.coordinate.longitude, alt: 72)
         witObject = WitObject(coord: coor)
         witObject.witName = "w6"
         witObject.witDescription = "samuels"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: hospital.coordinate.latitude, lon: hospital.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: hospital.coordinate.latitude, lon: hospital.coordinate.longitude, alt: 200)
         witObject = WitObject(coord: coor)
         witObject.witName = "w7"
         witObject.witDescription = "hospital"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: home.coordinate.latitude, lon: home.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: home.coordinate.latitude, lon: home.coordinate.longitude, alt: 72)
         witObject = WitObject(coord: coor)
         witObject.witName = "w8"
         witObject.witDescription = "home"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: ducks.coordinate.latitude, lon: ducks.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: ducks.coordinate.latitude, lon: ducks.coordinate.longitude, alt: 72)
         witObject = WitObject(coord: coor)
         witObject.witName = "w9"
         witObject.witDescription = "ducks"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: dSchool.coordinate.latitude, lon: dSchool.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: dSchool.coordinate.latitude, lon: dSchool.coordinate.longitude, alt: 100)
         witObject = WitObject(coord: coor)
         witObject.witName = "w10"
         witObject.witDescription = "rodin"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: markOffice.coordinate.latitude, lon: markOffice.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: markOffice.coordinate.latitude, lon: markOffice.coordinate.longitude, alt: 72)
         witObject = WitObject(coord: coor)
         witObject.witName = "w11"
         witObject.witDescription = "markOffice"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: mamaOffice.coordinate.latitude, lon: mamaOffice.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: mamaOffice.coordinate.latitude, lon: mamaOffice.coordinate.longitude, alt: 102)
         witObject = WitObject(coord: coor)
         witObject.witName = "w12"
         witObject.witDescription = "mamaOffice"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: shops.coordinate.latitude, lon: shops.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: shops.coordinate.latitude, lon: shops.coordinate.longitude, alt: 72)
         witObject = WitObject(coord: coor)
         witObject.witName = "w13"
         witObject.witDescription = "shops"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: schoolField.coordinate.latitude, lon: schoolField.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: schoolField.coordinate.latitude, lon: schoolField.coordinate.longitude, alt: 72)
         witObject = WitObject(coord: coor)
         witObject.witName = "w14"
         witObject.witDescription = "schoolField"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: bench.coordinate.latitude, lon: bench.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: bench.coordinate.latitude, lon: bench.coordinate.longitude, alt: 72)
         witObject = WitObject(coord: coor)
         witObject.witName = "w15"
         witObject.witDescription = "bench"
         objects.append(witObject)
         
-        coor = WitCoordinate(lat: oval.coordinate.latitude, lon: oval.coordinate.longitude, alt: 0)
+        coor = WitCoordinate(lat: oval.coordinate.latitude, lon: oval.coordinate.longitude, alt: 72)
         witObject = WitObject(coord: coor)
         witObject.witName = "w16"
         witObject.witDescription = "oval"
