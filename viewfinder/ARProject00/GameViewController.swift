@@ -14,7 +14,6 @@ import CoreLocation
 import AVFoundation
 
 protocol SceneEventsDelegate {
-    func showInfo(string: String)
     func showTopInfo(strign: String)
     func showObjectDetails(wObject: WitObject)
     func addNewWitMarker(wObject: WitObject)
@@ -165,17 +164,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         SCNTransaction.setDisableActions(true)
         var point: Point2D = Utils.convertLLtoXY(ViewFinderManager.sharedInstance.centerPoint, newLocation: location)
         cameraNode.position = SCNVector3Make(Float(point.x) , Float(point.y), cameraNode.position.z)
-        let str = NSString(format: "%.2f", point.x)
-        let stry = NSString(format: "%.2f", point.y)
-        showInfoText("x: \(str)  y: \(stry)")
         SCNTransaction.commit()
-    }
-    
-    //display info text
-    func showInfoText(str: String) {
-        if eventDelegate != nil {
-            eventDelegate.showInfo(str)
-        }
     }
     
     //display info text
@@ -220,7 +209,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         }
         
         //add north pointer
-        let redMaterial  = SCNMaterial()
+        /*let redMaterial  = SCNMaterial()
         redMaterial.diffuse.contents = UIColor.redColor()
         redMaterial.locksAmbientWithDiffuse = true;
         
@@ -230,7 +219,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         northGeometry = SCNNode(geometry: sphere)
         northGeometry.position = SCNVector3Make(0, 2000, 0)
         
-        geometryNode.addChildNode(northGeometry)
+        geometryNode.addChildNode(northGeometry)*/
     }
     
     

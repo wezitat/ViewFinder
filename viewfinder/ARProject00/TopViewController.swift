@@ -14,7 +14,7 @@ import CoreLocation
     It shows all the statuses and WitMarkers. Can be used to
     represent additional GUI */
 class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateDelegate, RotationManagerDelegate, WitMarkerDelegate {
-    
+  
     enum AppStatus {
         case GettingLocation
         case GettingHeading
@@ -41,37 +41,85 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     var screenHeight = UIScreen.mainScreen().bounds.height
     var screenWidth = UIScreen.mainScreen().bounds.width
     
+    var debugInfo: DebugInfoClass = DebugInfoClass()
     
+    @IBOutlet weak var debugView: UIView!
     @IBOutlet weak var markerView: UIView!
-    @IBOutlet weak var infoLabel: UILabel!
-    @IBOutlet weak var topInfoLabel: UILabel!
-    
-    //info screen
-    @IBOutlet weak var detailsButton: UIButton!
-    @IBOutlet weak var detailsText: UITextView!
-    @IBOutlet weak var detailsHeader: UILabel!
     @IBOutlet weak var detailsView: UIView!
     
+    //details view 
+    var smallDetailsView: UIView! = nil
+    var detailsHeader: UILabel! = nil
+    var detailsDescription: UILabel! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        infoLabel.text = ""
         sceneController = self.childViewControllers.first! as! GameViewController
         sceneController.eventDelegate = self
-        
+        initDebugViewLayer()
+        initDetailsView()
         //start location manager
         ViewFinderManager.sharedInstance.startLocationManager()
         ViewFinderManager.sharedInstance.locationManager.calibrateHeadingDelegate = self
+        ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate = debugInfo
         ViewFinderManager.sharedInstance.motionManager.rotationDelegate = self
-        detailsText.text = ""
-        detailsHeader.text = ""
-        
+       
         //First step we need to retrieve accurate location. This can take a while (depends on accuracy which we choosed in LocationManager)
         self.retrieveInitialLocation()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("orientationChanged:"), name: UIDeviceOrientationDidChangeNotification, object: nil)
     }
     
+    func initDebugViewLayer() {
+        var orientation: UIDeviceOrientation = UIDevice.currentDevice().orientation
+        
+        switch (orientation)
+        {
+        case .Portrait:
+            debugInfo.initDebugViewPortraitOriented()
+            break;
+        case .LandscapeLeft:
+            debugInfo.initDebugViewLandscapeOriented()
+            break;
+        case .LandscapeRight:
+            debugInfo.initDebugViewLandscapeOriented()
+            break;
+        default:
+            debugInfo.initDebugViewPortraitOriented()
+            break;
+        }
+        self.debugView.addSubview(debugInfo.debugInfoView)
+    }
+    
+    func initDetailsView() {
+        var screenCenterX: CGFloat = UIScreen.mainScreen().bounds.width/2
+        var screenCenterY: CGFloat = UIScreen.mainScreen().bounds.height/2
+        smallDetailsView = UIView(frame: CGRectMake(screenCenterX - 100, screenCenterY - 100, 200, 200))
+        smallDetailsView.backgroundColor = UIColor.whiteColor()
+        detailsHeader = UILabel(frame: CGRectMake(5, 5, 190, 35))
+        detailsHeader.font = UIFont.systemFontOfSize(22)
+        detailsHeader.textAlignment = .Center
+        smallDetailsView.addSubview(detailsHeader)
+        
+        detailsDescription = UILabel(frame: CGRectMake(0, 35, 190, 155))
+        detailsDescription.font = UIFont.systemFontOfSize(15)
+        detailsDescription.numberOfLines = 99
+        detailsDescription.textAlignment = .Center
+        
+        smallDetailsView.addSubview(detailsDescription)
+        
+        var button: UIButton = UIButton(frame: CGRectMake(0, 0, self.detailsView.frame.width, self.detailsView.frame.height))
+        button.addTarget(self, action: Selector("handleDetailsButton"), forControlEvents: .TouchUpInside)
+        
+        self.detailsView.addSubview(smallDetailsView)
+        self.detailsView.addSubview(button)
+        self.detailsView.bringSubviewToFront(button)
+        self.detailsView.hidden = true
+        
+    }
+
     func retrieveInitialLocation() {
-        self.topInfoLabel.text = "Retrieving location..."
+        debugInfo.retrievingLocationStatus("Retrieving location...")
         self.appStatus = .GettingLocation
     }
     
@@ -84,7 +132,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     
     func retrieveInitialHeading() {
         //start calibrating heding of device
-        self.topInfoLabel.text = "Don`t shake device..."
+        debugInfo.singleStatus("Don`t shake device")
         self.appStatus = .GettingHeading
     }
     
@@ -102,9 +150,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
                 isStable = false
                 //device is not stable. stop timer
                 stopHeadingDataGatheringTimer()
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.topInfoLabel.text = "Don`t shake Device"
-                })
+                debugInfo.singleStatus("Don`t shake device")
             }
             calibratedHeading = heading
         }
@@ -134,10 +180,8 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     func timeUpdate() {
         //one seconds passed. check if we can stop calibration
         if calibrationTime > 0 {
-            dispatch_async(dispatch_get_main_queue(), {
-                var currentText: String = "Calibrating data. Don`t shake Device for"
-                self.topInfoLabel.text = currentText + " \(self.calibrationTime) seconds"
-            })
+            var currentText: String = "Calibrating data. Don`t shake Device for"
+            debugInfo.singleStatus(currentText + " \(self.calibrationTime) seconds")
             calibrationTime--
         }
         else {
@@ -159,16 +203,14 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     /** Function to start builing scene based on gathered data
     */
     func initializeScene() {
-        dispatch_async(dispatch_get_main_queue(), {
-            self.topInfoLabel.text = "Showing scene"
-        })
+        debugInfo.fullInfo()
         ViewFinderManager.sharedInstance.locationManager.delegate = sceneController
         sceneController.initialize3DSceneWithHeading(calibratedHeading)
     }
     
 ////////WitMarkers
     
-    @IBAction func handleDetailsButton(sender: UIButton) {
+    func handleDetailsButton() {
         //show details about wit
         detailsView.hidden = true
     }
@@ -176,7 +218,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     func showObjectDetails(wObject: WitObject) {
         dispatch_async(dispatch_get_main_queue()) {
             self.detailsHeader.text = wObject.witName
-            self.detailsText.text = wObject.witDescription
+            self.detailsDescription.text = wObject.witDescription
         }
         detailsView.hidden = false
     }
@@ -251,17 +293,11 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     }
     
     
-//// Show info on top and bottom labels
-    func showInfo(string: String) {
-        dispatch_async(dispatch_get_main_queue(), {
-            self.infoLabel.text = string
-        })
-    }
-    
+//// Show info on top and bottom labels    
     func showTopInfo(strign: String) {
-        dispatch_async(dispatch_get_main_queue(), {
+        /*dispatch_async(dispatch_get_main_queue(), {
             self.topInfoLabel.text = strign
-        })
+        })*/
     }
     
     override func shouldAutorotate() -> Bool {
@@ -276,4 +312,40 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         }
     }
 
+    func orientationChanged(notification: NSNotification) {
+        
+        var orientation: UIDeviceOrientation = UIDevice.currentDevice().orientation
+        
+        switch (orientation)
+        {
+        case .Portrait:
+            reorientPortrait()
+            break;
+        case .LandscapeLeft:
+            reorientLandscape()
+            break;
+        case .LandscapeRight:
+            reorientLandscape()
+            break;
+        default:
+            reorientPortrait()
+            break;
+        }
+    }
+    
+    func reorientPortrait() {
+        debugInfo.reorientPortrait()
+        if smallDetailsView != nil {
+           smallDetailsView.transform = CGAffineTransformMakeRotation(0)
+        }
+
+    }
+    
+    func reorientLandscape() {
+        debugInfo.reorientLanscape()
+        if smallDetailsView != nil {
+            smallDetailsView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
+        }
+    }
+    
 }

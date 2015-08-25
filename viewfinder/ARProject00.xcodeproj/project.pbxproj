@@ -20,6 +20,7 @@
 		5263E2C01B73747A002A550F /* CLLocationExtenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263E2BF1B73747A002A550F /* CLLocationExtenstion.swift */; };
 		5263E2C21B73AAD9002A550F /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263E2C11B73AAD9002A550F /* TopViewController.swift */; };
 		5263E2C41B73AC5E002A550F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5263E2C31B73AC5E002A550F /* UIKit.framework */; };
+		52BCBB671B8C939200DE99C5 /* DebugInfoClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BCBB661B8C939200DE99C5 /* DebugInfoClass.swift */; };
 		52C267E41B7B766B001C35CF /* DemoDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C267E31B7B766B001C35CF /* DemoDataClass.swift */; };
 		52C267E61B7B7681001C35CF /* WitCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C267E51B7B7681001C35CF /* WitCoordinate.swift */; };
 		52C267E81B7B76BC001C35CF /* WitObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C267E71B7B76BC001C35CF /* WitObject.swift */; };
@@ -56,6 +57,7 @@
 		5263E2BF1B73747A002A550F /* CLLocationExtenstion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLLocationExtenstion.swift; sourceTree = "<group>"; };
 		5263E2C11B73AAD9002A550F /* TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		5263E2C31B73AC5E002A550F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		52BCBB661B8C939200DE99C5 /* DebugInfoClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugInfoClass.swift; sourceTree = "<group>"; };
 		52C267E31B7B766B001C35CF /* DemoDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoDataClass.swift; sourceTree = "<group>"; };
 		52C267E51B7B7681001C35CF /* WitCoordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WitCoordinate.swift; sourceTree = "<group>"; };
 		52C267E71B7B76BC001C35CF /* WitObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WitObject.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				5255B8E11B67D52300C87383 /* Utils.swift */,
 				5263E2BF1B73747A002A550F /* CLLocationExtenstion.swift */,
 				52C267E31B7B766B001C35CF /* DemoDataClass.swift */,
+				52BCBB661B8C939200DE99C5 /* DebugInfoClass.swift */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				5255B8DE1B67CD3300C87383 /* LocationManager.swift in Sources */,
 				5263E2C01B73747A002A550F /* CLLocationExtenstion.swift in Sources */,
 				52C267E41B7B766B001C35CF /* DemoDataClass.swift in Sources */,
+				52BCBB671B8C939200DE99C5 /* DebugInfoClass.swift in Sources */,
 				5255B8BC1B6777CE00C87383 /* GameViewController.swift in Sources */,
 				5255B8DA1B677EDE00C87383 /* MotionManager.swift in Sources */,
 				52C267E81B7B76BC001C35CF /* WitObject.swift in Sources */,
