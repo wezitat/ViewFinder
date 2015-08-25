@@ -202,6 +202,14 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         
         //add wit markers for objects
         for object in showingObject {
+            
+            if !object.is3D {
+                var constraint:SCNTransformConstraint = SCNTransformConstraint(inWorldSpace: true, withBlock: { (node:SCNNode!, snmatrix:SCNMatrix4) -> SCNMatrix4 in
+                    return snmatrix
+                })
+                object.objectGeometry.constraints = [SCNLookAtConstraint(target: cameraNode), constraint]
+            }
+            
             geometryNode.addChildNode(object.objectGeometry)
             if self.eventDelegate != nil {
                 self.eventDelegate.addNewWitMarker(object)
