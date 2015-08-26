@@ -45,6 +45,8 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         //initialize everything with calibrated heading
         initializeCamera()
         initializeScene(heading)
+        //update altitude
+        self.altitudeUpdated(ViewFinderManager.sharedInstance.centerAltitude)
     }
     
     func initializeCamera() {
@@ -101,7 +103,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         sceneView.scene = scene
         cameraNode.camera = SCNCamera()
         cameraNode.camera?.zFar = 1000000 //to draw objects very far from camera
-        cameraNode.position = SCNVector3Make(0, 0, 0)
+        cameraNode.position = SCNVector3Make(0, 0, Float(ViewFinderManager.sharedInstance.centerAltitude))
         scene.rootNode.addChildNode(cameraNode)
         
         ViewFinderManager.sharedInstance.startMotionManager()
@@ -155,7 +157,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         //altitude is ignored for a moment
         SCNTransaction.begin()
         SCNTransaction.setDisableActions(true)
-        cameraNode.position = SCNVector3Make(cameraNode.position.x , cameraNode.position.y, 0) //Float(altitude * DEFAULT_METR_SCALE))
+        cameraNode.position = SCNVector3Make(cameraNode.position.x , cameraNode.position.y, Float(altitude * DEFAULT_METR_SCALE))
         SCNTransaction.commit()
     }
     
