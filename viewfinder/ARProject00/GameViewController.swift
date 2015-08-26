@@ -148,7 +148,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
     
     func drasticDeviceMove() {
         //magic! somehow SceneKit rotates scene everytime we move the phone, so we need to rotate it back. We need to investigate in future if its scene rotating or camera.orientation (device.orientation) gives us always angle mistake
-        geometryNode.runAction(SCNAction.rotateByAngle(0.00022, aroundAxis: SCNVector3Make(0, 0, 1), duration: 0.1))
+        //geometryNode.runAction(SCNAction.rotateByAngle(0.00022, aroundAxis: SCNVector3Make(0, 0, 1), duration: 0.1))
     }
     
     func altitudeUpdated(altitude: CLLocationDistance) {
