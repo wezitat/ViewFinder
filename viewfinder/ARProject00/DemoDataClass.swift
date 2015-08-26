@@ -16,8 +16,8 @@ class DemoDataClass {
     var objects: [WitObject] = [WitObject]()
     
     func initData() {
-        objects = self.generateLvivDemoObjects()
-        //objects = self.generateUSDemoObjects()
+        //objects = self.generateLvivDemoObjects()
+        objects = self.generateUSDemoObjects()
     }
     
     func generateLvivDemoObjects() -> [WitObject] {
