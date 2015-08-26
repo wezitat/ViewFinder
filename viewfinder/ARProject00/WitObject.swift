@@ -33,7 +33,7 @@ class WitObject {
         is3D = true
         let boxGeometry = SCNBox(width: CGFloat(Utils.metersToCoordinate(20)), height: CGFloat(Utils.metersToCoordinate(20)), length: CGFloat(Utils.metersToCoordinate(20)), chamferRadius: 1.0)
         objectGeometry = SCNNode(geometry: boxGeometry)
-        objectGeometry.position = SCNVector3Make(Float(witCoordinat.point2d.x), Float(witCoordinat.point2d.y), 0)
+        objectGeometry.position = SCNVector3Make(Float(witCoordinat.point2d.x), Float(witCoordinat.point2d.y), Float(witCoordinat.alt))
     }
     
     func makeImage() {
@@ -50,6 +50,6 @@ class WitObject {
         let boxGeometry = SCNBox(width: CGFloat(Utils.metersToCoordinate(20)), height: CGFloat(Utils.metersToCoordinate(30)), length: CGFloat(Utils.metersToCoordinate(0)), chamferRadius: 1.0)
         boxGeometry.materials = [texture, clearMaterial, clearMaterial, clearMaterial, clearMaterial, clearMaterial]
         objectGeometry = SCNNode(geometry: boxGeometry)
-        objectGeometry.position = SCNVector3Make(Float(witCoordinat.point2d.x), Float(witCoordinat.point2d.y), 0)
+        objectGeometry.position = SCNVector3Make(Float(witCoordinat.point2d.x), Float(witCoordinat.point2d.y), Float(witCoordinat.alt))
     }
 }

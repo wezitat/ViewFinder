@@ -73,6 +73,10 @@ class Utils {
         return meters * FEET
     }
     
+    static func covertToMeters(feet: Double) -> Double {
+        return feet/FEET
+    }
+    
     static func isPointLeft(a: Point2D, b: Point2D, c: Point2D) -> Bool {
         var value: Double = ((b.x - a.x)*(c.y - a.y) - (b.y - a.y)*(c.x - a.x))
         return value < 0

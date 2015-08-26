@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		523AB31B1B8E087C008B6FA2 /* lviv_objects.json in Resources */ = {isa = PBXBuildFile; fileRef = 523AB3191B8E087C008B6FA2 /* lviv_objects.json */; };
+		523AB31C1B8E087C008B6FA2 /* us_objects.json in Resources */ = {isa = PBXBuildFile; fileRef = 523AB31A1B8E087C008B6FA2 /* us_objects.json */; };
 		5255B8B81B6777CE00C87383 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5255B8B71B6777CE00C87383 /* AppDelegate.swift */; };
 		5255B8BC1B6777CE00C87383 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5255B8BB1B6777CE00C87383 /* GameViewController.swift */; };
 		5255B8BF1B6777CE00C87383 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5255B8BD1B6777CE00C87383 /* Main.storyboard */; };
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		523AB3191B8E087C008B6FA2 /* lviv_objects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = lviv_objects.json; path = resources/lviv_objects.json; sourceTree = "<group>"; };
+		523AB31A1B8E087C008B6FA2 /* us_objects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = us_objects.json; path = resources/us_objects.json; sourceTree = "<group>"; };
 		5255B8B21B6777CE00C87383 /* ARProject00.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARProject00.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5255B8B61B6777CE00C87383 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5255B8B71B6777CE00C87383 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -118,6 +122,15 @@
 			name = Misc;
 			sourceTree = "<group>";
 		};
+		523AB3181B8E0870008B6FA2 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				523AB3191B8E087C008B6FA2 /* lviv_objects.json */,
+				523AB31A1B8E087C008B6FA2 /* us_objects.json */,
+			);
+			name = resources;
+			sourceTree = "<group>";
+		};
 		5255B8A91B6777CE00C87383 = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +154,7 @@
 		5255B8B41B6777CE00C87383 /* ARProject00 */ = {
 			isa = PBXGroup;
 			children = (
+				523AB3181B8E0870008B6FA2 /* resources */,
 				521A903B1B725C4100CC3178 /* Misc */,
 				521A903A1B725C2300CC3178 /* Managers */,
 				521A90391B725C1C00CC3178 /* Models */,
@@ -266,8 +280,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				523AB31C1B8E087C008B6FA2 /* us_objects.json in Resources */,
 				5255B8C41B6777CE00C87383 /* LaunchScreen.xib in Resources */,
 				5255B8C11B6777CE00C87383 /* Images.xcassets in Resources */,
+				523AB31B1B8E087C008B6FA2 /* lviv_objects.json in Resources */,
 				5255B8BF1B6777CE00C87383 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

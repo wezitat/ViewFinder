@@ -1,0 +1,136 @@
+{ 
+	"wits" : [
+		{
+		"name" : "w1",
+		"description": "hoover tower",
+		"lat": -122.1669495,
+		"lon": 37.427604,
+		"alt": 297,
+		"altMeasure": "f"
+		},
+
+		{
+		"name" : "w2",
+		"description": "rodin",
+		"lat": -122.1695673,
+		"lon": 37.4278341,
+		"alt": 95,
+		"altMeasure": "f"
+		},
+
+		{
+		"name" : "w3",
+		"description": "memChurch",
+		"lat": -122.170479299999,
+		"lon": 37.4268883,
+		"alt": 145,
+		"altMeasure": "f"
+		},
+
+		{
+		"name" : "w4",
+		"description": "volleyballLawn",
+		"lat": -122.1692241,
+		"lon": 37.4305689,
+		"alt": 72,
+		"altMeasure": "f"
+		},
+
+		{
+		"name" : "w5",
+		"description": "myLocation",
+		"lat": -122.170093099999,
+		"lon": 37.4280726,
+		"alt": 72,
+		"altMeasure": "f"
+		}
+		{
+		"name" : "w6",
+		"description": "samuels",
+		"lat": -122.1630764,
+		"lon": 37.420072,
+		"alt": 72,
+		"altMeasure": "f"
+		},
+		{
+		"name" : "w7",
+		"description": "hospital",
+		"lat": -122.1768522,
+		"lon": 37.432886,
+		"alt": 200,
+		"altMeasure": "f"
+		},
+		{
+		"name" : "w8",
+		"description": "home",
+		"lat": -122.155652,
+		"lon": 37.4198675,
+		"alt": 72,
+		"altMeasure": "f"
+		},
+		{
+		"name" : "w9",
+		"description": "ducks",
+		"lat": -122.1763802,
+		"lon": 37.4234802,
+		"alt": 72,
+		"altMeasure": "f"
+		},
+		{
+		"name" : "w10",
+		"description": "rodin",
+		"lat": -122.1719491,
+		"lon": 37.4264112,
+		"alt": 100,
+		"altMeasure": "f"
+		},
+		{
+		"name" : "w11",
+		"description": "markOffice",
+		"lat": -122.1688056,
+		"lon": 37.4270119,
+		"alt": 72,
+		"altMeasure": "f"
+		},
+		{
+		"name" : "w12",
+		"description": "mamaOffice",
+		"lat": -122.1633554,
+		"lon": 37.4282856,
+		"alt": 102,
+		"altMeasure": "f"
+		},
+		{
+		"name" : "w13",
+		"description": "shops",
+		"lat": -122.1716595,
+		"lon": 37.4447443,
+		"alt": 72,
+		"altMeasure": "f"
+		},
+		{
+		"name" : "w14",
+		"description": "schoolField",
+		"lat": -122.1529055,
+		"lon": 37.4350672,
+		"alt": 72,
+		"altMeasure": "f"
+		},
+		{
+		"name" : "w15",
+		"description": "bench",
+		"lat": -122.1704471,
+		"lon": 37.4281493,
+		"alt": 72,
+		"altMeasure": "f"
+		},
+		{
+		"name" : "w16",
+		"description": "oval",
+		"lat": -122.1696854,
+		"lon": 37.4291717,
+		"alt": 72,
+		"altMeasure": "f"
+		}
+]
+}
