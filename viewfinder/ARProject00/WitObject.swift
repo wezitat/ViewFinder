@@ -27,7 +27,7 @@ class WitObject {
             self.makeImage()
         }
         else {
-            self.makeImage()
+            self.makeBox()
         }
     }
     
