@@ -1,48 +1,55 @@
 { 
 	"wits" : [
-		{
-		"name" : "Ratusha",
-		"description": "City Inn",
-		"lat": 49.841835,
-		"lon": 24.031209,
-		"alt": 300,
-		"altMeasure": "m"
-		},
-
-		{
-		"name" : "Opera",
-		"description": "Central opera",
-		"lat": 49.843698,
-		"lon": 24.026441,
-		"alt": 250,
-		"altMeasure": "m"
-		},
-
-		{
-		"name" : "Danylo",
-		"description": "Monument",
-		"lat": 49.839453,
-		"lon": 24.032518,
-		"alt": 300,
-		"altMeasure": "m"
-		},
-
-		{
-		"name" : "Arsenal",
-		"description": "Defensive",
-		"lat": 49.841353,
-		"lon": 24.035234,
-		"alt": 280,
-		"altMeasure": "m"
-		},
-
-		{
-		"name" : "Ibis",
-		"description": "Hotel",
-		"lat": 49.837170,
-		"lon": 24.034747,
-		"alt": 250,
-		"altMeasure": "m"
-		}
-]
+              {
+              "name" : "Ibis",
+              "description": "Hotel",
+              "lat": 49.837170,
+              "lon": 24.034747,
+              "alt": 250,
+              "altMeasure": "m",
+              "author": "user"
+              },
+              {
+              "name" : "Ratusha",
+              "description": "City Inn",
+              "lat": 49.841835,
+              "lon": 24.031209,
+              "alt": 300,
+              "altMeasure": "m",
+              "author": "user"
+              },
+              
+              {
+              "name" : "Opera",
+              "description": "Central opera",
+              "lat": 49.843698,
+              "lon": 24.026441,
+              "alt": 250,
+              "altMeasure": "m",
+              "author": "user"
+              },
+              
+              {
+              "name" : "Danylo",
+              "description": "Monument",
+              "lat": 49.839453,
+              "lon": 24.032518,
+              "alt": 300,
+              "altMeasure": "m",
+              "author": "user"
+              },
+              
+              {
+              "name" : "Arsenal",
+              "description": "Defensive",
+              "lat": 49.841353,
+              "lon": 24.035234,
+              "alt": 280,
+              "altMeasure": "m",
+              "author": "user"
+              }
+            ],
+    "sub" : [
+    
+             ]
 }

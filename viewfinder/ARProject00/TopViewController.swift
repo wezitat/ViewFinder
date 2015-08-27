@@ -38,13 +38,10 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     
     var markerPos: Int = 120
     
-    var screenHeight = UIScreen.mainScreen().bounds.height
-    var screenWidth = UIScreen.mainScreen().bounds.width
-    
     var debugInfo: DebugInfoClass = DebugInfoClass()
     
     @IBOutlet weak var debugView: UIView!
-    @IBOutlet weak var markerView: UIView!
+    @IBOutlet weak var markerView: WitMarkersView!
     @IBOutlet weak var detailsView: UIView!
     
     //details view 
@@ -218,7 +215,13 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     func showObjectDetails(wObject: WitObject) {
         dispatch_async(dispatch_get_main_queue()) {
             self.detailsHeader.text = wObject.witName
-            self.detailsDescription.text = wObject.witDescription
+            
+            var claimed: String = "NO"
+            if wObject.isClaimed {
+                claimed = "YES"
+            }
+            
+            self.detailsDescription.text = "\(wObject.witDescription)\n\nBy: \(wObject.author) Claimed: \(claimed)"
         }
         detailsView.hidden = false
     }
@@ -239,57 +242,93 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         //device has moved - update witMarker position
         for marker in self.witMarkers {
             dispatch_async(dispatch_get_main_queue()) {
-                marker.view.transform = CGAffineTransformMakeRotation(CGFloat(angle))
+                marker.label.transform = CGAffineTransformMakeRotation(CGFloat(angle))
             }
         }
-        self.alignMarkersOnScreen(angle)
+    }
+    
+    func locationUpdated(location: CLLocation) {
+        for marker in self.witMarkers {
+            dispatch_async(dispatch_get_main_queue()) {
+                marker.updateDistance(location)
+            }
+        }
     }
     
     func cameraMoved() {
+        var screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
+        var screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
+
         for marker in self.witMarkers {
+
             if sceneController.isNodeOnScreen(marker.wObject.objectGeometry) {
                 marker.view.hidden = true
             }
             else {
                 marker.view.hidden = false
             }
+            var point: Point2D = sceneController.nodePosToScreenCoordinates(marker.wObject.objectGeometry)
             
-            /*
-            var isLeft: Bool = sceneController.sideOfNodeFromCamera(marker.wObject.objectGeometry)
+            point.x -= 30
+            point.y -= 30
             
-            if isLeft {
-                marker.view.frame = CGRectMake(screenWidth - CGFloat(60), CGFloat(markerPos), marker.view.frame.size.width, marker.view.frame.size.height)
+            if  point.x < 0 {
+                point.x = 0
             }
-            else {
-                marker.view.frame = CGRectMake(CGFloat(30), CGFloat(markerPos), marker.view.frame.size.width, marker.view.frame.size.height)
-            }*/
+            
+            if point.y < 0 {
+                point.y = 0
+            }
+            
+            if point.x > screenWidth - 60 {
+                point.x = Double(screenWidth) - 60
+            }
+            
+            if point.y > screenHeight - 60 {
+                point.y = screenHeight - 60
+            }
+            
+            //check if element is behind - if yes our point will be inside the screen
+            if (point.x > 0 && point.x < screenWidth - 60 && point.y > 0 && point.y < screenHeight - 60) {
+                point = updatePointIfObjectIsBehind(point)
+            }
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                marker.view.frame = CGRectMake(CGFloat(point.x), CGFloat(point.y), 60, 60)
+            }
         }
     }
     
-    func alignMarkersOnScreen(angle: Double) {
-        /*
-        var degree: Double = Utils.RadiansToDegrees(angle)
+    func updatePointIfObjectIsBehind(point: Point2D) -> Point2D {
+        //find screen quarter
+        var newPoint: Point2D = Point2D()
+        var screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
+        var screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
         
-        dispatch_async(dispatch_get_main_queue()) {
-            var absValue: Int = Int(abs(degree))
-            println("degree: \(absValue)")
-            var newX: Int = 0
-            var newY: Int = 0
-            
-            if UIDevice.currentDevice().orientation == .Portrait || UIDevice.currentDevice().orientation == .PortraitUpsideDown {
-                newX = 20
-                newY = Int(self.screenHeightCenter)
+        var orientation: UIDeviceOrientation = UIDevice.currentDevice().orientation
+        
+        if orientation == .Portrait || orientation == .PortraitUpsideDown {
+            if point.x > screenWidth/2 {
+                point.x = 0
             }
-            else if UIDevice.currentDevice().orientation == .LandscapeLeft || UIDevice.currentDevice().orientation == .LandscapeRight{
-                newX = 20
-                newY = Int(self.screenWidthCenter)
+            else {
+                point.x = screenWidth - 60
             }
-            
-            for marker in self.witMarkers {
-                var rect: CGRect = marker.view.frame
-                marker.view.frame = CGRectMake(CGFloat(newX), CGFloat(newY), rect.width, rect.height)
+            newPoint.y = point.y
+        }
+        if orientation == .LandscapeLeft || orientation == .LandscapeRight {
+            if point.y > screenHeight/2 {
+                point.y = 0
             }
-        }*/
+            else {
+                point.y = screenHeight - 60
+            }
+            newPoint.x = point.x
+        }
+        
+        
+
+        return newPoint
     }
     
     

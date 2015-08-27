@@ -17,14 +17,13 @@ protocol WitMarkerDelegate {
     func showObjectDetails(wObject: WitObject)
 }
 
-class WitMarker {
+class WitMarker: NSObject {
     
     var delegate: WitMarkerDelegate! = nil
     var currentDistance: CLLocationDistance = 0
     var wObject: WitObject! = nil
     var view: UIView! = nil
     var label: UILabel! = nil
-    var button: UIButton! = nil
     
     func registerObject(object: WitObject) {
         self.wObject = object
@@ -66,16 +65,15 @@ class WitMarker {
         self.view.addSubview(self.label)
         self.label.font = UIFont.systemFontOfSize(9)
         self.label.textAlignment = .Center
+        self.label.userInteractionEnabled = false
         
-        self.button = UIButton(frame: CGRectMake(0, 0, 60, 60))
-        self.button.addTarget(self, action: "showInfo", forControlEvents: UIControlEvents.TouchUpInside)
+        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("showDetailsInfo"))
+        self.view.addGestureRecognizer(tapGesture)
         
-        self.view.addSubview(self.button)
-        self.view.bringSubviewToFront(self.button)
         return self.view
     }
     
-    func showInfo() {
+    func showDetailsInfo() {
         if delegate != nil {
             delegate.showObjectDetails(self.wObject)
         }

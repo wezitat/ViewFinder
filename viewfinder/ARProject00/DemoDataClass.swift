@@ -71,6 +71,7 @@ class DemoDataClass {
             var wit: WitObject = WitObject(coord: coord)
             wit.witName = dict["name"] as! String
             wit.witDescription = dict["description"] as! String
+            wit.author = dict["author"] as! String
             objects.append(wit)
         }
 

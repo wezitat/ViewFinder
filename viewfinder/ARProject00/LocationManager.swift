@@ -33,7 +33,7 @@ protocol DeviceCalibrateDelegate {
 /** This is custom cover arround IOS LocationManager */
 class LocationManager: NSObject, CLLocationManagerDelegate {
     
-    let LOCATION_ACCURACCY:CLLocationAccuracy = 100
+    let LOCATION_ACCURACCY:CLLocationAccuracy = 150
     
     var delegate: LocationManagerDelegate! = nil
     var calibrateHeadingDelegate: DeviceCalibrateDelegate! = nil

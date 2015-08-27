@@ -16,13 +16,15 @@ class WitObject {
     var witName: String = ""
     var witDescription: String = ""
     var is3D: Bool = false
+    var isClaimed: Bool = false
+    var author: String = ""
     
     init(coord: WitCoordinate) {
         witCoordinat = coord
-        
+
         var diceRoll = Int(arc4random_uniform(2))
         if diceRoll == 0 {
-            self.makeBox()
+            self.makeImage()
         }
         else {
             self.makeImage()
@@ -31,7 +33,10 @@ class WitObject {
     
     func makeBox() {
         is3D = true
+        let texture  = SCNMaterial()
+        texture.diffuse.contents = UIColor.whiteColor()
         let boxGeometry = SCNBox(width: CGFloat(Utils.metersToCoordinate(20)), height: CGFloat(Utils.metersToCoordinate(20)), length: CGFloat(Utils.metersToCoordinate(20)), chamferRadius: 1.0)
+        boxGeometry.materials = [texture]
         objectGeometry = SCNNode(geometry: boxGeometry)
         objectGeometry.position = SCNVector3Make(Float(witCoordinat.point2d.x), Float(witCoordinat.point2d.y), Float(witCoordinat.alt))
     }

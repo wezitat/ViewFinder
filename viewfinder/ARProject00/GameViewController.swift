@@ -18,6 +18,7 @@ protocol SceneEventsDelegate {
     func showObjectDetails(wObject: WitObject)
     func addNewWitMarker(wObject: WitObject)
     func cameraMoved()
+    func locationUpdated(location: CLLocation)
 }
 
 /** GameViewController - class that draws all the 3D scene.
@@ -132,7 +133,8 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
                 for object in showingObject {
                     if result.node == object.objectGeometry {
                         if self.eventDelegate != nil {
-                            self.eventDelegate.showObjectDetails(object)    
+                            object.isClaimed = true
+                            self.eventDelegate.showObjectDetails(object)
                         }
                     }
                 }
@@ -167,6 +169,9 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         var point: Point2D = Utils.convertLLtoXY(ViewFinderManager.sharedInstance.centerPoint, newLocation: location)
         cameraNode.position = SCNVector3Make(Float(point.x) , Float(point.y), cameraNode.position.z)
         SCNTransaction.commit()
+        if eventDelegate != nil {
+            eventDelegate.locationUpdated(location)
+        }
     }
     
     //display info text
@@ -223,7 +228,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         redMaterial.diffuse.contents = UIColor.redColor()
         redMaterial.locksAmbientWithDiffuse = true;
         
-        var northGeometry: SCNNode = SCNNode()
+        /Users/ASE/Downloads/SKLinearAlgebra-master 2/SKLinearAlgebravar northGeometry: SCNNode = SCNNode()
         let sphere: SCNBox = SCNBox(width: 40, height: 40, length: 40, chamferRadius: 10)
         sphere.materials = [redMaterial]
         northGeometry = SCNNode(geometry: sphere)
@@ -237,23 +242,17 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         return sceneView.isNodeInsideFrustum(node, withPointOfView: cameraNode)
     }
     
-    func sideOfNodeFromCamera(node: SCNNode) -> Bool {
-        var leftSide: Bool = false
+    func nodePosToScreenCoordinates(node: SCNNode) -> Point2D {
+        var point: Point2D = Point2D()
         
+        var worldMat: SCNMatrix4 = node.worldTransform
+        var worldPos: SCNVector3 = SCNVector3(x: worldMat.m41, y: worldMat.m42, z: worldMat.m43)
         
-        var frontPoint: Point2D = Point2D()
-        frontPoint.x = Double(0)
-        frontPoint.y = Double(0)
+        var pos: SCNVector3 = sceneView.projectPoint(worldPos)
+
+        point.x = Double(pos.x)
+        point.y = Double(pos.y)
         
-        var backPoint: Point2D = Point2D()
-        backPoint.x = -frontPoint.x
-        backPoint.y = -frontPoint.y
-        
-        var nodePoint: Point2D = Point2D()
-        nodePoint.x = Double(node.position.x)
-        nodePoint.y = Double(node.position.y)
-        
-        leftSide = Utils.isPointLeft(frontPoint, b: backPoint, c: nodePoint)
-        return leftSide
+        return point
     }
 }
