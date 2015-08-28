@@ -38,9 +38,16 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
     //node of camera
     var cameraNode: SCNNode = SCNNode()
     var sceneView: SCNView = SCNView()
+    var deviceCameraLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func resetScene() {
+        deviceCameraLayer.removeFromSuperlayer()
+        let scene = SCNScene()
+        sceneView.scene = scene
     }
     
     func initialize3DSceneWithHeading(heading: CLLocationDirection) {
@@ -54,8 +61,8 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
     func initializeCamera() {
         //capture video input in an AVCaptureLayerVideoPreviewLayer
         let captureSession = AVCaptureSession()
-        let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        deviceCameraLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        deviceCameraLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
         
         if let videoDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) {
             var err: NSError? = nil
@@ -77,14 +84,14 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
             }
         }
         captureSession.startRunning()        //add AVCaptureVideoPreviewLayer as sublayer of self.view.layer
-        previewLayer.frame = self.view.bounds
-        self.view.layer.addSublayer(previewLayer)
+        deviceCameraLayer.frame = self.view.bounds
+        self.view.layer.addSublayer(deviceCameraLayer)
 
         //create a SceneView with a clear background color and add it as a subview of self.view
         sceneView = SCNView()
         sceneView.frame = self.view.bounds
         sceneView.backgroundColor = UIColor.clearColor()
-        previewLayer.frame = self.view.bounds
+        deviceCameraLayer.frame = self.view.bounds
         self.view.addSubview(sceneView)
     }
    

@@ -26,6 +26,27 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8uN-kz-d4h" customClass="WitMarkersView" customModule="ARProject00" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VFQ-yg-CkH">
+                                        <rect key="frame" x="5" y="559" width="36" height="36"/>
+                                        <animations/>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.43137254899999999" blue="0.87058823529999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="KBQ-79-YbG"/>
+                                            <constraint firstAttribute="width" constant="36" id="KqF-mh-qlc"/>
+                                        </constraints>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.clipToBounds" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="18"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="handleRefreshButton:" destination="F7V-AQ-CZw" eventType="touchUpInside" id="d03-0K-jPh"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mXu-Rv-W4J">
                                         <rect key="frame" x="559" y="559" width="36" height="36"/>
                                         <animations/>
@@ -49,9 +70,19 @@
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="VFQ-yg-CkH" firstAttribute="leading" secondItem="8uN-kz-d4h" secondAttribute="leading" constant="5" id="HTP-eq-Roa"/>
                                     <constraint firstAttribute="bottom" secondItem="mXu-Rv-W4J" secondAttribute="bottom" constant="5" id="YXd-M5-ba5"/>
+                                    <constraint firstAttribute="bottom" secondItem="VFQ-yg-CkH" secondAttribute="bottom" constant="5" id="m6l-nF-nnE"/>
                                     <constraint firstAttribute="trailing" secondItem="mXu-Rv-W4J" secondAttribute="trailing" constant="5" id="nzR-q4-Tec"/>
+                                    <constraint firstItem="VFQ-yg-CkH" firstAttribute="top" secondItem="8uN-kz-d4h" secondAttribute="top" constant="25" id="vEp-St-seT"/>
+                                    <constraint firstItem="VFQ-yg-CkH" firstAttribute="leading" secondItem="8uN-kz-d4h" secondAttribute="leading" constant="5" id="vMJ-vh-fJZ"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="vEp-St-seT"/>
+                                        <exclude reference="vMJ-vh-fJZ"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aCB-4l-BMi">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
@@ -95,6 +126,7 @@
                         <outlet property="debugView" destination="e1t-v4-gR1" id="494-Cr-5YF"/>
                         <outlet property="detailsView" destination="aCB-4l-BMi" id="VOa-El-PhZ"/>
                         <outlet property="markerView" destination="8uN-kz-d4h" id="YeG-Yh-1za"/>
+                        <outlet property="refreshSceneButton" destination="VFQ-yg-CkH" id="ens-x0-5Vx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CNl-A3-Xtp" userLabel="First Responder" sceneMemberID="firstResponder"/>

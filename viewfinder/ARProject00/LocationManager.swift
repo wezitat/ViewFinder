@@ -69,6 +69,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func stopUpdates() {
+        previousLocation = nil
         manager.stopUpdatingLocation()
         manager.stopUpdatingHeading()
     }

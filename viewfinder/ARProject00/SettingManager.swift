@@ -13,6 +13,9 @@ class SettingManager {
     let EMAIL: String = "ClaimingEmail"
     let MARKER_NUMBER: String = "WitMarkersNumber"
     let OBJECTS_FILE: String = "WitObjectsFileName"
+    let NEAR: String = "DistanceNear"
+    let HERE: String = "DistanceHere"
+    let HIDE_THERE_MARKERS = "HideThereMarkers"
     
     var settings: NSDictionary = NSDictionary()
     
@@ -49,6 +52,27 @@ class SettingManager {
             return  value
         }
         return 0
+    }
+    
+    func getNearNumberValue() -> Int {
+        if let value = settings.objectForKey(NEAR) as? Int {
+            return  value
+        }
+        return 0
+    }
+    
+    func getHereNumberValue() -> Int {
+        if let value = settings.objectForKey(HERE) as? Int {
+            return  value
+        }
+        return 0
+    }
+    
+    func getHideThereMarkesValue() -> Bool {
+        if let value = settings.objectForKey(HIDE_THERE_MARKERS) as? Bool {
+            return  value
+        }
+        return false
     }
     
     

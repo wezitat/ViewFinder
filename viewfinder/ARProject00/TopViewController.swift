@@ -40,6 +40,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     
     var debugInfo: DebugInfoClass = DebugInfoClass()
     
+    @IBOutlet weak var refreshSceneButton: UIButton!
     @IBOutlet weak var debugView: UIView!
     @IBOutlet weak var markerView: WitMarkersView!
     @IBOutlet weak var detailsView: UIView!
@@ -51,7 +52,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.refreshSceneButton.enabled = false
         //load settings
         SettingManager.sharedInstance.loadSettings()
         
@@ -69,6 +70,22 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         self.retrieveInitialLocation()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("orientationChanged:"), name: UIDeviceOrientationDidChangeNotification, object: nil)
+    }
+    
+    func refreshStage() {
+        self.refreshSceneButton.enabled = false
+        self.sceneController.resetScene()
+        
+        for marker in witMarkers {
+            marker.view.removeFromSuperview()
+        }
+        witMarkers = [WitMarker]()
+        
+        ViewFinderManager.sharedInstance.locationManager.delegate = nil
+        ViewFinderManager.sharedInstance.locationManager.stopUpdates()
+        ViewFinderManager.sharedInstance.locationManager.startUpdates()
+        //First step we need to retrieve accurate location. This can take a while (depends on accuracy which we choosed in LocationManager)
+        self.retrieveInitialLocation()
     }
     
     func initDebugViewLayer() {
@@ -204,6 +221,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     /** Function to start builing scene based on gathered data
     */
     func initializeScene() {
+        self.refreshSceneButton.enabled = true
         debugInfo.fullInfo()
         ViewFinderManager.sharedInstance.locationManager.delegate = sceneController
         sceneController.initialize3DSceneWithHeading(calibratedHeading)
@@ -408,6 +426,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
 
     @IBAction func handleDebugButton(sender: UIButton) {
         debugView.hidden = !debugView.hidden
+        refreshSceneButton.hidden = !refreshSceneButton.hidden
         
         if debugView.hidden {
             sender.backgroundColor = UIColor.darkGrayColor()
@@ -415,6 +434,9 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         else {
             sender.backgroundColor = UIColor.redColor()
         }
+    }
+    @IBAction func handleRefreshButton(sender: UIButton) {
+        self.refreshStage()
     }
     
 }

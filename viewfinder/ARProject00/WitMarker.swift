@@ -10,14 +10,16 @@ import Foundation
 import CoreLocation
 import UIKit
 
-let HERE: Int = 1000
-let NEAR: Int = 5000
+
 
 protocol WitMarkerDelegate {
     func showObjectDetails(wObject: WitObject)
 }
 
 class WitMarker: NSObject {
+    
+    let HERE: Int = SettingManager.sharedInstance.getHereNumberValue()
+    let NEAR: Int = SettingManager.sharedInstance.getNearNumberValue()
     
     var delegate: WitMarkerDelegate! = nil
     var currentDistance: CLLocationDistance = 0
@@ -26,6 +28,12 @@ class WitMarker: NSObject {
     var label: UILabel! = nil
     
     var isShowMarker: Bool = true
+    var witPostitioning: Position = .Here
+    enum Position {
+        case Here
+        case Near
+        case There
+    }
     
     func registerObject(object: WitObject) {
         self.wObject = object
@@ -45,13 +53,16 @@ class WitMarker: NSObject {
                 var distance: Int = Int(Utils.convertToFeet(self.currentDistance))
                 self.label.text = ("\(distance) ft")
                 
-                if distance < HERE {
+                if distance < self.HERE {
+                    self.witPostitioning = .Here
                     self.label.backgroundColor = UIColor.greenColor()
                 }
-                if distance >= HERE && distance < NEAR {
+                if distance >= self.HERE && distance < self.NEAR {
+                    self.witPostitioning = .Near
                     self.label.backgroundColor = UIColor.yellowColor()
                 }
-                if distance >= NEAR {
+                if distance >= self.NEAR {
+                    self.witPostitioning = .There
                     self.label.backgroundColor = UIColor.redColor()
                 }
             })
@@ -84,6 +95,12 @@ class WitMarker: NSObject {
                 self.view.hidden = false
             }
             else {
+                self.view.hidden = true
+            }
+        }
+        
+        if SettingManager.sharedInstance.getHideThereMarkesValue() {
+            if self.witPostitioning == .There {
                 self.view.hidden = true
             }
         }
