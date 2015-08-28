@@ -9,7 +9,7 @@
 	<key>WitMarkersNumber</key>
 	<integer>5</integer>
 	<key>WitObjectsFileName</key>
-	<string>lviv_objects</string>
+	<string>us_objects</string>
 	<key>DistanceNear</key>
 	<real>5000</real>
 	<key>DistanceHere</key>
