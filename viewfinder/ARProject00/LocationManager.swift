@@ -30,10 +30,10 @@ protocol DeviceCalibrateDelegate {
     func initLocationReceived()
 }
 
-/** This is custom cover arround IOS LocationManager */
+/** This is custom wrapper arround IOS LocationManager */
 class LocationManager: NSObject, CLLocationManagerDelegate {
     
-    let LOCATION_ACCURACCY:CLLocationAccuracy = 150
+    let LOCATION_ACCURACCY:CLLocationAccuracy = SettingManager.sharedInstance.getAccuracyValue()
     
     var delegate: LocationManagerDelegate! = nil
     var calibrateHeadingDelegate: DeviceCalibrateDelegate! = nil

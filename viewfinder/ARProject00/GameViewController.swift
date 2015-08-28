@@ -17,6 +17,7 @@ protocol SceneEventsDelegate {
     func showTopInfo(strign: String)
     func showObjectDetails(wObject: WitObject)
     func addNewWitMarker(wObject: WitObject)
+    func filterWitMarkers()
     func cameraMoved()
     func locationUpdated(location: CLLocation)
 }
@@ -222,7 +223,9 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
                 self.eventDelegate.addNewWitMarker(object)
             }
         }
-        
+        if self.eventDelegate != nil {
+            self.eventDelegate.filterWitMarkers()
+        }
         //add north pointer
         /*let redMaterial  = SCNMaterial()
         redMaterial.diffuse.contents = UIColor.redColor()

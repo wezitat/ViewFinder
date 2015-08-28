@@ -25,6 +25,8 @@ class WitMarker: NSObject {
     var view: UIView! = nil
     var label: UILabel! = nil
     
+    var isShowMarker: Bool = true
+    
     func registerObject(object: WitObject) {
         self.wObject = object
         self.createView()
@@ -71,6 +73,20 @@ class WitMarker: NSObject {
         self.view.addGestureRecognizer(tapGesture)
         
         return self.view
+    }
+    
+    func showMarker(show: Bool) {
+        if !show {
+            self.view.hidden = true
+        }
+        else {
+            if isShowMarker {
+                self.view.hidden = false
+            }
+            else {
+                self.view.hidden = true
+            }
+        }
     }
     
     func showDetailsInfo() {

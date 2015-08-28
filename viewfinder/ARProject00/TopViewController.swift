@@ -51,6 +51,10 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //load settings
+        SettingManager.sharedInstance.loadSettings()
+        
         sceneController = self.childViewControllers.first! as! GameViewController
         sceneController.eventDelegate = self
         initDebugViewLayer()
@@ -232,9 +236,6 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         marker.registerObject(wObject)
         marker.delegate = self
         self.witMarkers.append(marker)
-        
-        marker.view.frame = CGRectMake(CGFloat(30), CGFloat(markerPos), marker.view.frame.size.width, marker.view.frame.size.height)
-        markerPos += 70
         self.markerView.addSubview(marker.view)
     }
     
@@ -253,6 +254,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
                 marker.updateDistance(location)
             }
         }
+        filterWitMarkers()
     }
     
     func cameraMoved() {
@@ -262,10 +264,10 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         for marker in self.witMarkers {
 
             if sceneController.isNodeOnScreen(marker.wObject.objectGeometry) {
-                marker.view.hidden = true
+                marker.showMarker(false)
             }
             else {
-                marker.view.hidden = false
+                marker.showMarker(true)
             }
             var point: Point2D = sceneController.nodePosToScreenCoordinates(marker.wObject.objectGeometry)
             
@@ -331,6 +333,23 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         return newPoint
     }
     
+    func filterWitMarkers() {
+        var maxNumber = SettingManager.sharedInstance.getWitMarkerNumberValue()
+        witMarkers.sort({ $0.currentDistance < $1.currentDistance })
+        
+        var i = 0
+        for marker in witMarkers {
+            if i < maxNumber {
+                marker.isShowMarker = true
+            }
+            else {
+                marker.isShowMarker = false
+            }
+            i++
+        }
+
+    }
+    
     
 //// Show info on top and bottom labels    
     func showTopInfo(strign: String) {
@@ -384,6 +403,17 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         debugInfo.reorientLanscape()
         if smallDetailsView != nil {
             smallDetailsView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
+        }
+    }
+
+    @IBAction func handleDebugButton(sender: UIButton) {
+        debugView.hidden = !debugView.hidden
+        
+        if debugView.hidden {
+            sender.backgroundColor = UIColor.darkGrayColor()
+        }
+        else {
+            sender.backgroundColor = UIColor.redColor()
         }
     }
     
