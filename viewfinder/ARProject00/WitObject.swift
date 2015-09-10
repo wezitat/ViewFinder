@@ -27,7 +27,8 @@ class WitObject {
             self.makeImage()
         }
         else {
-            self.makeBox()
+            self.makeImage()
+            //self.makeBox()
         }
     }
     
@@ -44,7 +45,7 @@ class WitObject {
     func makeImage() {
         let texture  = SCNMaterial()
         texture.diffuse.contents = UIImage(named: "minion")
-        texture.locksAmbientWithDiffuse = false
+        texture.locksAmbientWithDiffuse = true
         texture.doubleSided = true
         texture.lightingModelName = SCNLightingModelConstant
         
@@ -52,9 +53,10 @@ class WitObject {
         clearMaterial.diffuse.contents = UIColor.clearColor()
         clearMaterial.locksAmbientWithDiffuse = true;
         
-        let boxGeometry = SCNBox(width: CGFloat(Utils.metersToCoordinate(20)), height: CGFloat(Utils.metersToCoordinate(30)), length: CGFloat(Utils.metersToCoordinate(0)), chamferRadius: 1.0)
-        boxGeometry.materials = [texture, clearMaterial, clearMaterial, clearMaterial, clearMaterial, clearMaterial]
+        let boxGeometry = SCNBox(width: CGFloat(Utils.metersToCoordinate(20)), height: CGFloat(Utils.metersToCoordinate(30)), length: CGFloat(Utils.metersToCoordinate(20)), chamferRadius: 1.0)
+        boxGeometry.materials = [texture, texture, texture, texture, clearMaterial, clearMaterial]
         objectGeometry = SCNNode(geometry: boxGeometry)
         objectGeometry.position = SCNVector3Make(Float(witCoordinat.point2d.x), Float(witCoordinat.point2d.y), Float(witCoordinat.alt))
+        objectGeometry.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(Utils.DegreesToRadians(90)))
     }
 }
