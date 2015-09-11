@@ -120,7 +120,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                     if infoLocationDelegate != nil {
                         var distance: Double = newLocation.distanceFromLocation(previousLocation)
                         infoLocationDelegate.locationDistanceUpdated("\(Int(distance))")
-                        var curPoint: String = "lat: \(newLocation.coordinate.latitude) lon: \(newLocation.coordinate.longitude)"
+                        var curPoint: String = "lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)"
                         infoLocationDelegate.locationUpdated(curPoint)
                     }
                 }
@@ -137,7 +137,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                 if infoLocationDelegate != nil {
                     var distance: Double = newLocation.distanceFromLocation(previousLocation)
                     infoLocationDelegate.locationDistanceUpdated("\(Int(distance))")
-                    var curPoint: String = "lat: \(newLocation.coordinate.latitude) lon: \(newLocation.coordinate.longitude)"
+                    var curPoint: String = "lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)"
                     infoLocationDelegate.locationUpdated(curPoint)
                 }
                 previousLocation = newLocation

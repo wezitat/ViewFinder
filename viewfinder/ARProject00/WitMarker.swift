@@ -163,15 +163,33 @@ class WitMarker: NSObject {
         if origin.x == 0 {
             offSet = 180
         }
-        if origin.x >= CGFloat(screenWidth) - WIT_MARKER_SIZE {
+        if origin.x >= CGFloat(screenWidth) - WIT_MARKER_SIZE - 5 {
             offSet = 0
         }
         if origin.y == 0 {
-            offSet = -90
+            offSet = 270
         }
-        if origin.y >= CGFloat(screenHeight) - WIT_MARKER_SIZE {
+        if origin.y >= CGFloat(screenHeight) - WIT_MARKER_SIZE  - 5{
             offSet = 90
         }
+        
+        if origin.x == 0 && origin.y == 0 {
+           offSet = 135
+        }
+        
+        if origin.x == 0 &&  origin.y >= CGFloat(screenHeight) - WIT_MARKER_SIZE - 5  {
+            offSet = 225
+        }
+        
+        if origin.x >= CGFloat(screenWidth) - WIT_MARKER_SIZE - 5 && origin.y == 0 {
+            offSet = 45
+        }
+        
+        if origin.x >= CGFloat(screenWidth) - WIT_MARKER_SIZE - 5 && origin.y >= CGFloat(screenHeight) - WIT_MARKER_SIZE - 5 {
+            offSet = 315
+        }
+        
+        
         /*var centerPoint: Point2D = Point2D(xPos: Double(self.view.frame.origin.x + WIT_MARKER_SIZE/2), yPos: Double(self.view.frame.origin.y + WIT_MARKER_SIZE/2))
         var autoPoint: Point2D = Point2D(xPos: Double(self.view.frame.origin.x + WIT_MARKER_SIZE/2 + 1000), yPos:Double(self.view.frame.origin.y + WIT_MARKER_SIZE/2))
 

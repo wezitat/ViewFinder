@@ -174,7 +174,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
             }
             calibratedHeading = heading
         }
-        
+        debugInfo.angleUpdated(CGFloat(heading))
     }
     
     func startHeadingDataGatheringTimer() {
