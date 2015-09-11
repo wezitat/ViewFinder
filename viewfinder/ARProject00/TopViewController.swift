@@ -13,6 +13,8 @@ import CoreLocation
 /** TopViewController - is a class which represent upper layer of app.
     It shows all the statuses and WitMarkers. Can be used to
     represent additional GUI */
+
+
 class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateDelegate, RotationManagerDelegate, WitMarkerDelegate {
   
     enum AppStatus {
@@ -260,9 +262,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     func rotationAngleUpdated(angle: Double) {
         //device has moved - update witMarker position
         for marker in self.witMarkers {
-            dispatch_async(dispatch_get_main_queue()) {
-                marker.label.transform = CGAffineTransformMakeRotation(CGFloat(angle))
-            }
+            marker.updateAngle(angle)
         }
     }
     
@@ -287,7 +287,9 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
             else {
                 marker.showMarker(true)
             }
-            var point: Point2D = sceneController.nodePosToScreenCoordinates(marker.wObject.objectGeometry)
+            var point: Point3D = sceneController.nodePosToScreenCoordinates(marker.wObject.objectGeometry)
+            
+            var originalPoint: Point2D = Point2D(xPos: point.x, yPos: point.y)
             
             point.x -= 30
             point.y -= 30
@@ -300,28 +302,29 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
                 point.y = 0
             }
             
-            if point.x > screenWidth - 60 {
-                point.x = Double(screenWidth) - 60
+            if point.x > screenWidth - Double(WIT_MARKER_SIZE) {
+                point.x = Double(screenWidth) - Double(WIT_MARKER_SIZE)
             }
             
-            if point.y > screenHeight - 60 {
-                point.y = screenHeight - 60
+            if point.y > screenHeight - Double(WIT_MARKER_SIZE) {
+                point.y = screenHeight - Double(WIT_MARKER_SIZE)
             }
-            
             //check if element is behind - if yes our point will be inside the screen
-            if (point.x > 0 && point.x < screenWidth - 60 && point.y > 0 && point.y < screenHeight - 60) {
+            if (point.z > 1) {
                 point = updatePointIfObjectIsBehind(point)
+                originalPoint = Point2D(xPos: point.x, yPos: point.y)
             }
             
             dispatch_async(dispatch_get_main_queue()) {
-                marker.view.frame = CGRectMake(CGFloat(point.x), CGFloat(point.y), 60, 60)
+                marker.view.frame = CGRectMake(CGFloat(point.x), CGFloat(point.y), WIT_MARKER_SIZE, WIT_MARKER_SIZE)
+                marker.updatePointerAngle(0)
             }
         }
     }
     
-    func updatePointIfObjectIsBehind(point: Point2D) -> Point2D {
+    func updatePointIfObjectIsBehind(point: Point3D) -> Point3D { 
         //find screen quarter
-        var newPoint: Point2D = Point2D()
+        var newPoint: Point3D = Point3D(xPos: 0, yPos: 0, zPos: 0)
         var screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
         var screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
         
@@ -332,22 +335,19 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
                 point.x = 0
             }
             else {
-                point.x = screenWidth - 60
+                point.x = screenWidth - Double(WIT_MARKER_SIZE)
             }
-            newPoint.y = point.y
+            newPoint.y = screenHeight/2
         }
         if orientation == .LandscapeLeft || orientation == .LandscapeRight {
             if point.y > screenHeight/2 {
                 point.y = 0
             }
             else {
-                point.y = screenHeight - 60
+                point.y = screenHeight - Double(WIT_MARKER_SIZE)
             }
-            newPoint.x = point.x
+            newPoint.x = screenWidth/2
         }
-        
-        
-
         return newPoint
     }
     

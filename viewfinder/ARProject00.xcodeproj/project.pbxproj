@@ -21,9 +21,11 @@
 		5255B8DC1B67B06100C87383 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5255B8DB1B67B06100C87383 /* GLKit.framework */; };
 		5255B8DE1B67CD3300C87383 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5255B8DD1B67CD3300C87383 /* LocationManager.swift */; };
 		5255B8E21B67D52300C87383 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5255B8E11B67D52300C87383 /* Utils.swift */; };
+		525B3B631BA1E10400CE57CA /* Line2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525B3B621BA1E10400CE57CA /* Line2D.swift */; };
 		5263E2C01B73747A002A550F /* CLLocationExtenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263E2BF1B73747A002A550F /* CLLocationExtenstion.swift */; };
 		5263E2C21B73AAD9002A550F /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263E2C11B73AAD9002A550F /* TopViewController.swift */; };
 		5263E2C41B73AC5E002A550F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5263E2C31B73AC5E002A550F /* UIKit.framework */; };
+		5288B8F21BA2CC5400010D2C /* Point3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5288B8F11BA2CC5400010D2C /* Point3D.swift */; };
 		52AE60D51B8F722700668DDE /* WitMarkersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AE60D41B8F722700668DDE /* WitMarkersView.swift */; };
 		52BCBB671B8C939200DE99C5 /* DebugInfoClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BCBB661B8C939200DE99C5 /* DebugInfoClass.swift */; };
 		52C267E41B7B766B001C35CF /* DemoDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C267E31B7B766B001C35CF /* DemoDataClass.swift */; };
@@ -63,9 +65,11 @@
 		5255B8DB1B67B06100C87383 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		5255B8DD1B67CD3300C87383 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5255B8E11B67D52300C87383 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		525B3B621BA1E10400CE57CA /* Line2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line2D.swift; sourceTree = "<group>"; };
 		5263E2BF1B73747A002A550F /* CLLocationExtenstion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLLocationExtenstion.swift; sourceTree = "<group>"; };
 		5263E2C11B73AAD9002A550F /* TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		5263E2C31B73AC5E002A550F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		5288B8F11BA2CC5400010D2C /* Point3D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point3D.swift; sourceTree = "<group>"; };
 		52AE60D41B8F722700668DDE /* WitMarkersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WitMarkersView.swift; sourceTree = "<group>"; };
 		52BCBB661B8C939200DE99C5 /* DebugInfoClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugInfoClass.swift; sourceTree = "<group>"; };
 		52C267E31B7B766B001C35CF /* DemoDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoDataClass.swift; sourceTree = "<group>"; };
@@ -104,6 +108,8 @@
 				52C267E91B7B77C2001C35CF /* Point2D.swift */,
 				52C3EE121B81E409007A1851 /* WitMarker.swift */,
 				52AE60D41B8F722700668DDE /* WitMarkersView.swift */,
+				525B3B621BA1E10400CE57CA /* Line2D.swift */,
+				5288B8F11BA2CC5400010D2C /* Point3D.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -315,6 +321,7 @@
 				52C3EE131B81E409007A1851 /* WitMarker.swift in Sources */,
 				5255B8E21B67D52300C87383 /* Utils.swift in Sources */,
 				52C267E61B7B7681001C35CF /* WitCoordinate.swift in Sources */,
+				5288B8F21BA2CC5400010D2C /* Point3D.swift in Sources */,
 				5255B8DE1B67CD3300C87383 /* LocationManager.swift in Sources */,
 				5263E2C01B73747A002A550F /* CLLocationExtenstion.swift in Sources */,
 				52C267E41B7B766B001C35CF /* DemoDataClass.swift in Sources */,
@@ -323,6 +330,7 @@
 				5226F6261B90478500FC5DBA /* SettingManager.swift in Sources */,
 				5255B8BC1B6777CE00C87383 /* GameViewController.swift in Sources */,
 				5255B8DA1B677EDE00C87383 /* MotionManager.swift in Sources */,
+				525B3B631BA1E10400CE57CA /* Line2D.swift in Sources */,
 				52C267E81B7B76BC001C35CF /* WitObject.swift in Sources */,
 				52C267EC1B7B77F7001C35CF /* ViewFinderManager.swift in Sources */,
 				52C267EA1B7B77C2001C35CF /* Point2D.swift in Sources */,

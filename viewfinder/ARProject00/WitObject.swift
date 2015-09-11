@@ -8,11 +8,16 @@
 
 import Foundation
 import SceneKit
+import CoreLocation
+
+let WITOBJECT_BIGGEST_SIZE: Double = 20
+let WITOBJECT_SMALLEST_SIZE: Double = 1
 
 class WitObject {
     
     var witCoordinat: WitCoordinate = WitCoordinate(lat: 0, lon: 0, alt: 0)
     var objectGeometry: SCNNode = SCNNode()
+    var objectElement: SCNBox = SCNBox()
     var witName: String = ""
     var witDescription: String = ""
     var is3D: Bool = false
@@ -27,8 +32,8 @@ class WitObject {
             self.makeImage()
         }
         else {
-            self.makeImage()
-            //self.makeBox()
+        //self.makeImage()
+            self.makeBox()
         }
     }
     
@@ -36,9 +41,9 @@ class WitObject {
         is3D = true
         let texture  = SCNMaterial()
         texture.diffuse.contents = UIColor.whiteColor()
-        let boxGeometry = SCNBox(width: CGFloat(Utils.metersToCoordinate(20)), height: CGFloat(Utils.metersToCoordinate(20)), length: CGFloat(Utils.metersToCoordinate(20)), chamferRadius: 1.0)
-        boxGeometry.materials = [texture]
-        objectGeometry = SCNNode(geometry: boxGeometry)
+        objectElement = SCNBox(width: CGFloat(Utils.metersToCoordinate(WITOBJECT_BIGGEST_SIZE)), height: CGFloat(Utils.metersToCoordinate(WITOBJECT_BIGGEST_SIZE)), length: CGFloat(Utils.metersToCoordinate(WITOBJECT_BIGGEST_SIZE)), chamferRadius: 1.0)
+        objectElement.materials = [texture]
+        objectGeometry = SCNNode(geometry: objectElement)
         objectGeometry.position = SCNVector3Make(Float(witCoordinat.point2d.x), Float(witCoordinat.point2d.y), Float(witCoordinat.alt))
     }
     
@@ -53,10 +58,48 @@ class WitObject {
         clearMaterial.diffuse.contents = UIColor.clearColor()
         clearMaterial.locksAmbientWithDiffuse = true;
         
-        let boxGeometry = SCNBox(width: CGFloat(Utils.metersToCoordinate(20)), height: CGFloat(Utils.metersToCoordinate(30)), length: CGFloat(Utils.metersToCoordinate(20)), chamferRadius: 1.0)
-        boxGeometry.materials = [texture, texture, texture, texture, clearMaterial, clearMaterial]
-        objectGeometry = SCNNode(geometry: boxGeometry)
+        objectElement = SCNBox(width: CGFloat(Utils.metersToCoordinate(WITOBJECT_BIGGEST_SIZE)), height: CGFloat(Utils.metersToCoordinate(WITOBJECT_BIGGEST_SIZE*1.5)), length: CGFloat(Utils.metersToCoordinate(WITOBJECT_BIGGEST_SIZE)), chamferRadius: 1.0)
+        objectElement.materials = [texture, texture, texture, texture, clearMaterial, clearMaterial]
+        objectGeometry = SCNNode(geometry: objectElement)
         objectGeometry.position = SCNVector3Make(Float(witCoordinat.point2d.x), Float(witCoordinat.point2d.y), Float(witCoordinat.alt))
         objectGeometry.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(Utils.DegreesToRadians(90)))
+    }
+    
+    func updateWitObjectSize(userLocation: CLLocation) {
+        var distance: Double = userLocation.distanceFromLocation(CLLocation(latitude: self.witCoordinat.lat, longitude: self.witCoordinat.lon))
+        
+        var nearDistance: Double = Double(SettingManager.sharedInstance.getHereNumberValue())
+        var deltaOfSizes: Double = WITOBJECT_BIGGEST_SIZE - WITOBJECT_SMALLEST_SIZE
+        
+        var scalePerDistance: Double = nearDistance/deltaOfSizes
+        var stepsBetween: Double = distance/scalePerDistance
+        if stepsBetween < 1 {
+            stepsBetween = 1
+        }
+        if distance < nearDistance {
+            if is3D {
+               objectElement.length = CGFloat(Utils.metersToCoordinate(stepsBetween))
+               objectElement.width = CGFloat(Utils.metersToCoordinate(stepsBetween))
+               objectElement.height = CGFloat(Utils.metersToCoordinate(stepsBetween))
+            }
+            else {
+               objectElement.length = CGFloat(Utils.metersToCoordinate(stepsBetween))
+               objectElement.width = CGFloat(Utils.metersToCoordinate(stepsBetween))
+               objectElement.height = CGFloat(Utils.metersToCoordinate(stepsBetween*1.5))
+            }
+        }
+        else {
+            stepsBetween = WITOBJECT_BIGGEST_SIZE
+            if is3D {
+                objectElement.length = CGFloat(Utils.metersToCoordinate(stepsBetween))
+                objectElement.width = CGFloat(Utils.metersToCoordinate(stepsBetween))
+                objectElement.height = CGFloat(Utils.metersToCoordinate(stepsBetween))
+            }
+            else {
+                objectElement.length = CGFloat(Utils.metersToCoordinate(stepsBetween))
+                objectElement.width = CGFloat(Utils.metersToCoordinate(stepsBetween))
+                objectElement.height = CGFloat(Utils.metersToCoordinate(stepsBetween*1.5))
+            }
+        }
     }
 }

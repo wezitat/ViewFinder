@@ -14,7 +14,7 @@ class WitCoordinate {
     var lon: Double = 0
     var alt: Double = 0
     
-    var point2d: Point2D = Point2D()
+    var point2d: Point2D = Point2D(xPos: 0, yPos: 0)
     
     init(lat: Double, lon: Double, alt: Double) {
         self.lat   = lat

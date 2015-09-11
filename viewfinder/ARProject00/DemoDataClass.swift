@@ -31,7 +31,7 @@ class DemoDataClass {
     func getWitObjectsFromJSONDict(elements: NSArray) -> [WitObject] {
         var objects:[WitObject] = [WitObject]()
         
-        for var i: Int = 0; i < elements.count; i++ {
+        for var i: Int = 0; i < 1; i++ {
             var dict: NSDictionary = elements.objectAtIndex(i) as! NSDictionary
             var lat: Double = dict["lat"] as! Double
             var lon: Double = dict["lon"] as! Double

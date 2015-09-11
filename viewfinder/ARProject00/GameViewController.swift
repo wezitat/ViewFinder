@@ -176,6 +176,9 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         SCNTransaction.setDisableActions(true)
         var point: Point2D = Utils.convertLLtoXY(ViewFinderManager.sharedInstance.centerPoint, newLocation: location)
         cameraNode.position = SCNVector3Make(Float(point.x) , Float(point.y), cameraNode.position.z)
+        for object in showingObject {
+            object.updateWitObjectSize(location)
+        }
         SCNTransaction.commit()
         if eventDelegate != nil {
             eventDelegate.locationUpdated(location)
@@ -256,17 +259,12 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         return sceneView.isNodeInsideFrustum(node, withPointOfView: cameraNode)
     }
     
-    func nodePosToScreenCoordinates(node: SCNNode) -> Point2D {
-        var point: Point2D = Point2D()
-        
+    func nodePosToScreenCoordinates(node: SCNNode) -> Point3D {
         var worldMat: SCNMatrix4 = node.worldTransform
         var worldPos: SCNVector3 = SCNVector3(x: worldMat.m41, y: worldMat.m42, z: worldMat.m43)
-        
-        var pos: SCNVector3 = sceneView.projectPoint(worldPos)
 
-        point.x = Double(pos.x)
-        point.y = Double(pos.y)
-        
+        var pos: SCNVector3 = sceneView.projectPoint(worldPos)
+        var point: Point3D = Point3D(xPos:  Double(pos.x), yPos: Double(pos.y), zPos: Double(pos.z))
         return point
     }
 }

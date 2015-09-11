@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>B2408553-6047-4A0F-AE8A-F725E1A34493</string>
 	<key>IDESourceControlProjectName</key>
-	<string>ARProject00</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>24A8B4EFF534218EEF9215CBC60AE107F3FE43B1</key>
 		<string>https://github.com/wezitat/ViewFinder.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>viewfinder/ARProject00.xcodeproj</string>
+	<string>viewfinder/ARProject00.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>24A8B4EFF534218EEF9215CBC60AE107F3FE43B1</key>
