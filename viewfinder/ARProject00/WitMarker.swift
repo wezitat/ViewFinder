@@ -54,15 +54,15 @@ class WitMarker: NSObject {
     }
     
     func updateDistance(userLocation: CLLocation) {
-        var centerLocation: CLLocation = userLocation
+        let centerLocation: CLLocation = userLocation
         
         if wObject != nil {
-            var wLocation: CLLocation = CLLocation(latitude: wObject.witCoordinat.lat, longitude: wObject.witCoordinat.lon)
+            let wLocation: CLLocation = CLLocation(latitude: wObject.witCoordinat.lat, longitude: wObject.witCoordinat.lon)
             currentDistance = wLocation.distanceFromLocation(centerLocation)
         }
         if label != nil {
             dispatch_async(dispatch_get_main_queue(), {
-                var distance: Int = Int(Utils.convertToFeet(self.currentDistance))
+                let distance: Int = Int(Utils.convertToFeet(self.currentDistance))
                 self.label.text = ("\(distance) ft")
                 
                 if distance < self.HERE {
@@ -90,7 +90,7 @@ class WitMarker: NSObject {
         self.pointerView = UIView(frame: CGRectMake(0, 0, WIT_MARKER_SIZE, WIT_MARKER_SIZE))
         self.triangle = UIView(frame: CGRectMake(WIT_MARKER_SIZE/2, 10, WIT_MARKER_SIZE/2, WIT_MARKER_SIZE - 20))
         
-        var path: UIBezierPath = UIBezierPath()
+        let path: UIBezierPath = UIBezierPath()
         path.moveToPoint(CGPoint(x: 0, y: 0))
         path.addLineToPoint(CGPoint(x: WIT_MARKER_SIZE/2, y: (WIT_MARKER_SIZE - 20)/2))
         path.addLineToPoint(CGPoint(x: 0, y: WIT_MARKER_SIZE - 20))
@@ -98,7 +98,7 @@ class WitMarker: NSObject {
         
         // Create a CAShapeLayer with this triangular path
         // Same size as the original imageView
-        var mask: CAShapeLayer = CAShapeLayer()
+        let mask: CAShapeLayer = CAShapeLayer()
         mask.frame = self.pointerView.bounds;
         mask.path = path.CGPath;
         
@@ -155,9 +155,9 @@ class WitMarker: NSObject {
     }
     
     func updatePointerAngle(angle: Double) {
-        var origin: CGPoint = self.view.frame.origin
-        var screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
-        var screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
+        let origin: CGPoint = self.view.frame.origin
+        let screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
+        let screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
         var offSet: Double = 0
         
         if origin.x == 0 {
@@ -198,7 +198,7 @@ class WitMarker: NSObject {
         var line2: Line2D = Line2D(point1: centerPoint, point2: point)
 
         var angle: Double = Utils.angleBetween2DotsWithCenter(centerPoint, point1: autoPoint, point2: point)*/
-        var offsetRad: Double = Utils.DegreesToRadians(offSet)
+        let offsetRad: Double = Utils.DegreesToRadians(offSet)
         dispatch_async(dispatch_get_main_queue()) {
             self.pointerView.transform = CGAffineTransformMakeRotation(CGFloat(offsetRad))
         }

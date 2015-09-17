@@ -65,22 +65,23 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         deviceCameraLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
         
         if let videoDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) {
-            var err: NSError? = nil
-            if let videoIn : AVCaptureDeviceInput = AVCaptureDeviceInput.deviceInputWithDevice(videoDevice, error: &err) as? AVCaptureDeviceInput {
+            let err: NSError? = nil
+            do {
+                
+                guard let videoIn : AVCaptureDeviceInput = try AVCaptureDeviceInput(device: videoDevice) else { return }
                 if(err == nil){
                     if (captureSession.canAddInput(videoIn as AVCaptureInput)){
                         captureSession.addInput(videoIn as AVCaptureDeviceInput)
                     }
                     else {
-                        println("Failed add video input.")
+                        print("Failed add video input.")
                     }
                 }
                 else {
-                    println("Failed to create video input.")
+                    print("Failed to create video input.")
                 }
-            }
-            else {
-                println("Failed to create video capture device.")
+            } catch {
+                print("Failed to create video capture device.")
             }
         }
         captureSession.startRunning()        //add AVCaptureVideoPreviewLayer as sublayer of self.view.layer
@@ -104,7 +105,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         addWitObjects()
         
         //rotate all scene based on heading so Oy will be heading on north
-        var angle: Float = (Float(M_PI) / 180.0) * Float(-currentHeading)
+        let angle: Float = (Float(M_PI) / 180.0) * Float(-currentHeading)
         geometryNode.pivot = SCNMatrix4MakeRotation(angle, 0, 0, 1)
         
         
@@ -123,19 +124,19 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         var gestureRecognizers = [AnyObject]()
         gestureRecognizers.append(tapGesture)
         if let existingGestureRecognizers = sceneView.gestureRecognizers {
-            gestureRecognizers.extend(existingGestureRecognizers)
+            gestureRecognizers.append(existingGestureRecognizers)
         }
-        sceneView.gestureRecognizers = gestureRecognizers
+        sceneView.gestureRecognizers = gestureRecognizers as? [UIGestureRecognizer]
     }
     
     func handleTap(gestureRecognize: UIGestureRecognizer) {
         // retrieve the SCNView
         // check what nodes are tapped
         let p = gestureRecognize.locationInView(sceneView)
-        if let hitResults = sceneView.hitTest(p, options: nil) {
-            if hitResults.count > 0 {
+        if let hitResults: [SCNHitTestResult]? = sceneView.hitTest(p, options: nil) {
+            if hitResults!.count > 0 {
                 // retrieved the first clicked object
-                let result: SCNHitTestResult! = hitResults[0] as! SCNHitTestResult
+                let result: SCNHitTestResult! = hitResults![0]
                
                 //check what object user tapped and then show info about it
                 for object in showingObject {
@@ -174,7 +175,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
     func locationUpdated(location: CLLocation) {
         SCNTransaction.begin()
         SCNTransaction.setDisableActions(true)
-        var point: Point2D = Utils.convertLLtoXY(ViewFinderManager.sharedInstance.centerPoint, newLocation: location)
+        let point: Point2D = Utils.convertLLtoXY(ViewFinderManager.sharedInstance.centerPoint, newLocation: location)
         cameraNode.position = SCNVector3Make(Float(point.x) , Float(point.y), cameraNode.position.z)
         for object in showingObject {
             object.updateWitObjectSize(location)
@@ -200,11 +201,11 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         return true
     }
     
-    override func supportedInterfaceOrientations() -> Int {
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
+            return UIInterfaceOrientationMask.AllButUpsideDown
         } else {
-            return Int(UIInterfaceOrientationMask.All.rawValue)
+            return UIInterfaceOrientationMask.All
         }
     }
     
@@ -260,11 +261,11 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
     }
     
     func nodePosToScreenCoordinates(node: SCNNode) -> Point3D {
-        var worldMat: SCNMatrix4 = node.worldTransform
-        var worldPos: SCNVector3 = SCNVector3(x: worldMat.m41, y: worldMat.m42, z: worldMat.m43)
+        let worldMat: SCNMatrix4 = node.worldTransform
+        let worldPos: SCNVector3 = SCNVector3(x: worldMat.m41, y: worldMat.m42, z: worldMat.m43)
 
-        var pos: SCNVector3 = sceneView.projectPoint(worldPos)
-        var point: Point3D = Point3D(xPos:  Double(pos.x), yPos: Double(pos.y), zPos: Double(pos.z))
+        let pos: SCNVector3 = sceneView.projectPoint(worldPos)
+        let point: Point3D = Point3D(xPos:  Double(pos.x), yPos: Double(pos.y), zPos: Double(pos.z))
         return point
     }
 }

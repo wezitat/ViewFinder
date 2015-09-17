@@ -12,7 +12,7 @@ import UIKit
 class WitMarkersView: UIView {
  
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-        var hitView: UIView = super.hitTest(point, withEvent: event)! as! UIView
+        let hitView: UIView = super.hitTest(point, withEvent: event)! 
         
         if hitView == self {
             return nil

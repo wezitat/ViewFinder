@@ -27,7 +27,7 @@ class WitObject {
     init(coord: WitCoordinate) {
         witCoordinat = coord
 
-        var diceRoll = Int(arc4random_uniform(2))
+        let diceRoll = Int(arc4random_uniform(2))
         if diceRoll == 0 {
             self.makeImage()
         }
@@ -66,12 +66,12 @@ class WitObject {
     }
     
     func updateWitObjectSize(userLocation: CLLocation) {
-        var distance: Double = userLocation.distanceFromLocation(CLLocation(latitude: self.witCoordinat.lat, longitude: self.witCoordinat.lon))
+        let distance: Double = userLocation.distanceFromLocation(CLLocation(latitude: self.witCoordinat.lat, longitude: self.witCoordinat.lon))
         
-        var nearDistance: Double = Double(SettingManager.sharedInstance.getHereNumberValue())
-        var deltaOfSizes: Double = WITOBJECT_BIGGEST_SIZE - WITOBJECT_SMALLEST_SIZE
+        let nearDistance: Double = Double(SettingManager.sharedInstance.getHereNumberValue())
+        let deltaOfSizes: Double = WITOBJECT_BIGGEST_SIZE - WITOBJECT_SMALLEST_SIZE
         
-        var scalePerDistance: Double = nearDistance/deltaOfSizes
+        let scalePerDistance: Double = nearDistance/deltaOfSizes
         var stepsBetween: Double = distance/scalePerDistance
         if stepsBetween < 1 {
             stepsBetween = 1

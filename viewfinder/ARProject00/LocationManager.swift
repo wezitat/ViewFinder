@@ -74,7 +74,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         manager.stopUpdatingHeading()
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if timerAfterUpdate != nil {
             timePassed = 0
             timerAfterUpdate.invalidate()
@@ -85,8 +85,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("timeUpdate"), userInfo: nil, repeats: true)
         }
         
-        var newLocation: CLLocation = locations.last as! CLLocation
-        var locationAge: NSTimeInterval = -newLocation.timestamp.timeIntervalSinceNow
+        let newLocation: CLLocation = locations.last! as CLLocation
+        let locationAge: NSTimeInterval = -newLocation.timestamp.timeIntervalSinceNow
         if locationAge > 10.0 {
             return
         }
@@ -118,9 +118,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                         previousLocation = newLocation
                     }
                     if infoLocationDelegate != nil {
-                        var distance: Double = newLocation.distanceFromLocation(previousLocation)
+                        let distance: Double = newLocation.distanceFromLocation(previousLocation)
                         infoLocationDelegate.locationDistanceUpdated("\(Int(distance))")
-                        var curPoint: String = "lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)"
+                        let curPoint: String = "lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)"
                         infoLocationDelegate.locationUpdated(curPoint)
                     }
                 }
@@ -135,31 +135,30 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                     ViewFinderManager.sharedInstance.userLocation = newLocation
                 }
                 if infoLocationDelegate != nil {
-                    var distance: Double = newLocation.distanceFromLocation(previousLocation)
+                    let distance: Double = newLocation.distanceFromLocation(previousLocation)
                     infoLocationDelegate.locationDistanceUpdated("\(Int(distance))")
-                    var curPoint: String = "lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)"
+                    let curPoint: String = "lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)"
                     infoLocationDelegate.locationUpdated(curPoint)
                 }
                 previousLocation = newLocation
             }
             else {
                 if infoLocationDelegate != nil {
-                    var distance: Double = newLocation.distanceFromLocation(previousLocation)
                     infoLocationDelegate.locationDistanceUpdated("ignoring")
-                    var curPoint: String = "ignoring"
+                    let curPoint: String = "ignoring"
                     infoLocationDelegate.locationUpdated(curPoint)
                 }
             }
         }
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateHeading newHeading: CLHeading!) {
+    func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         if newHeading.headingAccuracy < 0 {
             return
         }
         
         // Use the true heading if it is valid.
-        var theHeading: CLLocationDirection = ((newHeading.trueHeading > 0) ?
+        let theHeading: CLLocationDirection = ((newHeading.trueHeading > 0) ?
             newHeading.trueHeading : newHeading.magneticHeading)
         
         if calibrateHeadingDelegate != nil {
@@ -167,7 +166,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    func locationManagerShouldDisplayHeadingCalibration(manager: CLLocationManager!) -> Bool {
+    func locationManagerShouldDisplayHeadingCalibration(manager: CLLocationManager) -> Bool {
         return true
     }
 }

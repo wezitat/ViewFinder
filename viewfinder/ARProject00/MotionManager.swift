@@ -42,7 +42,7 @@ class MotionManager {
     func play() {
         self.motionManager.startDeviceMotionUpdatesUsingReferenceFrame(CMAttitudeReferenceFrame.XArbitraryCorrectedZVertical, toQueue: NSOperationQueue()) { (motion, error) -> Void in
             // translate the attitude
-            self.outputDeviceMotion(motion)
+            self.outputDeviceMotion(motion!)
         }
     }
     
@@ -69,7 +69,7 @@ class MotionManager {
     }
     
     func orientationFromCMQuaternion(attitude:CMAttitude) -> SCNQuaternion {
-        var q: CMQuaternion = attitude.quaternion
+        let q: CMQuaternion = attitude.quaternion
         var rq: CMQuaternion = CMQuaternion()
         rq.x = q.x
         rq.y = q.y

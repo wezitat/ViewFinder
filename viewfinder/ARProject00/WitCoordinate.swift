@@ -21,8 +21,8 @@ class WitCoordinate {
         self.lon   = lon
         self.alt   = alt * DEFAULT_METR_SCALE
         
-        var newLocation: CLLocation = CLLocation(latitude: lat, longitude: lon)
-        var centerLocation: CLLocation = ViewFinderManager.sharedInstance.centerPoint
+        let newLocation: CLLocation = CLLocation(latitude: lat, longitude: lon)
+        let centerLocation: CLLocation = ViewFinderManager.sharedInstance.centerPoint
     
         point2d = Utils.convertLLtoXY(centerLocation, newLocation: newLocation)
     }

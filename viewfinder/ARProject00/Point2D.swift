@@ -18,6 +18,6 @@ class Point2D {
     }
     
     func printPoint() {
-        println("point x: \(x) y: \(y)")
+        print("point x: \(x) y: \(y)")
     }
 }

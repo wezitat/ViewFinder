@@ -21,38 +21,38 @@ class Utils {
   
     //convert LL to XY having center (0,0) in specific LL location
     static func convertLLtoXY(origin: CLLocation, newLocation: CLLocation) -> Point2D {
-        var angle: Double = DegreesToRadians(0)
+        let angle: Double = DegreesToRadians(0)
         
         var x: Double = (newLocation.coordinate.longitude - origin.coordinate.longitude)*meterDegLon(origin.coordinate.latitude)
         var y: Double = (newLocation.coordinate.latitude - origin.coordinate.latitude)*meterDegLat(origin.coordinate.latitude)
         
-        var r: Double = sqrt(x*x + y*y)
+        let r: Double = sqrt(x*x + y*y)
         if r > 0 {
-            var ct: Double = x/r
-            var st: Double = y/r
+            let ct: Double = x/r
+            let st: Double = y/r
             x = r*((ct * cos(angle)) + (st * sin(angle)))
             y = r*((st * cos(angle)) - (ct * sin(angle)))
         }
         
-        var point = Point2D(xPos: x * DEFAULT_METR_SCALE, yPos: y * DEFAULT_METR_SCALE)
+        let point = Point2D(xPos: x * DEFAULT_METR_SCALE, yPos: y * DEFAULT_METR_SCALE)
         
         return point
     }
     
     static func meterDegLon(x: Double) -> Double {
-        var d2r = DegreesToRadians(x)
-        var part1: Double = cos(d2r)
-        var part2: Double = (94.55 * cos(3.0*d2r))
-        var part3: Double = (0.12 * cos(5.0*d2r))
+        let d2r = DegreesToRadians(x)
+        let part1: Double = cos(d2r)
+        let part2: Double = (94.55 * cos(3.0*d2r))
+        let part3: Double = (0.12 * cos(5.0*d2r))
         return ((111415.13 * part1) - part2 + part3)
     }
     
     static func meterDegLat(x: Double) -> Double {
-        var d2r = DegreesToRadians(x)
+        let d2r = DegreesToRadians(x)
         
-        var part1: Double = (566.05 * cos(2.0*d2r))
-        var part2: Double = (1.20 * cos(4.0*d2r))
-        var part3: Double = (0.002 * cos(6.0*d2r))
+        let part1: Double = (566.05 * cos(2.0*d2r))
+        let part2: Double = (1.20 * cos(4.0*d2r))
+        let part3: Double = (0.002 * cos(6.0*d2r))
         
         return (111132.09 - part1 + part2 - part3)
     }
@@ -75,29 +75,29 @@ class Utils {
     }
     
     static func isPointLeft(a: Point2D, b: Point2D, c: Point2D) -> Bool {
-        var value: Double = ((b.x - a.x)*(c.y - a.y) - (b.y - a.y)*(c.x - a.x))
+        let value: Double = ((b.x - a.x)*(c.y - a.y) - (b.y - a.y)*(c.x - a.x))
         return value < 0
     }
     
     static func angleBetween2Lines(line1: Line2D, line2: Line2D) -> Double {
-        var angle1 = atan2(line1.startPoint.y - line1.endPoint.y, line1.startPoint.x - line1.endPoint.x)
-        var angle2 = atan2(line2.startPoint.y - line2.endPoint.y, line2.startPoint.x - line2.endPoint.x)
+        let angle1 = atan2(line1.startPoint.y - line1.endPoint.y, line1.startPoint.x - line1.endPoint.x)
+        let angle2 = atan2(line2.startPoint.y - line2.endPoint.y, line2.startPoint.x - line2.endPoint.x)
         return angle1 - angle2
     }
     
     static func angleBetween2DotsWithCenter(centerPoint: Point2D, point1: Point2D, point2: Point2D) -> Double {
-        var subPoint1: Point2D = Point2D(xPos: point1.x, yPos: point1.y)
-        var subPoint2: Point2D = Point2D(xPos: point2.x, yPos: point2.y)
+        let subPoint1: Point2D = Point2D(xPos: point1.x, yPos: point1.y)
+        let subPoint2: Point2D = Point2D(xPos: point2.x, yPos: point2.y)
         
         subPoint1.x -= centerPoint.x
         subPoint1.y -= centerPoint.y
         subPoint2.x -= centerPoint.x
         subPoint2.y -= centerPoint.y
         
-        var line1: Line2D = Line2D(point1: centerPoint, point2: subPoint1)
-        var line2: Line2D = Line2D(point1: centerPoint, point2: subPoint2)
+        let line1: Line2D = Line2D(point1: centerPoint, point2: subPoint1)
+        let line2: Line2D = Line2D(point1: centerPoint, point2: subPoint2)
         
-        var angle = self.angleBetween2Lines(line1, line2: line2)
+        let angle = self.angleBetween2Lines(line1, line2: line2)
         return angle
     }
 }

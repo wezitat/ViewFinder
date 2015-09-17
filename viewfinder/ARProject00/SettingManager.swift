@@ -22,7 +22,7 @@ class SettingManager {
     static let sharedInstance = SettingManager()
     
     func loadSettings() {
-        var path: String = NSBundle.mainBundle().pathForResource("settings", ofType: "plist")!
+        let path: String = NSBundle.mainBundle().pathForResource("settings", ofType: "plist")!
         settings = NSDictionary(contentsOfFile: path)!
     }
     

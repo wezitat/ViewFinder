@@ -91,7 +91,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     }
     
     func initDebugViewLayer() {
-        var orientation: UIDeviceOrientation = UIDevice.currentDevice().orientation
+        let orientation: UIDeviceOrientation = UIDevice.currentDevice().orientation
         
         switch (orientation)
         {
@@ -112,8 +112,8 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     }
     
     func initDetailsView() {
-        var screenCenterX: CGFloat = UIScreen.mainScreen().bounds.width/2
-        var screenCenterY: CGFloat = UIScreen.mainScreen().bounds.height/2
+        let screenCenterX: CGFloat = UIScreen.mainScreen().bounds.width/2
+        let screenCenterY: CGFloat = UIScreen.mainScreen().bounds.height/2
         smallDetailsView = UIView(frame: CGRectMake(screenCenterX - 100, screenCenterY - 100, 200, 200))
         smallDetailsView.backgroundColor = UIColor.whiteColor()
         detailsHeader = UILabel(frame: CGRectMake(5, 5, 190, 35))
@@ -128,7 +128,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         
         smallDetailsView.addSubview(detailsDescription)
         
-        var button: UIButton = UIButton(frame: CGRectMake(0, 0, self.detailsView.frame.width, self.detailsView.frame.height))
+        let button: UIButton = UIButton(frame: CGRectMake(0, 0, self.detailsView.frame.width, self.detailsView.frame.height))
         button.addTarget(self, action: Selector("handleDetailsButton"), forControlEvents: .TouchUpInside)
         
         self.detailsView.addSubview(smallDetailsView)
@@ -200,7 +200,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     func timeUpdate() {
         //one seconds passed. check if we can stop calibration
         if calibrationTime > 0 {
-            var currentText: String = "Calibrating data. Don`t shake Device for"
+            let currentText: String = "Calibrating data. Don`t shake Device for"
             debugInfo.singleStatus(currentText + " \(self.calibrationTime) seconds")
             calibrationTime--
         }
@@ -252,7 +252,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     
     func addNewWitMarker(wObject: WitObject) {
         // add new witmarker on screen
-        var marker: WitMarker = WitMarker()
+        let marker: WitMarker = WitMarker()
         marker.registerObject(wObject)
         marker.delegate = self
         self.witMarkers.append(marker)
@@ -276,8 +276,8 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     }
     
     func cameraMoved() {
-        var screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
-        var screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
+        let screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
+        let screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
 
         for marker in self.witMarkers {
 
@@ -324,11 +324,11 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     
     func updatePointIfObjectIsBehind(point: Point3D) -> Point3D { 
         //find screen quarter
-        var newPoint: Point3D = Point3D(xPos: 0, yPos: 0, zPos: 0)
-        var screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
-        var screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
+        let newPoint: Point3D = Point3D(xPos: 0, yPos: 0, zPos: 0)
+        let screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
+        let screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
         
-        var orientation: UIDeviceOrientation = UIDevice.currentDevice().orientation
+        let orientation: UIDeviceOrientation = UIDevice.currentDevice().orientation
         
         if orientation == .Portrait || orientation == .PortraitUpsideDown {
             if point.x > screenWidth/2 {
@@ -352,8 +352,8 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     }
     
     func filterWitMarkers() {
-        var maxNumber = SettingManager.sharedInstance.getWitMarkerNumberValue()
-        witMarkers.sort({ $0.currentDistance < $1.currentDistance })
+        let maxNumber = SettingManager.sharedInstance.getWitMarkerNumberValue()
+        witMarkers.sortInPlace({ $0.currentDistance < $1.currentDistance })
         
         var i = 0
         for marker in witMarkers {
@@ -380,17 +380,17 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         return true
     }
     
-    override func supportedInterfaceOrientations() -> Int {
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
+            return UIInterfaceOrientationMask.AllButUpsideDown
         } else {
-            return Int(UIInterfaceOrientationMask.All.rawValue)
+            return UIInterfaceOrientationMask.All
         }
     }
 
     func orientationChanged(notification: NSNotification) {
         
-        var orientation: UIDeviceOrientation = UIDevice.currentDevice().orientation
+        let orientation: UIDeviceOrientation = UIDevice.currentDevice().orientation
         
         switch (orientation)
         {
