@@ -75,6 +75,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     }
     
     func refreshStage() {
+        //reset whole information in app
         self.refreshSceneButton.enabled = false
         self.sceneController.resetScene()
         
@@ -91,6 +92,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     }
     
     func initDebugViewLayer() {
+        //if user rotates the screen we should update positions of debug infos
         let orientation: UIDeviceOrientation = UIDevice.currentDevice().orientation
         
         switch (orientation)
@@ -112,6 +114,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     }
     
     func initDetailsView() {
+        //manually create create debug infos on screen
         let screenCenterX: CGFloat = UIScreen.mainScreen().bounds.width/2
         let screenCenterY: CGFloat = UIScreen.mainScreen().bounds.height/2
         smallDetailsView = UIView(frame: CGRectMake(screenCenterX - 100, screenCenterY - 100, 200, 200))
@@ -276,6 +279,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     }
     
     func cameraMoved() {
+        //if camera moved we neeed to update witmarkers on screen. For that we will need what is object coordinates based on screen coordinates
         let screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
         let screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
 
@@ -288,8 +292,6 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
                 marker.showMarker(true)
             }
             var point: Point3D = sceneController.nodePosToScreenCoordinates(marker.wObject.objectGeometry)
-            
-            var originalPoint: Point2D = Point2D(xPos: point.x, yPos: point.y)
             
             point.x -= 30
             point.y -= 30
@@ -352,6 +354,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     }
     
     func filterWitMarkers() {
+        //check if we have number limitation of witmarkers
         let maxNumber = SettingManager.sharedInstance.getWitMarkerNumberValue()
         witMarkers.sortInPlace({ $0.currentDistance < $1.currentDistance })
         
@@ -370,11 +373,6 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     
     
 //// Show info on top and bottom labels    
-    func showTopInfo(strign: String) {
-        /*dispatch_async(dispatch_get_main_queue(), {
-            self.topInfoLabel.text = strign
-        })*/
-    }
     
     override func shouldAutorotate() -> Bool {
         return true

@@ -22,7 +22,6 @@
 		5255B8DE1B67CD3300C87383 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5255B8DD1B67CD3300C87383 /* LocationManager.swift */; };
 		5255B8E21B67D52300C87383 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5255B8E11B67D52300C87383 /* Utils.swift */; };
 		525B3B631BA1E10400CE57CA /* Line2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525B3B621BA1E10400CE57CA /* Line2D.swift */; };
-		5263E2C01B73747A002A550F /* CLLocationExtenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263E2BF1B73747A002A550F /* CLLocationExtenstion.swift */; };
 		5263E2C21B73AAD9002A550F /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263E2C11B73AAD9002A550F /* TopViewController.swift */; };
 		5263E2C41B73AC5E002A550F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5263E2C31B73AC5E002A550F /* UIKit.framework */; };
 		5288B8F21BA2CC5400010D2C /* Point3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5288B8F11BA2CC5400010D2C /* Point3D.swift */; };
@@ -66,7 +65,6 @@
 		5255B8DD1B67CD3300C87383 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5255B8E11B67D52300C87383 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		525B3B621BA1E10400CE57CA /* Line2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line2D.swift; sourceTree = "<group>"; };
-		5263E2BF1B73747A002A550F /* CLLocationExtenstion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLLocationExtenstion.swift; sourceTree = "<group>"; };
 		5263E2C11B73AAD9002A550F /* TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		5263E2C31B73AC5E002A550F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5288B8F11BA2CC5400010D2C /* Point3D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point3D.swift; sourceTree = "<group>"; };
@@ -128,7 +126,6 @@
 			isa = PBXGroup;
 			children = (
 				5255B8E11B67D52300C87383 /* Utils.swift */,
-				5263E2BF1B73747A002A550F /* CLLocationExtenstion.swift */,
 				52C267E31B7B766B001C35CF /* DemoDataClass.swift */,
 				52BCBB661B8C939200DE99C5 /* DebugInfoClass.swift */,
 				5226F6251B90478400FC5DBA /* SettingManager.swift */,
@@ -324,7 +321,6 @@
 				52C267E61B7B7681001C35CF /* WitCoordinate.swift in Sources */,
 				5288B8F21BA2CC5400010D2C /* Point3D.swift in Sources */,
 				5255B8DE1B67CD3300C87383 /* LocationManager.swift in Sources */,
-				5263E2C01B73747A002A550F /* CLLocationExtenstion.swift in Sources */,
 				52C267E41B7B766B001C35CF /* DemoDataClass.swift in Sources */,
 				52BCBB671B8C939200DE99C5 /* DebugInfoClass.swift in Sources */,
 				52AE60D51B8F722700668DDE /* WitMarkersView.swift in Sources */,

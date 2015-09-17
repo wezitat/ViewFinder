@@ -44,6 +44,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         super.viewDidLoad()
     }
     
+    //function which reset scene (removes all objects from 3d scene)
     func resetScene() {
         deviceCameraLayer.removeFromSuperlayer()
         let scene = SCNScene()
@@ -152,6 +153,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
     }
     
     func rotationChanged(orientation: SCNQuaternion) {
+        //user moved camera and pointing of camera changed
         cameraNode.orientation = orientation
         
         if self.eventDelegate != nil {
@@ -159,13 +161,8 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         }
     }
     
-    func drasticDeviceMove() {
-        //magic! somehow SceneKit rotates scene everytime we move the phone, so we need to rotate it back. We need to investigate in future if its scene rotating or camera.orientation (device.orientation) gives us always angle mistake
-        //geometryNode.runAction(SCNAction.rotateByAngle(0.00022, aroundAxis: SCNVector3Make(0, 0, 1), duration: 0.1))
-    }
-    
     func altitudeUpdated(altitude: CLLocationDistance) {
-        //altitude is ignored for a moment
+        //altitude of user location is updated
         SCNTransaction.begin()
         SCNTransaction.setDisableActions(true)
         cameraNode.position = SCNVector3Make(cameraNode.position.x , cameraNode.position.y, Float(altitude * DEFAULT_METR_SCALE))
@@ -173,6 +170,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
     }
     
     func locationUpdated(location: CLLocation) {
+        //user location updated. move camera on new position in 3d scene
         SCNTransaction.begin()
         SCNTransaction.setDisableActions(true)
         let point: Point2D = Utils.convertLLtoXY(ViewFinderManager.sharedInstance.centerPoint, newLocation: location)
@@ -191,6 +189,40 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         if eventDelegate != nil {
             eventDelegate.showTopInfo(string)
         }
+    }
+    
+    func addWitObjects() {
+        //init demo datas
+        demoData.initData()
+        showingObject = demoData.objects
+        
+        //add wit markers for objects
+        for object in showingObject {
+            
+            geometryNode.addChildNode(object.objectGeometry)
+            if self.eventDelegate != nil {
+                self.eventDelegate.addNewWitMarker(object)
+            }
+        }
+        if self.eventDelegate != nil {
+            self.eventDelegate.filterWitMarkers()
+        }
+    }
+    
+    
+    func isNodeOnScreen(node: SCNNode) -> Bool {
+        //chech if node is visible for a user
+        return sceneView.isNodeInsideFrustum(node, withPointOfView: cameraNode)
+    }
+    
+    func nodePosToScreenCoordinates(node: SCNNode) -> Point3D {
+        //get position of object in screen coordinates
+        let worldMat: SCNMatrix4 = node.worldTransform
+        let worldPos: SCNVector3 = SCNVector3(x: worldMat.m41, y: worldMat.m42, z: worldMat.m43)
+
+        let pos: SCNVector3 = sceneView.projectPoint(worldPos)
+        let point: Point3D = Point3D(xPos:  Double(pos.x), yPos: Double(pos.y), zPos: Double(pos.z))
+        return point
     }
     
     override func shouldAutorotate() -> Bool {
@@ -212,60 +244,5 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
-    }
-    
-    func addWitObjects() {
-        //init demo datas
-        demoData.initData()
-        showingObject = demoData.objects
-        
-        //add wit markers for objects
-        for object in showingObject {
-            
-            /*if !object.is3D {
-                var constraint:SCNTransformConstraint = SCNTransformConstraint(inWorldSpace: true, withBlock: { (node:SCNNode!, snmatrix:SCNMatrix4) -> SCNMatrix4 in
-                    var mat: SCNMatrix4 = snmatrix
-                    mat.m21 = node.position.x
-                    mat.m22 = node.position.y
-                    mat.m23 = node.position.z
-                    return mat
-                })
-                object.objectGeometry.constraints = [SCNLookAtConstraint(target: cameraNode), constraint]
-            }*/
-            
-            geometryNode.addChildNode(object.objectGeometry)
-            if self.eventDelegate != nil {
-                self.eventDelegate.addNewWitMarker(object)
-            }
-        }
-        if self.eventDelegate != nil {
-            self.eventDelegate.filterWitMarkers()
-        }
-        //add north pointer
-        /*let redMaterial  = SCNMaterial()
-        redMaterial.diffuse.contents = UIColor.redColor()
-        redMaterial.locksAmbientWithDiffuse = true;
-        
-        /Users/ASE/Downloads/SKLinearAlgebra-master 2/SKLinearAlgebravar northGeometry: SCNNode = SCNNode()
-        let sphere: SCNBox = SCNBox(width: 40, height: 40, length: 40, chamferRadius: 10)
-        sphere.materials = [redMaterial]
-        northGeometry = SCNNode(geometry: sphere)
-        northGeometry.position = SCNVector3Make(0, 2000, 0)
-        
-        geometryNode.addChildNode(northGeometry)*/
-    }
-    
-    
-    func isNodeOnScreen(node: SCNNode) -> Bool {
-        return sceneView.isNodeInsideFrustum(node, withPointOfView: cameraNode)
-    }
-    
-    func nodePosToScreenCoordinates(node: SCNNode) -> Point3D {
-        let worldMat: SCNMatrix4 = node.worldTransform
-        let worldPos: SCNVector3 = SCNVector3(x: worldMat.m41, y: worldMat.m42, z: worldMat.m43)
-
-        let pos: SCNVector3 = sceneView.projectPoint(worldPos)
-        let point: Point3D = Point3D(xPos:  Double(pos.x), yPos: Double(pos.y), zPos: Double(pos.z))
-        return point
     }
 }

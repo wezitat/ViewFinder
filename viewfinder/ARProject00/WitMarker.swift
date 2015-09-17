@@ -188,16 +188,7 @@ class WitMarker: NSObject {
         if origin.x >= CGFloat(screenWidth) - WIT_MARKER_SIZE - 5 && origin.y >= CGFloat(screenHeight) - WIT_MARKER_SIZE - 5 {
             offSet = 315
         }
-        
-        
-        /*var centerPoint: Point2D = Point2D(xPos: Double(self.view.frame.origin.x + WIT_MARKER_SIZE/2), yPos: Double(self.view.frame.origin.y + WIT_MARKER_SIZE/2))
-        var autoPoint: Point2D = Point2D(xPos: Double(self.view.frame.origin.x + WIT_MARKER_SIZE/2 + 1000), yPos:Double(self.view.frame.origin.y + WIT_MARKER_SIZE/2))
 
-        
-        var line1: Line2D = Line2D(point1: centerPoint, point2: autoPoint)
-        var line2: Line2D = Line2D(point1: centerPoint, point2: point)
-
-        var angle: Double = Utils.angleBetween2DotsWithCenter(centerPoint, point1: autoPoint, point2: point)*/
         let offsetRad: Double = Utils.DegreesToRadians(offSet)
         dispatch_async(dispatch_get_main_queue()) {
             self.pointerView.transform = CGAffineTransformMakeRotation(CGFloat(offsetRad))
