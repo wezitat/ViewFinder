@@ -161,6 +161,9 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         }
     }
     
+    //total hack for now, this was never implemented
+    func drasticDeviceMove() {}
+    
     func altitudeUpdated(altitude: CLLocationDistance) {
         //altitude of user location is updated
         SCNTransaction.begin()
@@ -199,6 +202,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         //add wit markers for objects
         for object in showingObject {
             
+//JU: this is where wits get added to the scene and below wit market get made for each wit
             geometryNode.addChildNode(object.objectGeometry)
             if self.eventDelegate != nil {
                 self.eventDelegate.addNewWitMarker(object)

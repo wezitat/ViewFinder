@@ -284,15 +284,19 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         let screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
 
         for marker in self.witMarkers {
-
+//JU: if scene kit is going to show a wit, then we're not going to show a marker; BUT we show both for now
             if sceneController.isNodeOnScreen(marker.wObject.objectGeometry) {
-                marker.showMarker(false)
+                //marker.showMarker(false)
+                marker.showMarker(true)
             }
             else {
                 marker.showMarker(true)
             }
             var point: Point3D = sceneController.nodePosToScreenCoordinates(marker.wObject.objectGeometry)
             
+            print("wit: " + marker.wObject.witName + "  " + marker.label.text! + "  x,y,z: " + "\(point.x)  \(point.y)  \(point.z)")
+ 
+//JU: Setting the center point of the witMarker. This should be WIT_MARKER_SIZE/2 not 30
             point.x -= 30
             point.y -= 30
             
@@ -303,7 +307,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
             if point.y < 0 {
                 point.y = 0
             }
-            
+ //JU: make sure that the witMarker is not partially off screen
             if point.x > screenWidth - Double(WIT_MARKER_SIZE) {
                 point.x = Double(screenWidth) - Double(WIT_MARKER_SIZE)
             }
@@ -314,7 +318,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
             //check if element is behind - if yes our point will be inside the screen
             if (point.z > 1) {
                 point = updatePointIfObjectIsBehind(point)
-                originalPoint = Point2D(xPos: point.x, yPos: point.y)
+                //originalPoint = Point2D(xPos: point.x, yPos: point.y)
             }
             
             dispatch_async(dispatch_get_main_queue()) {
@@ -371,8 +375,15 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
 
     }
     
-    
+//another hack???
 //// Show info on top and bottom labels    
+    
+    //// Show info on top and bottom labels
+    func showTopInfo(strign: String) {
+        /*dispatch_async(dispatch_get_main_queue(), {
+        self.topInfoLabel.text = strign
+        })*/
+    }
     
     override func shouldAutorotate() -> Bool {
         return true

@@ -29,7 +29,9 @@ class WitObject {
 
         let diceRoll = Int(arc4random_uniform(2))
         if diceRoll == 0 {
-            self.makeImage()
+//JU: disable the minion, always make a box for now
+            //self.makeImage()
+            self.makeBox()
         }
         else {
         //self.makeImage()
@@ -40,7 +42,7 @@ class WitObject {
     func makeBox() {
         is3D = true
         let texture  = SCNMaterial()
-        texture.diffuse.contents = UIColor.whiteColor()
+        texture.diffuse.contents = UIColor.grayColor()
         objectElement = SCNBox(width: CGFloat(Utils.metersToCoordinate(WITOBJECT_BIGGEST_SIZE)), height: CGFloat(Utils.metersToCoordinate(WITOBJECT_BIGGEST_SIZE)), length: CGFloat(Utils.metersToCoordinate(WITOBJECT_BIGGEST_SIZE)), chamferRadius: 1.0)
         objectElement.materials = [texture]
         objectGeometry = SCNNode(geometry: objectElement)

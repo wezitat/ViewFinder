@@ -2,7 +2,7 @@
     "wits" : [
               {
               "name" : "w1",
-              "description": "Hoover tower",
+              "description": "hoover tower",
               "lat": 37.427604,
               "lon": -122.1669495,
               "alt": 297,
@@ -12,29 +12,29 @@
               
               {
               "name" : "w2",
-              "description": "rodin",
-              "lat": 37.4278341,
-              "lon": -122.1695673,
-              "alt": 295,
+              "description": "stanford hospital",
+              "lat": 37.4328862,
+              "lon": -122.1768522,
+              "alt": 72,
               "altMeasure": "f",
               "author": "user"
               },
               
               {
               "name" : "w3",
-              "description": "memChurch",
-              "lat": 37.4268883,
-              "lon": -122.170479299999,
-              "alt": 145,
+              "description": "ducks at cloudera",
+              "lat": 37.4174816,
+              "lon": -122.14595320000001,
+              "alt": 72,
               "altMeasure": "f",
               "author": "user"
               },
               
               {
               "name" : "w4",
-              "description": "volleyballLawn",
-              "lat": 37.4305689,
-              "lon": -122.1692241,
+              "description": "mama old work",
+              "lat": 37.42828560000001,
+              "lon": -122.16335540000001,
               "alt": 72,
               "altMeasure": "f",
               "author": "user"
@@ -42,9 +42,9 @@
               
               {
               "name" : "w5",
-              "description": "myLocation",
-              "lat": 37.4280726,
-              "lon": -122.170093099999,
+              "description": "2002 columbia",
+              "lat": 37.4196502,
+              "lon": -122.1556788,
               "alt": 72,
               "altMeasure": "f",
               "author": "user"
@@ -52,7 +52,7 @@
               {
               "name" : "w6",
               "description": "samuels",
-              "lat": 37.420072,
+              "lat": 37.4203063,
               "lon": -122.1630764,
               "alt": 72,
               "altMeasure": "f",
@@ -60,90 +60,81 @@
               },
               {
               "name" : "w7",
-              "description": "hospital",
-              "lat": 37.432886,
-              "lon": -122.1768522,
-              "alt": 200,
+              "description": "tennis court park",
+              "lat": 37.4191517,
+              "lon": -122.1521223,
+              "alt": 72,
               "altMeasure": "f",
               "author": "user"
               },
               {
               "name" : "w8",
-              "description": "home",
-              "lat": 37.4198675,
-              "lon": -122.155652,
+              "description": "escondido chickens",
+              "lat": 37.420383,
+              "lon": -122.15557160000002,
               "alt": 72,
               "altMeasure": "f",
               "author": "user"
               },
               {
               "name" : "w9",
-              "description": "ducks",
-              "lat": 37.4234802,
-              "lon": -122.1763802,
+              "description": "new macs",
+              "lat": 37.4199399,
+              "lon": -122.1554482,
               "alt": 72,
               "altMeasure": "f",
               "author": "user"
               },
               {
               "name" : "w10",
-              "description": "rodin",
-              "lat": 37.4264112,
-              "lon": -122.1719491,
-              "alt": 100,
+              "description": "field across stanford ave",
+              "lat": 37.4198973,
+              "lon": -122.15599,
+              "alt": 72,
               "altMeasure": "f",
               "author": "user"
               },
               {
               "name" : "w11",
-              "description": "markOffice",
-              "lat": 37.4270119,
-              "lon": -122.1688056,
+              "description": "university church",
+              "lat": 37.4187597,
+              "lon": -122.1561241,
               "alt": 72,
               "altMeasure": "f",
               "author": "user"
               },
               {
               "name" : "w12",
-              "description": "mamaOffice",
-              "lat": 37.4282856,
-              "lon": -122.1633554,
+              "description": "kite hill",
+              "lat": 37.4149976,
+              "lon": -122.1532219,
               "alt": 102,
               "altMeasure": "f",
               "author": "user"
               },
               {
               "name" : "w13",
-              "description": "shops",
-              "lat": 37.4447443,
-              "lon": -122.1716595,
+              "description": "crazy g",
+              "lat": 37.4188982,
+              "lon": -122.15453089999998,
               "alt": 72,
               "altMeasure": "f",
               "author": "user"
               },
               {
               "name" : "w14",
-              "description": "schoolField",
-              "lat": 37.4350672,
-              "lon": -122.1529055,
+              "description": "our creek",
+              "lat": 37.4194414,
+              "lon": -122.15574590000001,
               "alt": 72,
               "altMeasure": "f",
               "author": "user"
               },
               {
               "name" : "w15",
-              "description": "bench",
-              "lat": 37.4281493,
-              "lon": -122.1704471,
-              "alt": 72,
-              "altMeasure": "f",
-              "author": "user"
-              },
-              {
-              "name" : "w16",
-              "description": "oval",
-              "lat": 37.4291717,
-              "lon": -122.1696854,
+              "description": "trash cans for p",
+              "lat": 37.4199527,
+              "lon": -122.1582055,
               "alt": 72,
               "altMeasure": "f",
               "author": "user"

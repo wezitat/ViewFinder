@@ -1,0 +1,52 @@
+{
+    "wits" : [
+              {
+              "name" : "w1",
+              "description": "hoover tower",
+              "lat": 37.427604,
+              "lon": -122.1669495,
+              "alt": 297,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              
+              {
+              "name" : "w8",
+              "description": "escondido chickens",
+              "lat": 37.420383,
+              "lon": -122.15557160000002,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              {
+              "name" : "w9",
+              "description": "new macs",
+              "lat": 37.4199399,
+              "lon": -122.1554482,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              },
+            
+              {
+              "name" : "w12",
+              "description": "kite hill",
+              "lat": 37.4149976,
+              "lon": -122.1532219,
+              "alt": 102,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              
+              {
+              "name" : "w15",
+              "description": "trash cans for p",
+              "lat": 37.4199527,
+              "lon": -122.1582055,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              }
+              ]
+}
