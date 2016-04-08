@@ -56,7 +56,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         super.viewDidLoad()
         self.refreshSceneButton.enabled = false
         //load settings
-        SettingManager.sharedInstance.loadSettings()
+        SettingsManager.sharedInstance.loadSettings()
         
         sceneController = self.childViewControllers.first! as! GameViewController
         sceneController.eventDelegate = self
@@ -64,9 +64,9 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         initDetailsView()
         //start location manager
         ViewFinderManager.sharedInstance.startLocationManager()
-        ViewFinderManager.sharedInstance.locationManager.calibrateHeadingDelegate = self
+        ViewFinderManager.sharedInstance.locationManager.deviceCalibrateDelegate = self
         ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate = debugInfo
-        ViewFinderManager.sharedInstance.motionManager.rotationDelegate = self
+        ViewFinderManager.sharedInstance.motionManager.rotationManagerDelegate = self
        
         //First step we need to retrieve accurate location. This can take a while (depends on accuracy which we choosed in LocationManager)
         self.retrieveInitialLocation()
@@ -84,7 +84,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         }
         witMarkers = [WitMarker]()
         
-        ViewFinderManager.sharedInstance.locationManager.delegate = nil
+        ViewFinderManager.sharedInstance.locationManager.locationManagerDelegate = nil
         ViewFinderManager.sharedInstance.locationManager.stopUpdates()
         ViewFinderManager.sharedInstance.locationManager.startUpdates()
         //First step we need to retrieve accurate location. This can take a while (depends on accuracy which we choosed in LocationManager)
@@ -228,7 +228,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     func initializeScene() {
         self.refreshSceneButton.enabled = true
         debugInfo.fullInfo()
-        ViewFinderManager.sharedInstance.locationManager.delegate = sceneController
+        ViewFinderManager.sharedInstance.locationManager.locationManagerDelegate = sceneController
         sceneController.initialize3DSceneWithHeading(calibratedHeading)
     }
     
@@ -355,7 +355,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     
     func filterWitMarkers() {
         //check if we have number limitation of witmarkers
-        let maxNumber = SettingManager.sharedInstance.getWitMarkerNumberValue()
+        let maxNumber = SettingsManager.sharedInstance.getWitMarkerNumberValue()
         witMarkers.sortInPlace({ $0.currentDistance < $1.currentDistance })
         
         var i = 0

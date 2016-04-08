@@ -8,18 +8,19 @@
 
 import Foundation
 
-class SettingManager {
-    let ACCURACY: String = "LocationAccuracy"
-    let EMAIL: String = "ClaimingEmail"
-    let MARKER_NUMBER: String = "WitMarkersNumber"
-    let OBJECTS_FILE: String = "WitObjectsFileName"
-    let NEAR: String = "DistanceNear"
-    let HERE: String = "DistanceHere"
-    let HIDE_THERE_MARKERS = "HideThereMarkers"
+class SettingsManager {
+    
+    static let sharedInstance = SettingsManager()
+    
+    let           ACCURACY: String = "LocationAccuracy"
+    let              EMAIL: String = "ClaimingEmail"
+    let      MARKER_NUMBER: String = "WitMarkersNumber"
+    let       OBJECTS_FILE: String = "WitObjectsFileName"
+    let               NEAR: String = "DistanceNear"
+    let               HERE: String = "DistanceHere"
+    let HIDE_THERE_MARKERS: String = "HideThereMarkers"
     
     var settings: NSDictionary = NSDictionary()
-    
-    static let sharedInstance = SettingManager()
     
     func loadSettings() {
         let path: String = NSBundle.mainBundle().pathForResource("settings", ofType: "plist")!
@@ -30,6 +31,7 @@ class SettingManager {
         if let accuracy = settings.objectForKey(ACCURACY) as? Double {
             return  accuracy
         }
+        
         return 0
     }
     
@@ -37,6 +39,7 @@ class SettingManager {
         if let value = settings.objectForKey(EMAIL) as? String {
             return  value
         }
+        
         return ""
     }
     
@@ -44,6 +47,7 @@ class SettingManager {
         if let value = settings.objectForKey(OBJECTS_FILE) as? String {
             return  value
         }
+        
         return ""
     }
     
@@ -51,6 +55,7 @@ class SettingManager {
         if let value = settings.objectForKey(MARKER_NUMBER) as? Int {
             return  value
         }
+        
         return 0
     }
     
@@ -58,6 +63,7 @@ class SettingManager {
         if let value = settings.objectForKey(NEAR) as? Int {
             return  value
         }
+        
         return 0
     }
     
@@ -65,6 +71,7 @@ class SettingManager {
         if let value = settings.objectForKey(HERE) as? Int {
             return  value
         }
+        
         return 0
     }
     
@@ -72,8 +79,7 @@ class SettingManager {
         if let value = settings.objectForKey(HIDE_THERE_MARKERS) as? Bool {
             return  value
         }
+        
         return false
     }
-    
-    
 }

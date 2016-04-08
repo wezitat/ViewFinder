@@ -9,15 +9,16 @@
 import Foundation
 
 class Point2D {
+    
     var x: Double = 0
     var y: Double = 0
     
-    init (xPos: Double, yPos: Double) {
+    init(xPos: Double, yPos: Double) {
         self.x = xPos
         self.y = yPos
     }
     
     func printPoint() {
-        print("point x: \(x) y: \(y)")
+        print("2D-point x: \(x) y: \(y)")
     }
 }

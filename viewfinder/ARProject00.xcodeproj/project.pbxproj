@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5226F6241B90464800FC5DBA /* settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5226F6231B90464800FC5DBA /* settings.plist */; };
-		5226F6261B90478500FC5DBA /* SettingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5226F6251B90478400FC5DBA /* SettingManager.swift */; };
+		5226F6261B90478500FC5DBA /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5226F6251B90478400FC5DBA /* SettingsManager.swift */; };
 		523AB31B1B8E087C008B6FA2 /* lviv_objects.json in Resources */ = {isa = PBXBuildFile; fileRef = 523AB3191B8E087C008B6FA2 /* lviv_objects.json */; };
 		523AB31C1B8E087C008B6FA2 /* us_objects.json in Resources */ = {isa = PBXBuildFile; fileRef = 523AB31A1B8E087C008B6FA2 /* us_objects.json */; };
 		5255B8B81B6777CE00C87383 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5255B8B71B6777CE00C87383 /* AppDelegate.swift */; };
@@ -20,7 +20,7 @@
 		5255B8DA1B677EDE00C87383 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5255B8D91B677EDE00C87383 /* MotionManager.swift */; };
 		5255B8DC1B67B06100C87383 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5255B8DB1B67B06100C87383 /* GLKit.framework */; };
 		5255B8DE1B67CD3300C87383 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5255B8DD1B67CD3300C87383 /* LocationManager.swift */; };
-		5255B8E21B67D52300C87383 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5255B8E11B67D52300C87383 /* Utils.swift */; };
+		5255B8E21B67D52300C87383 /* LocationMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5255B8E11B67D52300C87383 /* LocationMath.swift */; };
 		525B3B631BA1E10400CE57CA /* Line2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525B3B621BA1E10400CE57CA /* Line2D.swift */; };
 		5263E2C21B73AAD9002A550F /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263E2C11B73AAD9002A550F /* TopViewController.swift */; };
 		5263E2C41B73AC5E002A550F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5263E2C31B73AC5E002A550F /* UIKit.framework */; };
@@ -33,6 +33,7 @@
 		52C267EA1B7B77C2001C35CF /* Point2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C267E91B7B77C2001C35CF /* Point2D.swift */; };
 		52C267EC1B7B77F7001C35CF /* ViewFinderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C267EB1B7B77F7001C35CF /* ViewFinderManager.swift */; };
 		52C3EE131B81E409007A1851 /* WitMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C3EE121B81E409007A1851 /* WitMarker.swift */; };
+		585A79211CB7945100658286 /* BrainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585A79201CB7945100658286 /* BrainManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +48,7 @@
 
 /* Begin PBXFileReference section */
 		5226F6231B90464800FC5DBA /* settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = settings.plist; sourceTree = "<group>"; };
-		5226F6251B90478400FC5DBA /* SettingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingManager.swift; sourceTree = "<group>"; };
+		5226F6251B90478400FC5DBA /* SettingsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		523AB3191B8E087C008B6FA2 /* lviv_objects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = lviv_objects.json; path = resources/lviv_objects.json; sourceTree = "<group>"; };
 		523AB31A1B8E087C008B6FA2 /* us_objects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = us_objects.json; path = resources/us_objects.json; sourceTree = "<group>"; };
 		5255B8B21B6777CE00C87383 /* ARProject00.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARProject00.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,7 +64,7 @@
 		5255B8D91B677EDE00C87383 /* MotionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		5255B8DB1B67B06100C87383 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		5255B8DD1B67CD3300C87383 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		5255B8E11B67D52300C87383 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		5255B8E11B67D52300C87383 /* LocationMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMath.swift; sourceTree = "<group>"; };
 		525B3B621BA1E10400CE57CA /* Line2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line2D.swift; sourceTree = "<group>"; };
 		5263E2C11B73AAD9002A550F /* TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		5263E2C31B73AC5E002A550F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -76,6 +77,7 @@
 		52C267E91B7B77C2001C35CF /* Point2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point2D.swift; sourceTree = "<group>"; };
 		52C267EB1B7B77F7001C35CF /* ViewFinderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewFinderManager.swift; sourceTree = "<group>"; };
 		52C3EE121B81E409007A1851 /* WitMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WitMarker.swift; sourceTree = "<group>"; };
+		585A79201CB7945100658286 /* BrainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrainManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				5255B8D91B677EDE00C87383 /* MotionManager.swift */,
 				5255B8DD1B67CD3300C87383 /* LocationManager.swift */,
 				52C267EB1B7B77F7001C35CF /* ViewFinderManager.swift */,
+				585A79201CB7945100658286 /* BrainManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -125,10 +128,10 @@
 		521A903B1B725C4100CC3178 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
-				5255B8E11B67D52300C87383 /* Utils.swift */,
+				5255B8E11B67D52300C87383 /* LocationMath.swift */,
 				52C267E31B7B766B001C35CF /* DemoDataClass.swift */,
 				52BCBB661B8C939200DE99C5 /* DebugInfoClass.swift */,
-				5226F6251B90478400FC5DBA /* SettingManager.swift */,
+				5226F6251B90478400FC5DBA /* SettingsManager.swift */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -318,14 +321,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				52C3EE131B81E409007A1851 /* WitMarker.swift in Sources */,
-				5255B8E21B67D52300C87383 /* Utils.swift in Sources */,
+				5255B8E21B67D52300C87383 /* LocationMath.swift in Sources */,
 				52C267E61B7B7681001C35CF /* WitCoordinate.swift in Sources */,
 				5288B8F21BA2CC5400010D2C /* Point3D.swift in Sources */,
 				5255B8DE1B67CD3300C87383 /* LocationManager.swift in Sources */,
 				52C267E41B7B766B001C35CF /* DemoDataClass.swift in Sources */,
 				52BCBB671B8C939200DE99C5 /* DebugInfoClass.swift in Sources */,
 				52AE60D51B8F722700668DDE /* WitMarkersView.swift in Sources */,
-				5226F6261B90478500FC5DBA /* SettingManager.swift in Sources */,
+				585A79211CB7945100658286 /* BrainManager.swift in Sources */,
+				5226F6261B90478500FC5DBA /* SettingsManager.swift in Sources */,
 				5255B8BC1B6777CE00C87383 /* GameViewController.swift in Sources */,
 				5255B8DA1B677EDE00C87383 /* MotionManager.swift in Sources */,
 				525B3B631BA1E10400CE57CA /* Line2D.swift in Sources */,

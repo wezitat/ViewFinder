@@ -142,7 +142,7 @@ class DebugInfoClass: NSObject, InfoLocationDelegate {
     
     func angleUpdated(angle: CGFloat) {
         let ang: CGFloat = 360 - angle
-        let angleR: CGFloat = CGFloat(Utils.DegreesToRadians(Double(ang)))
+        let angleR: CGFloat = CGFloat(LocationMath.sharedInstance.DegreesToRadians(Double(ang)))
         dispatch_async(dispatch_get_main_queue()) {
             self.debugCompassView.transform = CGAffineTransformMakeRotation(angleR)
         }

@@ -16,7 +16,7 @@ class ViewFinderManager {
     
     var feetSystem: Bool = false
     
-    var motionManager: MotionManager = MotionManager()
+    var   motionManager: MotionManager = MotionManager()
     var locationManager: LocationManager = LocationManager()
     
     //initial location of user (based on this LL point 3D scene is builing)

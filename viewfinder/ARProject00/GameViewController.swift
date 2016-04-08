@@ -118,7 +118,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         scene.rootNode.addChildNode(cameraNode)
         
         ViewFinderManager.sharedInstance.startMotionManager()
-        ViewFinderManager.sharedInstance.motionManager.delegate = self
+        ViewFinderManager.sharedInstance.motionManager.motionManagerDelegate = self
         
         // add a tap gesture recognizer to reconize when user taps on objects
         let tapGesture = UITapGestureRecognizer(target: self, action: "handleTap:")
@@ -173,7 +173,7 @@ class GameViewController: UIViewController, MotionManagerDelegate, LocationManag
         //user location updated. move camera on new position in 3d scene
         SCNTransaction.begin()
         SCNTransaction.setDisableActions(true)
-        let point: Point2D = Utils.convertLLtoXY(ViewFinderManager.sharedInstance.centerPoint, newLocation: location)
+        let point: Point2D = LocationMath.sharedInstance.convertLLtoXY(ViewFinderManager.sharedInstance.centerPoint, newLocation: location)
         cameraNode.position = SCNVector3Make(Float(point.x) , Float(point.y), cameraNode.position.z)
         for object in showingObject {
             object.updateWitObjectSize(location)

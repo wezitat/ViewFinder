@@ -33,16 +33,18 @@ protocol DeviceCalibrateDelegate {
 /** This is custom wrapper arround IOS LocationManager */
 class LocationManager: NSObject, CLLocationManagerDelegate {
     
-    let LOCATION_ACCURACCY: CLLocationAccuracy = SettingManager.sharedInstance.getAccuracyValue()
+    let LOCATION_ACCURACCY: CLLocationAccuracy = SettingsManager.sharedInstance.getAccuracyValue()
     
-    var delegate: LocationManagerDelegate! = nil
-    var calibrateHeadingDelegate: DeviceCalibrateDelegate! = nil
-    var infoLocationDelegate: InfoLocationDelegate! = nil
+    var locationManagerDelegate: LocationManagerDelegate! = nil
+    var deviceCalibrateDelegate: DeviceCalibrateDelegate! = nil
+    var    infoLocationDelegate: InfoLocationDelegate!    = nil
 
     var manager: CLLocationManager = CLLocationManager()
+    
     var previousLocation: CLLocation! = nil
     
     var timerAfterUpdate: NSTimer! = nil
+    
     var timePassed: Int = 0
     
     func initLocatioManager() {
@@ -57,19 +59,25 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func startUpdates() {
         timePassed = 0
-        timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("timeUpdate"), userInfo: nil, repeats: true)
+        timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1,
+                                                                  target: self,
+                                                                  selector: #selector(timeUpdate),
+                                                                  userInfo: nil,
+                                                                  repeats: true)
+        
         manager.startUpdatingLocation()
         manager.startUpdatingHeading()
     }
+    
     func timeUpdate() {
-        timePassed++
-        if infoLocationDelegate != nil {
-            infoLocationDelegate.lastTimeLocationUpdate(timePassed)
-        }
+        timePassed += 1
+        
+        infoLocationDelegate?.lastTimeLocationUpdate(timePassed)
     }
     
     func stopUpdates() {
         previousLocation = nil
+        
         manager.stopUpdatingLocation()
         manager.stopUpdatingHeading()
     }
@@ -78,76 +86,69 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         if timerAfterUpdate != nil {
             timePassed = 0
             timerAfterUpdate.invalidate()
-            timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("timeUpdate"), userInfo: nil, repeats: true)
-        }
-        else {
+            timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1,
+                                                                      target: self,
+                                                                      selector: #selector(timeUpdate),
+                                                                      userInfo: nil,
+                                                                      repeats: true)
+        } else {
             timePassed = 0
-            timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("timeUpdate"), userInfo: nil, repeats: true)
+            timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1,
+                                                                      target: self,
+                                                                      selector: #selector(timeUpdate),
+                                                                      userInfo: nil,
+                                                                      repeats: true)
         }
         
         let newLocation: CLLocation = locations.last! as CLLocation
         let locationAge: NSTimeInterval = -newLocation.timestamp.timeIntervalSinceNow
+        
         if locationAge > 10.0 {
             return
         }
         
         if(newLocation.verticalAccuracy > 0) {
-            if delegate != nil {
-                delegate.altitudeUpdated(newLocation.altitude)
-            }
-            if infoLocationDelegate != nil {
-                infoLocationDelegate.altitudeUpdated(Int(newLocation.altitude))
-            }
+            
+            locationManagerDelegate?.altitudeUpdated(newLocation.altitude)
+            
+            infoLocationDelegate?.altitudeUpdated(Int(newLocation.altitude))
         }
         
         if newLocation.horizontalAccuracy < 0 {
             return
         }
         
-        if infoLocationDelegate != nil {
-            infoLocationDelegate.accuracyUpdated(Int(newLocation.horizontalAccuracy))
-        }
+        infoLocationDelegate?.accuracyUpdated(Int(newLocation.horizontalAccuracy))
         
         if previousLocation == nil {
-            if newLocation.horizontalAccuracy <= LOCATION_ACCURACCY {
-                if calibrateHeadingDelegate != nil {
-                    ViewFinderManager.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude)//CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
-                    if(newLocation.verticalAccuracy > 0) {
-                        ViewFinderManager.sharedInstance.centerAltitude = newLocation.altitude
-                        calibrateHeadingDelegate.initLocationReceived()
-                        previousLocation = newLocation
-                    }
-                    if infoLocationDelegate != nil {
-                        let distance: Double = newLocation.distanceFromLocation(previousLocation)
-                        infoLocationDelegate.locationDistanceUpdated("\(Int(distance))")
-                        let curPoint: String = "lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)"
-                        infoLocationDelegate.locationUpdated(curPoint)
-                    }
+            if newLocation.horizontalAccuracy <= LOCATION_ACCURACCY && deviceCalibrateDelegate != nil{
+                ViewFinderManager.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude)//CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
+                
+                if(newLocation.verticalAccuracy > 0) {
+                    ViewFinderManager.sharedInstance.centerAltitude = newLocation.altitude
+                    deviceCalibrateDelegate.initLocationReceived()
+                    previousLocation = newLocation
                 }
- 
+                
+                infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(previousLocation)))")
+                infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
             }
         }
         else {
             if newLocation.horizontalAccuracy <= LOCATION_ACCURACCY {
-                
-                if delegate != nil {
-                    delegate.locationUpdated(newLocation)
+                if locationManagerDelegate != nil {
+                    locationManagerDelegate.locationUpdated(newLocation)
                     ViewFinderManager.sharedInstance.userLocation = newLocation
                 }
-                if infoLocationDelegate != nil {
-                    let distance: Double = newLocation.distanceFromLocation(previousLocation)
-                    infoLocationDelegate.locationDistanceUpdated("\(Int(distance))")
-                    let curPoint: String = "lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)"
-                    infoLocationDelegate.locationUpdated(curPoint)
-                }
+                
+                infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(previousLocation)))")
+                infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
+                
                 previousLocation = newLocation
             }
             else {
-                if infoLocationDelegate != nil {
-                    infoLocationDelegate.locationDistanceUpdated("ignoring")
-                    let curPoint: String = "ignoring"
-                    infoLocationDelegate.locationUpdated(curPoint)
-                }
+                infoLocationDelegate?.locationDistanceUpdated("ignoring")
+                infoLocationDelegate?.locationUpdated("ignoring")
             }
         }
     }
@@ -158,12 +159,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
         
         // Use the true heading if it is valid.
-        let theHeading: CLLocationDirection = ((newHeading.trueHeading > 0) ?
-            newHeading.trueHeading : newHeading.magneticHeading)
         
-        if calibrateHeadingDelegate != nil {
-            calibrateHeadingDelegate.headingUpdated(theHeading)
-        }
+        deviceCalibrateDelegate?.headingUpdated(((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading))
     }
     
     func locationManagerShouldDisplayHeadingCalibration(manager: CLLocationManager) -> Bool {
