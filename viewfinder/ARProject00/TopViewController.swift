@@ -314,7 +314,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
             //check if element is behind - if yes our point will be inside the screen
             if (point.z > 1) {
                 point = updatePointIfObjectIsBehind(point)
-                originalPoint = Point2D(xPos: point.x, yPos: point.y)
+                //originalPoint = Point2D(xPos: point.x, yPos: point.y)
             }
             
             dispatch_async(dispatch_get_main_queue()) {
@@ -435,6 +435,10 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     }
     @IBAction func handleRefreshButton(sender: UIButton) {
         self.refreshStage()
+    }
+    
+    func showTopInfo(strign: String) {
+        
     }
     
 }
