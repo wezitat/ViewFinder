@@ -3,15 +3,17 @@
 //  ARProject00
 //
 //  Created by Anton Semenyuk on 8/25/15.
-//  Copyright (c) 2015 Techmagic. All rights reserved.
+//  Copyright (c) 2015 Wezitat. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
 /** Class that show relevant data on device screen*/
-class DebugInfoClass: NSObject, InfoLocationDelegate {
-
+class DebugInfoClass: NSObject {
+    
+    static let sharedInstance = DebugInfoClass()
+    
     let DEBUG_HEIGHT: CGFloat = 200
     let DEBUG_WIDTH: CGFloat = 200
     
@@ -42,25 +44,31 @@ class DebugInfoClass: NSObject, InfoLocationDelegate {
     func initDebugViewPortraitOriented() {
         let screenRight: CGFloat = UIScreen.mainScreen().bounds.width
         let screenBottom: CGFloat = UIScreen.mainScreen().bounds.height
+        
         debugInfoView = UIView(frame: CGRectMake(CGFloat(screenRight - 20 - DEBUG_WIDTH), CGFloat(screenBottom - 20 - DEBUG_HEIGHT), DEBUG_WIDTH, DEBUG_HEIGHT))
         debugInfoLabel = UILabel(frame: CGRectMake(92, 4, DEBUG_WIDTH - 88, DEBUG_HEIGHT - 8))
         debugInfoLabel.numberOfLines = 0
-        debugCompassView = UIImageView(frame: CGRectMake(0, 120, 80, 80))
-        debugCompassView.contentMode = .ScaleAspectFit
-        debugCompassView.image = UIImage(named: "compass")
         debugInfoLabel.font = UIFont.systemFontOfSize(10)
         debugInfoLabel.text = debugInfo
         debugInfoLabel.textAlignment = .Center
         debugInfoLabel.textColor = UIColor.whiteColor()
+        
+        debugCompassView = UIImageView(frame: CGRectMake(0, 120, 80, 80))
+        debugCompassView.contentMode = .ScaleAspectFit
+        debugCompassView.image = UIImage(named: "compass")
+        
         debugInfoView.alpha = 0.5
+        
         debugInfoView.addSubview(debugInfoLabel)
         debugInfoView.addSubview(debugCompassView)
+        
         isPortrait = true
     }
     
     func initDebugViewLandscapeOriented() {
         let screenRight: CGFloat = UIScreen.mainScreen().bounds.width
         let screenBottom: CGFloat = UIScreen.mainScreen().bounds.height
+        
         debugInfoView = UIView(frame: CGRectMake(CGFloat(screenBottom - 20 - DEBUG_HEIGHT), CGFloat(screenRight - 20 - DEBUG_WIDTH), DEBUG_WIDTH, DEBUG_HEIGHT))
         debugInfoLabel = UILabel(frame: CGRectMake(92, 4, DEBUG_WIDTH - 88, DEBUG_HEIGHT - 8))
         debugInfoLabel.numberOfLines = 0
@@ -107,26 +115,30 @@ class DebugInfoClass: NSObject, InfoLocationDelegate {
         }
     }
     
-    func locationUpdated(location: String) {
-        currentPosition = location
-        generateDebugMessage()
-    }
-    func locationDistanceUpdated(dist: String) {
-        distance = "\(dist) m"
-        generateDebugMessage()
-    }
-    func altitudeUpdated(alt: Int) {
-        altitude = "\(alt) m"
-        generateDebugMessage()
-    }
-    func accuracyUpdated(acc: Int) {
-        accuracyTime = "\(acc) m"
-        generateDebugMessage()
-    }
-    func lastTimeLocationUpdate(timeUpdate: Int) {
-        updateTime = "\(timeUpdate) sec"
-        generateDebugMessage()
-    }
+    // MARK: - InfoLocationDelegate
+    
+//    func locationUpdated(location: String) {
+//        currentPosition = location
+//        generateDebugMessage()
+//    }
+//    func locationDistanceUpdated(dist: String) {
+//        distance = "\(dist) m"
+//        generateDebugMessage()
+//    }
+//    func altitudeUpdated(alt: Int) {
+//        altitude = "\(alt) m"
+//        generateDebugMessage()
+//    }
+//    func accuracyUpdated(acc: Int) {
+//        accuracyTime = "\(acc) m"
+//        generateDebugMessage()
+//    }
+//    func lastTimeLocationUpdate(timeUpdate: Int) {
+//        updateTime = "\(timeUpdate) sec"
+//        generateDebugMessage()
+//    }
+    
+    // MARK: - InfoLocationDelegate ended
     
     func retrievingLocationStatus(string: String) {
         generalStatus = string

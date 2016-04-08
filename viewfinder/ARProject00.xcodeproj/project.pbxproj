@@ -33,7 +33,6 @@
 		52C267EA1B7B77C2001C35CF /* Point2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C267E91B7B77C2001C35CF /* Point2D.swift */; };
 		52C267EC1B7B77F7001C35CF /* ViewFinderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C267EB1B7B77F7001C35CF /* ViewFinderManager.swift */; };
 		52C3EE131B81E409007A1851 /* WitMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C3EE121B81E409007A1851 /* WitMarker.swift */; };
-		585A79211CB7945100658286 /* BrainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585A79201CB7945100658286 /* BrainManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,7 +76,6 @@
 		52C267E91B7B77C2001C35CF /* Point2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point2D.swift; sourceTree = "<group>"; };
 		52C267EB1B7B77F7001C35CF /* ViewFinderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewFinderManager.swift; sourceTree = "<group>"; };
 		52C3EE121B81E409007A1851 /* WitMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WitMarker.swift; sourceTree = "<group>"; };
-		585A79201CB7945100658286 /* BrainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrainManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,7 +118,6 @@
 				5255B8D91B677EDE00C87383 /* MotionManager.swift */,
 				5255B8DD1B67CD3300C87383 /* LocationManager.swift */,
 				52C267EB1B7B77F7001C35CF /* ViewFinderManager.swift */,
-				585A79201CB7945100658286 /* BrainManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -328,7 +325,6 @@
 				52C267E41B7B766B001C35CF /* DemoDataClass.swift in Sources */,
 				52BCBB671B8C939200DE99C5 /* DebugInfoClass.swift in Sources */,
 				52AE60D51B8F722700668DDE /* WitMarkersView.swift in Sources */,
-				585A79211CB7945100658286 /* BrainManager.swift in Sources */,
 				5226F6261B90478500FC5DBA /* SettingsManager.swift in Sources */,
 				5255B8BC1B6777CE00C87383 /* GameViewController.swift in Sources */,
 				5255B8DA1B677EDE00C87383 /* MotionManager.swift in Sources */,

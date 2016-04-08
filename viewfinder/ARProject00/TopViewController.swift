@@ -3,7 +3,7 @@
 //  ARProject00
 //
 //  Created by Anton Semenyuk on 8/6/15.
-//  Copyright (c) 2015 Techmagic. All rights reserved.
+//  Copyright (c) 2015 Wezitat. All rights reserved.
 //
 
 import Foundation
@@ -15,7 +15,7 @@ import CoreLocation
     represent additional GUI */
 
 
-class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateDelegate, RotationManagerDelegate, WitMarkerDelegate {
+class TopViewController: UIViewController {
   
     enum AppStatus {
         case GettingLocation
@@ -27,7 +27,6 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     var appStatus: AppStatus = .Unknown
     
     let DEFAULT_CALIBRATING_TIME = 5
-    var sceneController: GameViewController! = nil
     
     //array of wit markers
     var witMarkers: [WitMarker] = [WitMarker]()
@@ -40,7 +39,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     
     var markerPos: Int = 120
     
-    var debugInfo: DebugInfoClass = DebugInfoClass()
+    var debugInfo: DebugInfoClass = DebugInfoClass.sharedInstance
     
     @IBOutlet weak var refreshSceneButton: UIButton!
     @IBOutlet weak var debugView: UIView!
@@ -54,39 +53,58 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.refreshSceneButton.enabled = false
+        
         //load settings
         SettingsManager.sharedInstance.loadSettings()
         
-        sceneController = self.childViewControllers.first! as! GameViewController
-        sceneController.eventDelegate = self
+        ViewFinderManager.sharedInstance.gameViewController = self.childViewControllers.first! as! GameViewController
+        ViewFinderManager.sharedInstance.gameViewController.eventDelegate = ViewFinderManager.sharedInstance
+        
+        // do we need special interface to get access to other classes (to get access implicitly)?
+        
+//        ViewFinderManager.sharedInstance.setGameViewControllerDelegate(ViewFinderManager.sharedInstance)
+//        ViewFinderManager.sharedInstance.setGameViewController(self.childViewControllers.first! as! GameViewController)
+        
         initDebugViewLayer()
         initDetailsView()
+        
         //start location manager
         ViewFinderManager.sharedInstance.startLocationManager()
-        ViewFinderManager.sharedInstance.locationManager.deviceCalibrateDelegate = self
-        ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate = debugInfo
-        ViewFinderManager.sharedInstance.motionManager.rotationManagerDelegate = self
+        ViewFinderManager.sharedInstance.locationManager.deviceCalibrateDelegate = ViewFinderManager.sharedInstance
+        ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate = ViewFinderManager.sharedInstance
+        ViewFinderManager.sharedInstance.motionManager.rotationManagerDelegate = ViewFinderManager.sharedInstance
        
         //First step we need to retrieve accurate location. This can take a while (depends on accuracy which we choosed in LocationManager)
         self.retrieveInitialLocation()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("orientationChanged:"), name: UIDeviceOrientationDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(orientationChanged), name: UIDeviceOrientationDidChangeNotification, object: nil)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        ViewFinderManager.sharedInstance.topViewController = self
     }
     
     func refreshStage() {
         //reset whole information in app
         self.refreshSceneButton.enabled = false
-        self.sceneController.resetScene()
+        //self.sceneController.resetScene()
+        
+        ViewFinderManager.sharedInstance.gameViewController.resetScene()
         
         for marker in witMarkers {
             marker.view.removeFromSuperview()
         }
+        
         witMarkers = [WitMarker]()
         
         ViewFinderManager.sharedInstance.locationManager.locationManagerDelegate = nil
         ViewFinderManager.sharedInstance.locationManager.stopUpdates()
         ViewFinderManager.sharedInstance.locationManager.startUpdates()
+        
         //First step we need to retrieve accurate location. This can take a while (depends on accuracy which we choosed in LocationManager)
         self.retrieveInitialLocation()
     }
@@ -110,6 +128,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
             debugInfo.initDebugViewPortraitOriented()
             break;
         }
+        
         self.debugView.addSubview(debugInfo.debugInfoView)
     }
     
@@ -117,11 +136,14 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         //manually create create debug infos on screen
         let screenCenterX: CGFloat = UIScreen.mainScreen().bounds.width/2
         let screenCenterY: CGFloat = UIScreen.mainScreen().bounds.height/2
+        
         smallDetailsView = UIView(frame: CGRectMake(screenCenterX - 100, screenCenterY - 100, 200, 200))
         smallDetailsView.backgroundColor = UIColor.whiteColor()
+        
         detailsHeader = UILabel(frame: CGRectMake(5, 5, 190, 35))
         detailsHeader.font = UIFont.systemFontOfSize(22)
         detailsHeader.textAlignment = .Center
+        
         smallDetailsView.addSubview(detailsHeader)
         
         detailsDescription = UILabel(frame: CGRectMake(0, 35, 190, 155))
@@ -132,10 +154,12 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         smallDetailsView.addSubview(detailsDescription)
         
         let button: UIButton = UIButton(frame: CGRectMake(0, 0, self.detailsView.frame.width, self.detailsView.frame.height))
-        button.addTarget(self, action: Selector("handleDetailsButton"), forControlEvents: .TouchUpInside)
+        
+        button.addTarget(self, action: #selector(handleDetailsButton), forControlEvents: .TouchUpInside)
         
         self.detailsView.addSubview(smallDetailsView)
         self.detailsView.addSubview(button)
+        
         self.detailsView.bringSubviewToFront(button)
         self.detailsView.hidden = true
         
@@ -146,69 +170,36 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         self.appStatus = .GettingLocation
     }
     
-    func initLocationReceived() {
-        //we received our location
-        if appStatus == .GettingLocation {
-           self.retrieveInitialHeading()
-        }
-    }
-    
     func retrieveInitialHeading() {
         //start calibrating heding of device
         debugInfo.singleStatus("Don`t shake device")
         self.appStatus = .GettingHeading
     }
     
-    func headingUpdated(heading: CLLocationDirection) {
-        //if we are in proper status - try to get accurate heading
-        if appStatus == .GettingHeading {
-            if abs(calibratedHeading - heading) < 5 {
-                //device become stable start timer
-                if !isStable {
-                    isStable = true
-                    startHeadingDataGatheringTimer()
-                }
-            }
-            else {
-                isStable = false
-                //device is not stable. stop timer
-                stopHeadingDataGatheringTimer()
-                debugInfo.singleStatus("Don`t shake device")
-            }
-            calibratedHeading = heading
-        }
-        debugInfo.angleUpdated(CGFloat(heading))
-    }
-    
     func startHeadingDataGatheringTimer() {
         //start timer to count statble time of device
         calibrationTime = DEFAULT_CALIBRATING_TIME
-        if calibrateTimer == nil {
-           calibrateTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("timeUpdate"), userInfo: nil, repeats: true)
-        }
-        else {
-           calibrateTimer.invalidate()
-           calibrateTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("timeUpdate"), userInfo: nil, repeats: true)
-        }
         
+        calibrateTimer?.invalidate()
+        calibrateTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(timeUpdate), userInfo: nil, repeats: true)
     }
     
     func stopHeadingDataGatheringTimer() {
         //invalidating timer
-        if calibrateTimer != nil {
-           calibrateTimer.invalidate()
-        }
+        
+        calibrateTimer?.invalidate()
     }
     
     func timeUpdate() {
         //one seconds passed. check if we can stop calibration
         if calibrationTime > 0 {
             let currentText: String = "Calibrating data. Don`t shake Device for"
+            
             debugInfo.singleStatus(currentText + " \(self.calibrationTime) seconds")
-            calibrationTime--
-        }
-        else {
+            calibrationTime -= 1
+        } else {
             stopHeadingDataGatheringTimer()
+            
             //if device was stable for some amount of time - we can end calibration
             endCalibration()
         }
@@ -227,9 +218,11 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     */
     func initializeScene() {
         self.refreshSceneButton.enabled = true
+        
         debugInfo.fullInfo()
-        ViewFinderManager.sharedInstance.locationManager.locationManagerDelegate = sceneController
-        sceneController.initialize3DSceneWithHeading(calibratedHeading)
+        
+        ViewFinderManager.sharedInstance.locationManager.locationManagerDelegate = ViewFinderManager.sharedInstance
+        ViewFinderManager.sharedInstance.gameViewController.initialize3DSceneWithHeading(calibratedHeading)
     }
     
 ////////WitMarkers
@@ -237,91 +230,6 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     func handleDetailsButton() {
         //show details about wit
         detailsView.hidden = true
-    }
-    
-    func showObjectDetails(wObject: WitObject) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.detailsHeader.text = wObject.witName
-            
-            var claimed: String = "NO"
-            if wObject.isClaimed {
-                claimed = "YES"
-            }
-            
-            self.detailsDescription.text = "\(wObject.witDescription)\n\nBy: \(wObject.author) Claimed: \(claimed)"
-        }
-        detailsView.hidden = false
-    }
-    
-    func addNewWitMarker(wObject: WitObject) {
-        // add new witmarker on screen
-        let marker: WitMarker = WitMarker()
-        marker.registerObject(wObject)
-        marker.delegate = self
-        self.witMarkers.append(marker)
-        self.markerView.addSubview(marker.view)
-    }
-    
-    func rotationAngleUpdated(angle: Double) {
-        //device has moved - update witMarker position
-        for marker in self.witMarkers {
-            marker.updateAngle(angle)
-        }
-    }
-    
-    func locationUpdated(location: CLLocation) {
-        for marker in self.witMarkers {
-            dispatch_async(dispatch_get_main_queue()) {
-                marker.updateDistance(location)
-            }
-        }
-        filterWitMarkers()
-    }
-    
-    func cameraMoved() {
-        //if camera moved we neeed to update witmarkers on screen. For that we will need what is object coordinates based on screen coordinates
-        let screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
-        let screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
-
-        for marker in self.witMarkers {
-
-            if sceneController.isNodeOnScreen(marker.wObject.objectGeometry) {
-                marker.showMarker(false)
-            }
-            else {
-                marker.showMarker(true)
-            }
-            var point: Point3D = sceneController.nodePosToScreenCoordinates(marker.wObject.objectGeometry)
-            
-            point.x -= 30
-            point.y -= 30
-            
-            if  point.x < 0 {
-                point.x = 0
-            }
-            
-            if point.y < 0 {
-                point.y = 0
-            }
-            
-            if point.x > screenWidth - Double(WIT_MARKER_SIZE) {
-                point.x = Double(screenWidth) - Double(WIT_MARKER_SIZE)
-            }
-            
-            if point.y > screenHeight - Double(WIT_MARKER_SIZE) {
-                point.y = screenHeight - Double(WIT_MARKER_SIZE)
-            }
-            //check if element is behind - if yes our point will be inside the screen
-            if (point.z > 1) {
-                point = updatePointIfObjectIsBehind(point)
-                //originalPoint = Point2D(xPos: point.x, yPos: point.y)
-            }
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                marker.view.frame = CGRectMake(CGFloat(point.x), CGFloat(point.y), WIT_MARKER_SIZE, WIT_MARKER_SIZE)
-                marker.updatePointerAngle(0)
-            }
-        }
     }
     
     func updatePointIfObjectIsBehind(point: Point3D) -> Point3D { 
@@ -335,8 +243,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         if orientation == .Portrait || orientation == .PortraitUpsideDown {
             if point.x > screenWidth/2 {
                 point.x = 0
-            }
-            else {
+            } else {
                 point.x = screenWidth - Double(WIT_MARKER_SIZE)
             }
             newPoint.y = screenHeight/2
@@ -344,33 +251,14 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         if orientation == .LandscapeLeft || orientation == .LandscapeRight {
             if point.y > screenHeight/2 {
                 point.y = 0
-            }
-            else {
+            } else {
                 point.y = screenHeight - Double(WIT_MARKER_SIZE)
             }
+            
             newPoint.x = screenWidth/2
         }
         return newPoint
     }
-    
-    func filterWitMarkers() {
-        //check if we have number limitation of witmarkers
-        let maxNumber = SettingsManager.sharedInstance.getWitMarkerNumberValue()
-        witMarkers.sortInPlace({ $0.currentDistance < $1.currentDistance })
-        
-        var i = 0
-        for marker in witMarkers {
-            if i < maxNumber {
-                marker.isShowMarker = true
-            }
-            else {
-                marker.isShowMarker = false
-            }
-            i++
-        }
-
-    }
-    
     
 //// Show info on top and bottom labels    
     
@@ -390,8 +278,7 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         
         let orientation: UIDeviceOrientation = UIDevice.currentDevice().orientation
         
-        switch (orientation)
-        {
+        switch (orientation) {
         case .Portrait:
             reorientPortrait()
             break;
@@ -409,17 +296,14 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
     
     func reorientPortrait() {
         debugInfo.reorientPortrait()
-        if smallDetailsView != nil {
-           smallDetailsView.transform = CGAffineTransformMakeRotation(0)
-        }
-
+        
+        smallDetailsView?.transform = CGAffineTransformMakeRotation(0)
     }
     
     func reorientLandscape() {
         debugInfo.reorientLanscape()
-        if smallDetailsView != nil {
-            smallDetailsView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
-        }
+        
+        smallDetailsView?.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
     }
 
     @IBAction func handleDebugButton(sender: UIButton) {
@@ -428,17 +312,12 @@ class TopViewController: UIViewController, SceneEventsDelegate, DeviceCalibrateD
         
         if debugView.hidden {
             sender.backgroundColor = UIColor.darkGrayColor()
-        }
-        else {
+        } else {
             sender.backgroundColor = UIColor.redColor()
         }
     }
     @IBAction func handleRefreshButton(sender: UIButton) {
         self.refreshStage()
-    }
-    
-    func showTopInfo(strign: String) {
-        
     }
     
 }

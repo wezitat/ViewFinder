@@ -3,7 +3,7 @@
 //  ARProject00
 //
 //  Created by Anton Semenyuk on 9/11/15.
-//  Copyright (c) 2015 Techmagic. All rights reserved.
+//  Copyright (c) 2015 Wezitat. All rights reserved.
 //
 
 import Foundation
