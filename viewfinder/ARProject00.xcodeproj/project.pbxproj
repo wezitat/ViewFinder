@@ -33,6 +33,7 @@
 		52C267EA1B7B77C2001C35CF /* Point2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C267E91B7B77C2001C35CF /* Point2D.swift */; };
 		52C267EC1B7B77F7001C35CF /* ViewFinderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C267EB1B7B77F7001C35CF /* ViewFinderManager.swift */; };
 		52C3EE131B81E409007A1851 /* WitMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C3EE121B81E409007A1851 /* WitMarker.swift */; };
+		588AB4A81CBD1EF400EA8D3B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		52C267E91B7B77C2001C35CF /* Point2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point2D.swift; sourceTree = "<group>"; };
 		52C267EB1B7B77F7001C35CF /* ViewFinderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewFinderManager.swift; sourceTree = "<group>"; };
 		52C3EE121B81E409007A1851 /* WitMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WitMarker.swift; sourceTree = "<group>"; };
+		588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +179,7 @@
 				5255B8C01B6777CE00C87383 /* Images.xcassets */,
 				5255B8C21B6777CE00C87383 /* LaunchScreen.xib */,
 				5255B8B51B6777CE00C87383 /* Supporting Files */,
+				588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */,
 			);
 			path = ARProject00;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				5255B8DA1B677EDE00C87383 /* MotionManager.swift in Sources */,
 				525B3B631BA1E10400CE57CA /* Line2D.swift in Sources */,
 				52C267E81B7B76BC001C35CF /* WitObject.swift in Sources */,
+				588AB4A81CBD1EF400EA8D3B /* MenuViewController.swift in Sources */,
 				52C267EC1B7B77F7001C35CF /* ViewFinderManager.swift in Sources */,
 				52C267EA1B7B77C2001C35CF /* Point2D.swift in Sources */,
 				5255B8B81B6777CE00C87383 /* AppDelegate.swift in Sources */,
