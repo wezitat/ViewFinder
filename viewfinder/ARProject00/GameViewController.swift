@@ -50,7 +50,7 @@ class GameViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        ViewFinderManager.sharedInstance.gameViewController = self
+        ViewFinderManager.sharedInstance.setGameViewController(self)
     }
     
     //function which reset scene (removes all objects from 3d scene)
@@ -68,30 +68,27 @@ class GameViewController: UIViewController {
         initializeScene(heading)
         
         //update altitude
-//        self.altitudeUpdated(ViewFinderManager.sharedInstance.centerAltitude)
         ViewFinderManager.sharedInstance.altitudeUpdated(ViewFinderManager.sharedInstance.centerAltitude)
     }
     
     func initializeCamera() {
         //capture video input in an AVCaptureLayerVideoPreviewLayer
         let captureSession = AVCaptureSession()
+        
         deviceCameraLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         deviceCameraLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
         
         if let videoDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) {
             let err: NSError? = nil
             do {
-                
                 guard let videoIn : AVCaptureDeviceInput = try AVCaptureDeviceInput(device: videoDevice) else { return }
-                if(err == nil){
-                    if (captureSession.canAddInput(videoIn as AVCaptureInput)){
+                if err == nil {
+                    if captureSession.canAddInput(videoIn as AVCaptureInput) {
                         captureSession.addInput(videoIn as AVCaptureDeviceInput)
-                    }
-                    else {
+                    } else {
                         print("Failed add video input.")
                     }
-                }
-                else {
+                } else {
                     print("Failed to create video input.")
                 }
             } catch {
@@ -100,13 +97,16 @@ class GameViewController: UIViewController {
         }
         
         captureSession.startRunning()        //add AVCaptureVideoPreviewLayer as sublayer of self.view.layer
+        
         deviceCameraLayer.frame = self.view.bounds
+        
         self.view.layer.addSublayer(deviceCameraLayer)
 
         //create a SceneView with a clear background color and add it as a subview of self.view
         sceneView = SCNView()
         sceneView.frame = self.view.bounds
         sceneView.backgroundColor = UIColor.clearColor()
+        
         deviceCameraLayer.frame = self.view.bounds
         
         self.view.addSubview(sceneView)
@@ -139,7 +139,7 @@ class GameViewController: UIViewController {
         scene.rootNode.addChildNode(cameraNode)
         
         ViewFinderManager.sharedInstance.startMotionManager()
-        ViewFinderManager.sharedInstance.motionManager.motionManagerDelegate = ViewFinderManager.sharedInstance
+        ViewFinderManager.sharedInstance.setMotionManagerDelegate(ViewFinderManager.sharedInstance)
         
         // add a tap gesture recognizer to reconize when user taps on objects
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
@@ -168,9 +168,9 @@ class GameViewController: UIViewController {
                 //check what object user tapped and then show info about it
                 for object in showingObject {
                     if result.node == object.objectGeometry {
-                        if self.eventDelegate != nil {
+                        if eventDelegate != nil {
                             object.isClaimed = true
-                            self.eventDelegate.showObjectDetails(object)
+                            eventDelegate.showObjectDetails(object)
                         }
                     }
                 }
@@ -193,10 +193,10 @@ class GameViewController: UIViewController {
             
             geometryNode.addChildNode(object.objectGeometry)
             
-            self.eventDelegate?.addNewWitMarker(object)
+            eventDelegate?.addNewWitMarker(object)
         }
         
-        self.eventDelegate?.filterWitMarkers()
+        eventDelegate?.filterWitMarkers()
     }
     
     

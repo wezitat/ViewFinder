@@ -51,6 +51,8 @@ class TopViewController: UIViewController {
     var detailsHeader: UILabel! = nil
     var detailsDescription: UILabel! = nil
     
+//    var viewFinderManager = ViewFinderManager.sharedInstance
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,23 +61,19 @@ class TopViewController: UIViewController {
         //load settings
         SettingsManager.sharedInstance.loadSettings()
         
-        ViewFinderManager.sharedInstance.gameViewController = self.childViewControllers.first! as! GameViewController
-        ViewFinderManager.sharedInstance.gameViewController.eventDelegate = ViewFinderManager.sharedInstance
-        
-        // do we need special interface to get access to other classes (to get access implicitly)?
-        
-//        ViewFinderManager.sharedInstance.setGameViewControllerDelegate(ViewFinderManager.sharedInstance)
-//        ViewFinderManager.sharedInstance.setGameViewController(self.childViewControllers.first! as! GameViewController)
+        ViewFinderManager.sharedInstance.setGameViewController(self.childViewControllers.first! as! GameViewController)
+        ViewFinderManager.sharedInstance.setGameViewControllerDelegate(ViewFinderManager.sharedInstance)
         
         initDebugViewLayer()
         initDetailsView()
         
         //start location manager
         ViewFinderManager.sharedInstance.startLocationManager()
-        ViewFinderManager.sharedInstance.locationManager.deviceCalibrateDelegate = ViewFinderManager.sharedInstance
-        ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate = ViewFinderManager.sharedInstance
-        ViewFinderManager.sharedInstance.motionManager.rotationManagerDelegate = ViewFinderManager.sharedInstance
-       
+        
+        ViewFinderManager.sharedInstance.setLocationManagerDeviceCalibrateDelegate(ViewFinderManager.sharedInstance)
+        ViewFinderManager.sharedInstance.setLocationManagerInfoLocationDelegate(ViewFinderManager.sharedInstance)
+        ViewFinderManager.sharedInstance.setMotionManagerRotationManagerDelegate(ViewFinderManager.sharedInstance)
+        
         //First step we need to retrieve accurate location. This can take a while (depends on accuracy which we choosed in LocationManager)
         self.retrieveInitialLocation()
         
@@ -85,7 +83,7 @@ class TopViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        ViewFinderManager.sharedInstance.topViewController = self
+        ViewFinderManager.sharedInstance.setTopViewController(self)
     }
     
     func refreshStage() {
@@ -93,7 +91,7 @@ class TopViewController: UIViewController {
         self.refreshSceneButton.enabled = false
         //self.sceneController.resetScene()
         
-        ViewFinderManager.sharedInstance.gameViewController.resetScene()
+        ViewFinderManager.sharedInstance.getGameViewController().resetScene()
         
         for marker in witMarkers {
             marker.view.removeFromSuperview()
@@ -101,9 +99,10 @@ class TopViewController: UIViewController {
         
         witMarkers = [WitMarker]()
         
-        ViewFinderManager.sharedInstance.locationManager.locationManagerDelegate = nil
-        ViewFinderManager.sharedInstance.locationManager.stopUpdates()
-        ViewFinderManager.sharedInstance.locationManager.startUpdates()
+        ViewFinderManager.sharedInstance.setLocationManagerDelegate(nil)
+        
+        ViewFinderManager.sharedInstance.getLocationManager().stopUpdates()
+        ViewFinderManager.sharedInstance.getLocationManager().startUpdates()
         
         //First step we need to retrieve accurate location. This can take a while (depends on accuracy which we choosed in LocationManager)
         self.retrieveInitialLocation()
@@ -221,8 +220,8 @@ class TopViewController: UIViewController {
         
         debugInfo.fullInfo()
         
-        ViewFinderManager.sharedInstance.locationManager.locationManagerDelegate = ViewFinderManager.sharedInstance
-        ViewFinderManager.sharedInstance.gameViewController.initialize3DSceneWithHeading(calibratedHeading)
+        ViewFinderManager.sharedInstance.setLocationManagerDelegate(ViewFinderManager.sharedInstance)
+        ViewFinderManager.sharedInstance.getGameViewController().initialize3DSceneWithHeading(calibratedHeading)
     }
     
 ////////WitMarkers
@@ -235,8 +234,9 @@ class TopViewController: UIViewController {
     func updatePointIfObjectIsBehind(point: Point3D) -> Point3D { 
         //find screen quarter
         let newPoint: Point3D = Point3D(xPos: 0, yPos: 0, zPos: 0)
+        
         let screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
-        let screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
+        let screenWidth:  Double = Double(UIScreen.mainScreen().bounds.width)
         
         let orientation: UIDeviceOrientation = UIDevice.currentDevice().orientation
         
@@ -248,6 +248,7 @@ class TopViewController: UIViewController {
             }
             newPoint.y = screenHeight/2
         }
+        
         if orientation == .LandscapeLeft || orientation == .LandscapeRight {
             if point.y > screenHeight/2 {
                 point.y = 0
@@ -257,6 +258,7 @@ class TopViewController: UIViewController {
             
             newPoint.x = screenWidth/2
         }
+        
         return newPoint
     }
     
@@ -316,6 +318,7 @@ class TopViewController: UIViewController {
             sender.backgroundColor = UIColor.redColor()
         }
     }
+    
     @IBAction func handleRefreshButton(sender: UIButton) {
         self.refreshStage()
     }

@@ -23,6 +23,7 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
     var debugInfo: DebugInfoClass = DebugInfoClass.sharedInstance
     
     var gameViewController: GameViewController! = nil
+    
     var  topViewController: TopViewController!  = nil
     
     //initial location of user (based on this LL point 3D scene is builing)
@@ -263,14 +264,49 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
         filterWitMarkers()
     }
 
-    //MARK: - Methods
+    //MARK: - Methods, setting Delegates
     
-    func setGameViewController(gameVC: GameViewController) {
-        ViewFinderManager.sharedInstance.gameViewController = gameVC
+    func setGameViewController(gameVC: GameViewController!) {
+        gameViewController = gameVC
+    }
+    
+    func setTopViewController(topVC: TopViewController!) {
+        topViewController = topVC
     }
     
     func setGameViewControllerDelegate(delegate: SceneEventsDelegate) {
-        ViewFinderManager.sharedInstance.gameViewController.eventDelegate = delegate
+        gameViewController.eventDelegate = delegate
     }
     
+    func setLocationManagerDelegate(delegate: AnyObject?) {
+        locationManager.locationManagerDelegate = delegate as? LocationManagerDelegate
+    }
+    
+    func setLocationManagerDeviceCalibrateDelegate(delegate: AnyObject?) {
+        locationManager.deviceCalibrateDelegate = delegate as? DeviceCalibrateDelegate
+    }
+    
+    func setLocationManagerInfoLocationDelegate(delegate: AnyObject?) {
+        locationManager.infoLocationDelegate = delegate as? InfoLocationDelegate
+    }
+    
+    func setMotionManagerDelegate(delegate: AnyObject?) {
+        motionManager.motionManagerDelegate = delegate as? MotionManagerDelegate
+    }
+    
+    func setMotionManagerRotationManagerDelegate(delegate: AnyObject?) {
+        motionManager.rotationManagerDelegate = delegate as? RotationManagerDelegate
+    }
+    
+    func getGameViewController() -> GameViewController {
+        return gameViewController
+    }
+    
+    func getTopViewController() -> TopViewController {
+        return topViewController
+    }
+    
+    func getLocationManager() -> LocationManager {
+        return locationManager
+    }
 }

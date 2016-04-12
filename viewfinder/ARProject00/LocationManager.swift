@@ -110,7 +110,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         if(newLocation.verticalAccuracy > 0) {
             
             locationManagerDelegate?.altitudeUpdated(newLocation.altitude)
-            
+        
             infoLocationDelegate?.altitudeUpdated(Int(newLocation.altitude))
         }
         
@@ -124,7 +124,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             if newLocation.horizontalAccuracy <= LOCATION_ACCURACCY && deviceCalibrateDelegate != nil{
                 ViewFinderManager.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude)//CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
                 
-                if(newLocation.verticalAccuracy > 0) {
+                if newLocation.verticalAccuracy > 0 {
                     ViewFinderManager.sharedInstance.centerAltitude = newLocation.altitude
                     deviceCalibrateDelegate.initLocationReceived()
                     previousLocation = newLocation
