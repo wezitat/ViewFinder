@@ -56,7 +56,7 @@ class TopViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.refreshSceneButton.enabled = false
+        refreshSceneButton.enabled = false
         
         //load settings
         SettingsManager.sharedInstance.loadSettings()
@@ -77,7 +77,10 @@ class TopViewController: UIViewController {
         //First step we need to retrieve accurate location. This can take a while (depends on accuracy which we choosed in LocationManager)
         self.retrieveInitialLocation()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(orientationChanged), name: UIDeviceOrientationDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(orientationChanged),
+                                                         name: UIDeviceOrientationDidChangeNotification,
+                                                         object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -132,7 +135,7 @@ class TopViewController: UIViewController {
     }
     
     func initDetailsView() {
-        //manually create create debug infos on screen
+        //manually create debug infos on screen
         let screenCenterX: CGFloat = UIScreen.mainScreen().bounds.width/2
         let screenCenterY: CGFloat = UIScreen.mainScreen().bounds.height/2
         
@@ -180,7 +183,11 @@ class TopViewController: UIViewController {
         calibrationTime = DEFAULT_CALIBRATING_TIME
         
         calibrateTimer?.invalidate()
-        calibrateTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(timeUpdate), userInfo: nil, repeats: true)
+        calibrateTimer = NSTimer.scheduledTimerWithTimeInterval(1,
+                                                                target: self,
+                                                                selector: #selector(timeUpdate),
+                                                                userInfo: nil,
+                                                                repeats: true)
     }
     
     func stopHeadingDataGatheringTimer() {

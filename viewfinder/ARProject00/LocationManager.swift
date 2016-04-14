@@ -83,22 +83,17 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        timePassed = 0
+        
         if timerAfterUpdate != nil {
-            timePassed = 0
             timerAfterUpdate.invalidate()
-            timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1,
-                                                                      target: self,
-                                                                      selector: #selector(timeUpdate),
-                                                                      userInfo: nil,
-                                                                      repeats: true)
-        } else {
-            timePassed = 0
-            timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1,
-                                                                      target: self,
-                                                                      selector: #selector(timeUpdate),
-                                                                      userInfo: nil,
-                                                                      repeats: true)
         }
+        
+        timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1,
+                                                                  target: self,
+                                                                  selector: #selector(timeUpdate),
+                                                                  userInfo: nil,
+                                                                  repeats: true)
         
         let newLocation: CLLocation = locations.last! as CLLocation
         let locationAge: NSTimeInterval = -newLocation.timestamp.timeIntervalSinceNow
@@ -107,7 +102,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             return
         }
         
-        if(newLocation.verticalAccuracy > 0) {
+        if newLocation.verticalAccuracy > 0 {
             
             locationManagerDelegate?.altitudeUpdated(newLocation.altitude)
         
@@ -159,6 +154,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
         
         // Use the true heading if it is valid.
+        
+        print("heading = \((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading)")
         
         deviceCalibrateDelegate?.headingUpdated(((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading))
     }

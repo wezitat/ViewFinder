@@ -34,6 +34,7 @@
 		52C267EC1B7B77F7001C35CF /* ViewFinderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C267EB1B7B77F7001C35CF /* ViewFinderManager.swift */; };
 		52C3EE131B81E409007A1851 /* WitMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C3EE121B81E409007A1851 /* WitMarker.swift */; };
 		588AB4A81CBD1EF400EA8D3B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */; };
+		588AB4AA1CBD2B0E00EA8D3B /* LocationDebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588AB4A91CBD2B0E00EA8D3B /* LocationDebugViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		52C267EB1B7B77F7001C35CF /* ViewFinderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewFinderManager.swift; sourceTree = "<group>"; };
 		52C3EE121B81E409007A1851 /* WitMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WitMarker.swift; sourceTree = "<group>"; };
 		588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		588AB4A91CBD2B0E00EA8D3B /* LocationDebugViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationDebugViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,7 @@
 				5255B8C21B6777CE00C87383 /* LaunchScreen.xib */,
 				5255B8B51B6777CE00C87383 /* Supporting Files */,
 				588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */,
+				588AB4A91CBD2B0E00EA8D3B /* LocationDebugViewController.swift */,
 			);
 			path = ARProject00;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				5255B8E21B67D52300C87383 /* LocationMath.swift in Sources */,
 				52C267E61B7B7681001C35CF /* WitCoordinate.swift in Sources */,
 				5288B8F21BA2CC5400010D2C /* Point3D.swift in Sources */,
+				588AB4AA1CBD2B0E00EA8D3B /* LocationDebugViewController.swift in Sources */,
 				5255B8DE1B67CD3300C87383 /* LocationManager.swift in Sources */,
 				52C267E41B7B766B001C35CF /* DemoDataClass.swift in Sources */,
 				52BCBB671B8C939200DE99C5 /* DebugInfoClass.swift in Sources */,
@@ -415,7 +419,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -454,7 +458,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

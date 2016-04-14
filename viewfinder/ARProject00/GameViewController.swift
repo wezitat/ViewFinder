@@ -39,7 +39,7 @@ class GameViewController: UIViewController {
     
     //node of camera
     var cameraNode: SCNNode = SCNNode()
-    var sceneView: SCNView = SCNView()
+    var sceneView: SCNView = SCNView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
     
     var deviceCameraLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer()
     
@@ -58,7 +58,6 @@ class GameViewController: UIViewController {
         deviceCameraLayer.removeFromSuperlayer()
         
         let scene = SCNScene()
-        
         sceneView.scene = scene
     }
     
