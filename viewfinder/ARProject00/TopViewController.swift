@@ -89,12 +89,19 @@ class TopViewController: UIViewController {
         ViewFinderManager.sharedInstance.setTopViewController(self)
     }
     
+    override func willMoveToParentViewController(parent: UIViewController?) {
+        
+        if parent == nil {
+            ViewFinderManager.sharedInstance.resetManager()
+        }
+    }
+    
     func refreshStage() {
         //reset whole information in app
         self.refreshSceneButton.enabled = false
         //self.sceneController.resetScene()
         
-        ViewFinderManager.sharedInstance.getGameViewController().resetScene()
+        ViewFinderManager.sharedInstance.getGameViewController()!.resetScene()
         
         for marker in witMarkers {
             marker.view.removeFromSuperview()
@@ -223,12 +230,16 @@ class TopViewController: UIViewController {
     /** Function to start builing scene based on gathered data
     */
     func initializeScene() {
-        self.refreshSceneButton.enabled = true
         
-        debugInfo.fullInfo()
+        if ViewFinderManager.sharedInstance.getGameViewController() != nil {
         
-        ViewFinderManager.sharedInstance.setLocationManagerDelegate(ViewFinderManager.sharedInstance)
-        ViewFinderManager.sharedInstance.getGameViewController().initialize3DSceneWithHeading(calibratedHeading)
+            self.refreshSceneButton.enabled = true
+            
+            debugInfo.fullInfo()
+            
+            ViewFinderManager.sharedInstance.setLocationManagerDelegate(ViewFinderManager.sharedInstance)
+            ViewFinderManager.sharedInstance.getGameViewController()!.initialize3DSceneWithHeading(calibratedHeading)
+        }
     }
     
 ////////WitMarkers
@@ -330,4 +341,7 @@ class TopViewController: UIViewController {
         self.refreshStage()
     }
     
+    @IBAction func backButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 }

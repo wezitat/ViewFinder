@@ -53,6 +53,10 @@ class GameViewController: UIViewController {
         ViewFinderManager.sharedInstance.setGameViewController(self)
     }
     
+    deinit {
+        
+    }
+    
     //function which reset scene (removes all objects from 3d scene)
     func resetScene() {
         deviceCameraLayer.removeFromSuperlayer()
