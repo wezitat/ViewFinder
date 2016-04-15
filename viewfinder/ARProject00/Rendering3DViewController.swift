@@ -1,44 +1,27 @@
 //
-//  GameViewController.swift
+//  Rendering3DViewController.swift
 //  ARProject00
 //
-//  Created by Anton Semenyuk on 7/28/15.
-//  Copyright (c) 2015 Wezitat. All rights reserved.
+//  Created by Ihor on 4/15/16.
+//  Copyright © 2016 Techmagic. All rights reserved.
 //
 
 import UIKit
-import QuartzCore
-import SceneKit
-import CoreMotion
 import CoreLocation
+import SceneKit
 import AVFoundation
 
-protocol SceneEventsDelegate {
-    func showTopInfo(string: String)
-    func showObjectDetails(wObject: WitObject)
-    func addNewWitMarker(wObject: WitObject)
-    func filterWitMarkers()
-    func cameraMoved()
-    func locationUpdated(location: CLLocation)
-}
+//protocol TestSceneEventsDelegate {
+//    func showTopInfo(string: String)
+//    func showObjectDetails(wObject: WitObject)
+//    func addNewWitMarker(wObject: WitObject)
+//    func filterWitMarkers()
+//    func cameraMoved()
+//    func locationUpdated(location: CLLocation)
+//}
 
-protocol RenderingSceneDelegate{
-    func setEventDelegate(object: SceneEventsDelegate?)
-    func getCameraNode() -> SCNNode
-    func setCameraNodePosition(vector: SCNVector3)
-    func getShowingObject() -> [WitObject]
-    func rotationChanged(orientation: SCNQuaternion)
-    func isNodeOnMotionScreen(node: SCNNode) -> Bool
-    func nodePosToScreenMotionCoordinates(node: SCNNode) -> Point3D
-    func resetMotionScene()
-    func initialize3DSceneMotionWithHeading(calibratedHeading: CLLocationDirection)
-}
-
-/** GameViewController - class that draws all the 3D scene.
-    */
-
-class GameViewController: UIViewController, RenderingSceneDelegate {
-
+class Rendering3DViewController: UIViewController, RenderingSceneDelegate {
+    
     var eventDelegate: SceneEventsDelegate! = nil
     
     var demoData: DemoDataClass = DemoDataClass()
@@ -112,7 +95,7 @@ class GameViewController: UIViewController, RenderingSceneDelegate {
         deviceCameraLayer.frame = self.view.bounds
         
         self.view.layer.addSublayer(deviceCameraLayer)
-
+        
         //create a SceneView with a clear background color and add it as a subview of self.view
         sceneView = SCNView()
         sceneView.frame = self.view.bounds
@@ -122,7 +105,7 @@ class GameViewController: UIViewController, RenderingSceneDelegate {
         
         self.view.addSubview(sceneView)
     }
-   
+    
     func initializeScene(currentHeading: CLLocationDirection) {
         //now you could begin to build your scene with the device's camera video as your background
         let scene = SCNScene()
@@ -175,7 +158,7 @@ class GameViewController: UIViewController, RenderingSceneDelegate {
             if hitResults!.count > 0 {
                 // retrieved the first clicked object
                 let result: SCNHitTestResult! = hitResults![0]
-               
+                
                 //check what object user tapped and then show info about it
                 for object in showingObject {
                     if result.node == object.objectGeometry {
@@ -220,7 +203,7 @@ class GameViewController: UIViewController, RenderingSceneDelegate {
         //get position of object in screen coordinates
         let worldMat: SCNMatrix4 = node.worldTransform
         let worldPos: SCNVector3 = SCNVector3(x: worldMat.m41, y: worldMat.m42, z: worldMat.m43)
-
+        
         let pos: SCNVector3 = sceneView.projectPoint(worldPos)
         
         return Point3D(xPos:  Double(pos.x), yPos: Double(pos.y), zPos: Double(pos.z))
@@ -285,6 +268,6 @@ class GameViewController: UIViewController, RenderingSceneDelegate {
     func initialize3DSceneMotionWithHeading(calibratedHeading: CLLocationDirection) {
         initialize3DSceneWithHeading(calibratedHeading)
     }
-
-
+    
+    
 }

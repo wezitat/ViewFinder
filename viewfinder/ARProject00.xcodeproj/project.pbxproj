@@ -33,6 +33,10 @@
 		52C267EA1B7B77C2001C35CF /* Point2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C267E91B7B77C2001C35CF /* Point2D.swift */; };
 		52C267EC1B7B77F7001C35CF /* ViewFinderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C267EB1B7B77F7001C35CF /* ViewFinderManager.swift */; };
 		52C3EE131B81E409007A1851 /* WitMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C3EE121B81E409007A1851 /* WitMarker.swift */; };
+		5829F2651CC0D20A0085C861 /* DebugLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5829F2641CC0D20A0085C861 /* DebugLocationManager.swift */; };
+		5829F2671CC0EE740085C861 /* Scene3DViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5829F2661CC0EE740085C861 /* Scene3DViewController.swift */; };
+		5829F2691CC0F3F20085C861 /* Rendering3DViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5829F2681CC0F3F20085C861 /* Rendering3DViewController.swift */; };
+		5842112B1CBFF24300ED0274 /* CustomLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5842112A1CBFF24300ED0274 /* CustomLocationViewController.swift */; };
 		588AB4A81CBD1EF400EA8D3B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */; };
 		588AB4AA1CBD2B0E00EA8D3B /* LocationDebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588AB4A91CBD2B0E00EA8D3B /* LocationDebugViewController.swift */; };
 /* End PBXBuildFile section */
@@ -78,6 +82,10 @@
 		52C267E91B7B77C2001C35CF /* Point2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point2D.swift; sourceTree = "<group>"; };
 		52C267EB1B7B77F7001C35CF /* ViewFinderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewFinderManager.swift; sourceTree = "<group>"; };
 		52C3EE121B81E409007A1851 /* WitMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WitMarker.swift; sourceTree = "<group>"; };
+		5829F2641CC0D20A0085C861 /* DebugLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugLocationManager.swift; sourceTree = "<group>"; };
+		5829F2661CC0EE740085C861 /* Scene3DViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene3DViewController.swift; sourceTree = "<group>"; };
+		5829F2681CC0F3F20085C861 /* Rendering3DViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rendering3DViewController.swift; sourceTree = "<group>"; };
+		5842112A1CBFF24300ED0274 /* CustomLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLocationViewController.swift; sourceTree = "<group>"; };
 		588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		588AB4A91CBD2B0E00EA8D3B /* LocationDebugViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationDebugViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -183,6 +191,10 @@
 				5255B8B51B6777CE00C87383 /* Supporting Files */,
 				588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */,
 				588AB4A91CBD2B0E00EA8D3B /* LocationDebugViewController.swift */,
+				5842112A1CBFF24300ED0274 /* CustomLocationViewController.swift */,
+				5829F2641CC0D20A0085C861 /* DebugLocationManager.swift */,
+				5829F2661CC0EE740085C861 /* Scene3DViewController.swift */,
+				5829F2681CC0F3F20085C861 /* Rendering3DViewController.swift */,
 			);
 			path = ARProject00;
 			sourceTree = "<group>";
@@ -323,11 +335,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5829F2671CC0EE740085C861 /* Scene3DViewController.swift in Sources */,
 				52C3EE131B81E409007A1851 /* WitMarker.swift in Sources */,
 				5255B8E21B67D52300C87383 /* LocationMath.swift in Sources */,
 				52C267E61B7B7681001C35CF /* WitCoordinate.swift in Sources */,
 				5288B8F21BA2CC5400010D2C /* Point3D.swift in Sources */,
+				5842112B1CBFF24300ED0274 /* CustomLocationViewController.swift in Sources */,
 				588AB4AA1CBD2B0E00EA8D3B /* LocationDebugViewController.swift in Sources */,
+				5829F2651CC0D20A0085C861 /* DebugLocationManager.swift in Sources */,
 				5255B8DE1B67CD3300C87383 /* LocationManager.swift in Sources */,
 				52C267E41B7B766B001C35CF /* DemoDataClass.swift in Sources */,
 				52BCBB671B8C939200DE99C5 /* DebugInfoClass.swift in Sources */,
@@ -338,6 +353,7 @@
 				525B3B631BA1E10400CE57CA /* Line2D.swift in Sources */,
 				52C267E81B7B76BC001C35CF /* WitObject.swift in Sources */,
 				588AB4A81CBD1EF400EA8D3B /* MenuViewController.swift in Sources */,
+				5829F2691CC0F3F20085C861 /* Rendering3DViewController.swift in Sources */,
 				52C267EC1B7B77F7001C35CF /* ViewFinderManager.swift in Sources */,
 				52C267EA1B7B77C2001C35CF /* Point2D.swift in Sources */,
 				5255B8B81B6777CE00C87383 /* AppDelegate.swift in Sources */,

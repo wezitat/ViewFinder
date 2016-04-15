@@ -22,9 +22,14 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
     
     var debugInfo: DebugInfoClass = DebugInfoClass.sharedInstance
     
-    var gameViewController: GameViewController? = nil
+//    var gameViewController: GameViewController? = nil
+//    var  topViewController: TopViewController? = nil
     
-    var  topViewController: TopViewController? = nil
+    var wrapperSceneDelegate: WrapperSceneDelegate? = nil
+    var renderingSceneDelegate: RenderingSceneDelegate? = nil
+    
+//    var scene3DViewController: Scene3DViewController? = nil
+//    var rendering3DViewController: Rendering3DViewController? = nil
     
     //initial location of user (based on this LL point 3D scene is builing)
     var  centerPoint: CLLocation = CLLocation(latitude: 0, longitude: 0)
@@ -51,10 +56,13 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
         ViewFinderManager.sharedInstance.locationManager.deviceCalibrateDelegate = nil
         ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate = nil
         
-        ViewFinderManager.sharedInstance.topViewController = nil
+        ViewFinderManager.sharedInstance.wrapperSceneDelegate = nil
         
-        ViewFinderManager.sharedInstance.gameViewController!.eventDelegate = nil
-        ViewFinderManager.sharedInstance.gameViewController = nil
+        ViewFinderManager.sharedInstance.renderingSceneDelegate!.setEventDelegate(nil)
+        ViewFinderManager.sharedInstance.renderingSceneDelegate = nil
+        
+//        scene3DViewController = nil
+//        rendering3DViewController = nil
     }
     
     func setupCenterPoint(lat: Double, lon: Double) {
@@ -96,9 +104,9 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
         SCNTransaction.begin()
         SCNTransaction.setDisableActions(true)
         
-        gameViewController?.cameraNode.position = SCNVector3Make(gameViewController!.cameraNode.position.x,
-                                                                gameViewController!.cameraNode.position.y,
-                                                                Float(altitude * DEFAULT_METR_SCALE))
+        renderingSceneDelegate?.setCameraNodePosition(SCNVector3Make((renderingSceneDelegate?.getCameraNode().position.x)!,
+                                                                (renderingSceneDelegate?.getCameraNode().position.y)!,
+                                                                Float(altitude * DEFAULT_METR_SCALE)))
         SCNTransaction.commit()
     }
     
@@ -109,9 +117,11 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
         
         let point: Point2D = LocationMath.sharedInstance.convertLLtoXY(ViewFinderManager.sharedInstance.centerPoint, newLocation: location)
         
-        gameViewController!.cameraNode.position = SCNVector3Make(Float(point.x), Float(point.y), gameViewController!.cameraNode.position.z)
+        renderingSceneDelegate?.setCameraNodePosition(SCNVector3Make(Float(point.x), Float(point.y), (renderingSceneDelegate?.getCameraNode().position.z)!))
         
-        for object in gameViewController!.showingObject {
+        let showingObject: [WitObject] = (renderingSceneDelegate?.getShowingObject())!
+        
+        for object in showingObject {
             object.updateWitObjectSize(location)
         }
         
@@ -124,8 +134,9 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
     
     func rotationChanged(orientation: SCNQuaternion) {
         //user moved camera and pointing of camera changed
-        gameViewController!.cameraNode.orientation = orientation
-        gameViewController!.eventDelegate?.cameraMoved()
+        //gameViewController!.cameraNode.orientation = orientation
+        //gameViewController!.eventDelegate?.cameraMoved()
+        renderingSceneDelegate?.rotationChanged(orientation)
     }
     
     func drasticDeviceMove() {
@@ -136,22 +147,22 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
     
     func headingUpdated(heading: CLLocationDirection) {
         //if we are in proper status - try to get accurate heading
-        if topViewController!.appStatus == .GettingHeading {
-            if abs(topViewController!.calibratedHeading - heading) < 5 {
+        if wrapperSceneDelegate?.getAppStatus() == .GettingHeading {
+            if abs((wrapperSceneDelegate?.getCalibratedHeading())! - heading) < 5 {
                 //device become stable start timer
-                if !topViewController!.isStable {
-                    topViewController!.isStable = true
-                    topViewController!.startHeadingDataGatheringTimer()
+                if !(wrapperSceneDelegate?.isHeadingStable())! {
+                    wrapperSceneDelegate?.setStable(true)
+                    wrapperSceneDelegate?.startWrapperHeadingDataGatheringTimer()
                 }
             } else {
-                topViewController!.isStable = false
+                wrapperSceneDelegate?.setStable(false)
                 
                 //device is not stable. stop timer
-                topViewController!.stopHeadingDataGatheringTimer()
+                wrapperSceneDelegate?.stopWrapperHeadingDataGatheringTimer()
                 debugInfo.singleStatus("Don`t shake device")
             }
             
-            topViewController!.calibratedHeading = heading
+            wrapperSceneDelegate?.setWrapperCalibratedHeading(heading)
         }
         
         debugInfo.angleUpdated(CGFloat(heading))
@@ -159,8 +170,8 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
     
     func initLocationReceived() {
         //we received our location
-        if topViewController!.appStatus == .GettingLocation {
-            topViewController!.retrieveInitialHeading()
+        if wrapperSceneDelegate?.getAppStatus() == .GettingLocation {
+            wrapperSceneDelegate?.retrieveWrapperInitialHeading()
         }
     }
     
@@ -168,7 +179,10 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
     
     func rotationAngleUpdated(angle: Double) {
         //device has moved - update witMarker position
-        for marker in topViewController!.witMarkers {
+        
+        let witMarkers: [WitMarker] = (wrapperSceneDelegate?.getWitMarkers())!
+        
+        for marker in witMarkers {
             marker.updateAngle(angle)
         }
     }
@@ -177,7 +191,7 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
     
     func showObjectDetails(wObject: WitObject) {
         dispatch_async(dispatch_get_main_queue()) {
-            ViewFinderManager.sharedInstance.topViewController!.detailsHeader.text = wObject.witName
+            ViewFinderManager.sharedInstance.wrapperSceneDelegate?.setDetailsHeaderText(wObject.witName)
             
             var claimed: String = "NO"
             
@@ -185,10 +199,10 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
                 claimed = "YES"
             }
             
-            ViewFinderManager.sharedInstance.topViewController!.detailsDescription.text = "\(wObject.witDescription)\n\nBy: \(wObject.author) Claimed: \(claimed)"
+            ViewFinderManager.sharedInstance.wrapperSceneDelegate?.setDetailsDescriptionText("\(wObject.witDescription)\n\nBy: \(wObject.author) Claimed: \(claimed)")
         }
         
-        topViewController!.detailsView.hidden = false
+        wrapperSceneDelegate?.setDetailsViewHidden(false)
     }
     
     func showTopInfo(string: String) {
@@ -202,8 +216,8 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
         marker.registerObject(wObject)
         marker.delegate = ViewFinderManager.sharedInstance
         
-        topViewController!.witMarkers.append(marker)
-        topViewController!.markerView.addSubview(marker.view)
+        wrapperSceneDelegate?.witMarkersAppend(marker)
+        wrapperSceneDelegate?.markerViewAddSubview(marker.view)
     }
     
     func filterWitMarkers() {
@@ -211,10 +225,14 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
         
         let maxNumber = SettingsManager.sharedInstance.getWitMarkerNumberValue()
         
-        topViewController!.witMarkers.sortInPlace({ $0.currentDistance < $1.currentDistance })
+        wrapperSceneDelegate?.setWrapperWitMarkers((wrapperSceneDelegate?.getWitMarkers().sort({ $0.currentDistance < $1.currentDistance }))!)
         
-        for i in 0..<topViewController!.witMarkers.count {
-            let marker = topViewController!.witMarkers[i]
+//        topViewController!.witMarkers.sortInPlace({ $0.currentDistance < $1.currentDistance })
+        
+        let witMarkers: [WitMarker] = (wrapperSceneDelegate?.getWitMarkers())!
+        
+        for i in 0..<witMarkers.count {
+            let marker = (wrapperSceneDelegate?.getWitMarkers())![i]
             
             if i < maxNumber {
                 marker.isShowMarker = true
@@ -230,15 +248,17 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
         let screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
         let  screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
         
-        for marker in topViewController!.witMarkers {
+        let witMarkers: [WitMarker] = (wrapperSceneDelegate?.getWitMarkers())!
+        
+        for marker in witMarkers {
             
-            if gameViewController!.isNodeOnScreen(marker.wObject.objectGeometry) {
+            if renderingSceneDelegate!.isNodeOnMotionScreen(marker.wObject.objectGeometry) {
                 marker.showMarker(false)
             } else {
                 marker.showMarker(true)
             }
             
-            var point: Point3D = gameViewController!.nodePosToScreenCoordinates(marker.wObject.objectGeometry)
+            var point: Point3D = renderingSceneDelegate!.nodePosToScreenMotionCoordinates(marker.wObject.objectGeometry)
             
             point.x -= 30
             point.y -= 30
@@ -261,7 +281,7 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
             
             //check if element is behind - if yes our point will be inside the screen
             if (point.z > 1) {
-                point = topViewController!.updatePointIfObjectIsBehind(point)
+                point = (wrapperSceneDelegate?.updateWrapperPointIfObjectIsBehind(point))!
                 //originalPoint = Point2D(xPos: point.x, yPos: point.y)
             }
             
@@ -273,7 +293,9 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
     }
     
     func distanceUpdated(location: CLLocation) {
-        for marker in topViewController!.witMarkers {
+        let witMarkers: [WitMarker] = (wrapperSceneDelegate?.getWitMarkers())!
+        
+        for marker in witMarkers {
             dispatch_async(dispatch_get_main_queue()) {
                 marker.updateDistance(location)
             }
@@ -284,16 +306,16 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
 
     //MARK: - Methods, setting Delegates
     
-    func setGameViewController(gameVC: GameViewController!) {
-        gameViewController = gameVC
+    func setGameViewController(gameVC: RenderingSceneDelegate!) {
+        renderingSceneDelegate = gameVC
     }
     
-    func setTopViewController(topVC: TopViewController!) {
-        topViewController = topVC
+    func setTopViewController(topVC: WrapperSceneDelegate!) {
+        wrapperSceneDelegate = topVC
     }
     
     func setGameViewControllerDelegate(delegate: SceneEventsDelegate) {
-        gameViewController?.eventDelegate = delegate
+        renderingSceneDelegate?.setEventDelegate(delegate)
     }
     
     func setLocationManagerDelegate(delegate: AnyObject?) {
@@ -316,12 +338,12 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
         motionManager.rotationManagerDelegate = delegate as? RotationManagerDelegate
     }
     
-    func getGameViewController() -> GameViewController? {
-        return gameViewController
+    func getGameViewController() -> RenderingSceneDelegate? {
+        return renderingSceneDelegate
     }
     
-    func getTopViewController() -> TopViewController? {
-        return topViewController
+    func getTopViewController() -> WrapperSceneDelegate? {
+        return wrapperSceneDelegate
     }
     
     func getLocationManager() -> LocationManager {

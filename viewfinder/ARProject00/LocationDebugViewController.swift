@@ -24,14 +24,7 @@ class LocationDebugViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var headingFilterLabel: UILabel!
     @IBOutlet weak var distanceFilterLabel: UILabel!
 
-    
-    var locationManager: CLLocationManager? = CLLocationManager()
-    
-    var locationTimer: NSTimer? = nil
-    var headingTimer:  NSTimer? = nil
-    
-    var timePassedFromLastHeadingUpdate: Int = 0
-    var timePassedFromLastLocationUpdate: Int = 0
+    var debugLocationManager: DebugLocationManager! = DebugLocationManager()
     
     @IBAction func backButtonPressed(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
@@ -41,19 +34,16 @@ class LocationDebugViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
 
         compassImageView.image = UIImage(named: "compass")
-        locationManager?.delegate = self
         
-        locationManager?.requestAlwaysAuthorization()
-        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager?.distanceFilter = kCLDistanceFilterNone
+        debugLocationManager.locationManager!.delegate = self
         
+        debugLocationManager.setStandardProperties()
+    
+        debugLocationManager.locationManager!.headingFilter = 0.5
+        
+        headingFilterLabel.text = "\((debugLocationManager.locationManager!.headingFilter)) angles"
         distanceAccuraceLabel.text = "Best"
         distanceFilterLabel.text = "None (any movement)"
-        
-        locationManager?.startUpdatingHeading()
-        locationManager?.startUpdatingLocation()
-        
-        startHeadingEvents()
         
         // Do any additional setup after loading the view.
     }
@@ -63,14 +53,10 @@ class LocationDebugViewController: UIViewController, CLLocationManagerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func startHeadingEvents() {
-        
-        if CLLocationManager.headingAvailable() {
-            locationManager?.headingFilter = 0.5
-            
-            headingFilterLabel.text = "\((locationManager?.headingFilter)!) angles"
-            
-            locationManager?.startUpdatingHeading()
+    override func willMoveToParentViewController(parent: UIViewController?) {
+        if parent == nil {
+            debugLocationManager.invalidateTimers()
+            debugLocationManager = nil
         }
     }
     
@@ -78,13 +64,13 @@ class LocationDebugViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         
-        timePassedFromLastHeadingUpdate = 0
+        debugLocationManager.timePassedFromLastHeadingUpdate = 0
         
         headingUpdateLabel.text = "0 seconds"
         
-        headingTimer?.invalidate()
+        debugLocationManager.headingTimer?.invalidate()
         
-        headingTimer = NSTimer.scheduledTimerWithTimeInterval(1,
+        debugLocationManager.headingTimer = NSTimer.scheduledTimerWithTimeInterval(1,
                                                        target: self,
                                                        selector: #selector(headingInformationUpdated),
                                                        userInfo: nil,
@@ -105,12 +91,12 @@ class LocationDebugViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        timePassedFromLastLocationUpdate = 0
+        debugLocationManager.timePassedFromLastLocationUpdate = 0
         
         locationUpdateLabel.text = "0 seconds"
         
-        locationTimer?.invalidate()
-        locationTimer = NSTimer.scheduledTimerWithTimeInterval(1,
+        debugLocationManager.locationTimer?.invalidate()
+        debugLocationManager.locationTimer = NSTimer.scheduledTimerWithTimeInterval(1,
                                                                target: self,
                                                                selector: #selector(locationInformationUpdated),
                                                                userInfo: nil,
@@ -130,13 +116,13 @@ class LocationDebugViewController: UIViewController, CLLocationManagerDelegate {
     // MARK: - Selectors
     
     func headingInformationUpdated() {
-        timePassedFromLastHeadingUpdate += 1
-        headingUpdateLabel.text = "\(timePassedFromLastHeadingUpdate) seconds"
+        debugLocationManager.timePassedFromLastHeadingUpdate += 1
+        headingUpdateLabel.text = "\(debugLocationManager.timePassedFromLastHeadingUpdate) seconds"
     }
     
     func locationInformationUpdated() {
-        timePassedFromLastLocationUpdate += 1
-        locationUpdateLabel.text = "\(timePassedFromLastLocationUpdate) seconds"
+        debugLocationManager.timePassedFromLastLocationUpdate += 1
+        locationUpdateLabel.text = "\(debugLocationManager.timePassedFromLastLocationUpdate) seconds"
     }
     
     /*

@@ -64,8 +64,13 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                                                                   selector: #selector(timeUpdate),
                                                                   userInfo: nil,
                                                                   repeats: true)
-        
+    }
+    
+    func startLocationUpdating() {
         manager.startUpdatingLocation()
+    }
+    
+    func startHeadingUpdating() {
         manager.startUpdatingHeading()
     }
     
