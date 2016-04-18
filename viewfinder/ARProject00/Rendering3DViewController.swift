@@ -13,6 +13,8 @@ import AVFoundation
 
 class Rendering3DViewController: UIViewController, RenderingSceneDelegate {
     
+    @IBOutlet weak var mainSceneView: SCNView!
+    
     var eventDelegate: SceneEventsDelegate! = nil
     
     var demoData: DemoDataClass = DemoDataClass()

@@ -38,9 +38,9 @@ class Scene3DViewController: UIViewController, WrapperSceneDelegate, CLLocationM
     var debugInfo: DebugInfoClass = DebugInfoClass.sharedInstance
     
 //    @IBOutlet weak var refreshSceneButton: UIButton!
-//    @IBOutlet weak var debugView: UIView!
+    @IBOutlet weak var debugView: UIView!
     @IBOutlet weak var markerView: WitMarkersView!
-//    @IBOutlet weak var             : UIView!
+    @IBOutlet weak var detailsView : UIView!
     
     //details view
     var smallDetailsView: UIView! = nil
@@ -85,6 +85,10 @@ class Scene3DViewController: UIViewController, WrapperSceneDelegate, CLLocationM
                                                          selector: #selector(orientationChanged),
                                                          name: UIDeviceOrientationDidChangeNotification,
                                                          object: nil)
+    }
+    
+    @IBAction func testGestureRecognizer(sender: AnyObject) {
+        print("I'm here!")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -142,7 +146,7 @@ class Scene3DViewController: UIViewController, WrapperSceneDelegate, CLLocationM
             break;
         }
         
-//        self.debugView.addSubview(debugInfo.debugInfoView)
+        self.debugView.addSubview(debugInfo.debugInfoView)
     }
     
     func initDetailsView() {
@@ -166,15 +170,15 @@ class Scene3DViewController: UIViewController, WrapperSceneDelegate, CLLocationM
         
         smallDetailsView.addSubview(detailsDescription)
         
-//        let button: UIButton = UIButton(frame: CGRectMake(0, 0, self.detailsView.frame.width, self.detailsView.frame.height))
-//        
-//        button.addTarget(self, action: #selector(handleDetailsButton), forControlEvents: .TouchUpInside)
-//        
-//        self.detailsView.addSubview(smallDetailsView)
-//        self.detailsView.addSubview(button)
-//        
-//        self.detailsView.bringSubviewToFront(button)
-//        self.detailsView.hidden = true
+        let button: UIButton = UIButton(frame: CGRectMake(0, 0, self.detailsView.frame.width, self.detailsView.frame.height))
+        
+        button.addTarget(self, action: #selector(handleDetailsButton), forControlEvents: .TouchUpInside)
+        
+        self.detailsView.addSubview(smallDetailsView)
+        self.detailsView.addSubview(button)
+        
+        self.detailsView.bringSubviewToFront(button)
+        self.detailsView.hidden = true
     }
     
     func retrieveInitialLocation() {
@@ -184,7 +188,7 @@ class Scene3DViewController: UIViewController, WrapperSceneDelegate, CLLocationM
     
     func retrieveInitialHeading() {
         //start calibrating heding of device
-        debugInfo.singleStatus("Don`t shake device")
+        debugInfo.singleStatus("Don`t shake device!")
         self.appStatus = .GettingHeading
     }
     
@@ -249,7 +253,7 @@ class Scene3DViewController: UIViewController, WrapperSceneDelegate, CLLocationM
     
     func handleDetailsButton() {
         //show details about wit
-//        detailsView.hidden = true
+        detailsView.hidden = true
     }
     
     func updatePointIfObjectIsBehind(point: Point3D) -> Point3D {
@@ -330,14 +334,14 @@ class Scene3DViewController: UIViewController, WrapperSceneDelegate, CLLocationM
     }
     
     @IBAction func handleDebugButton(sender: UIButton) {
-//        debugView.hidden = !debugView.hidden
+        debugView.hidden = !debugView.hidden
 //        refreshSceneButton.hidden = !refreshSceneButton.hidden
-//        
-//        if debugView.hidden {
-//            sender.backgroundColor = UIColor.darkGrayColor()
-//        } else {
-//            sender.backgroundColor = UIColor.redColor()
-//        }
+        
+        if debugView.hidden {
+            sender.backgroundColor = UIColor.darkGrayColor()
+        } else {
+            sender.backgroundColor = UIColor.redColor()
+        }
     }
     
     @IBAction func handleRefreshButton(sender: UIButton) {
@@ -395,7 +399,7 @@ class Scene3DViewController: UIViewController, WrapperSceneDelegate, CLLocationM
     }
     
     func setDetailsViewHidden(bool: Bool) {
-//        detailsView.hidden = bool
+        detailsView.hidden = bool
     }
     
     func witMarkersAppend(marker: WitMarker) {

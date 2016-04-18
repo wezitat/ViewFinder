@@ -176,7 +176,7 @@ class TopViewController: UIViewController, WrapperSceneDelegate {
     func retrieveInitialHeading() {
         debugView.hidden = false
         //start calibrating heding of device
-        debugInfo.singleStatus("Don`t shake device")
+        debugInfo.singleStatus("Don`t shake device!")
         self.appStatus = .GettingHeading
     }
     

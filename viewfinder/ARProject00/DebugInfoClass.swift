@@ -45,7 +45,13 @@ class DebugInfoClass: NSObject {
         let screenRight: CGFloat = UIScreen.mainScreen().bounds.width
         let screenBottom: CGFloat = UIScreen.mainScreen().bounds.height
         
-        debugInfoView = UIView(frame: CGRectMake(CGFloat(screenRight - 20 - DEBUG_WIDTH), CGFloat(screenBottom - 20 - DEBUG_HEIGHT), DEBUG_WIDTH, DEBUG_HEIGHT))
+        let navigationBarHeight = 2.5*UIApplication.sharedApplication().statusBarFrame.size.height
+        
+        debugInfoView = UIView(frame: CGRectMake(CGFloat(screenRight - 20 - DEBUG_WIDTH),
+                                                 CGFloat(screenBottom - 20 - DEBUG_HEIGHT - navigationBarHeight),
+                                                 DEBUG_WIDTH,
+                                                 DEBUG_HEIGHT))
+        
         debugInfoLabel = UILabel(frame: CGRectMake(92, 4, DEBUG_WIDTH - 88, DEBUG_HEIGHT - 8))
         debugInfoLabel.numberOfLines = 0
         debugInfoLabel.font = UIFont.systemFontOfSize(10)
@@ -69,19 +75,30 @@ class DebugInfoClass: NSObject {
         let screenRight: CGFloat = UIScreen.mainScreen().bounds.width
         let screenBottom: CGFloat = UIScreen.mainScreen().bounds.height
         
-        debugInfoView = UIView(frame: CGRectMake(CGFloat(screenBottom - 20 - DEBUG_HEIGHT), CGFloat(screenRight - 20 - DEBUG_WIDTH), DEBUG_WIDTH, DEBUG_HEIGHT))
+        let navigationBarHeight = 2.5*UIApplication.sharedApplication().statusBarFrame.size.height
+        
+        debugInfoView = UIView(frame: CGRectMake(CGFloat(screenRight - 20 - DEBUG_WIDTH),
+                                                 CGFloat(screenBottom - 20 - DEBUG_HEIGHT - navigationBarHeight),
+                                                 DEBUG_WIDTH,
+                                                 DEBUG_HEIGHT))
         debugInfoLabel = UILabel(frame: CGRectMake(92, 4, DEBUG_WIDTH - 88, DEBUG_HEIGHT - 8))
         debugInfoLabel.numberOfLines = 0
+        
         debugCompassView = UIImageView(frame: CGRectMake(0, 120, 80, 80))
         debugCompassView.contentMode = .ScaleAspectFit
         debugCompassView.image = UIImage(named: "compass")
+        
         debugInfoLabel.font = UIFont.systemFontOfSize(10)
         debugInfoLabel.text = debugInfo
         debugInfoLabel.textAlignment = .Center
         debugInfoLabel.textColor = UIColor.whiteColor()
+        
         debugInfoView.alpha = 0.5
         debugInfoView.addSubview(debugInfoLabel)
         debugInfoView.addSubview(debugCompassView)
+        
+        debugInfoView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
+        
         isPortrait = false
     }
     
@@ -90,8 +107,12 @@ class DebugInfoClass: NSObject {
         if debugInfoView != nil {
             let screenRight: CGFloat = UIScreen.mainScreen().bounds.width
             let screenBottom: CGFloat = UIScreen.mainScreen().bounds.height
+            
             debugInfoView.transform = CGAffineTransformMakeRotation(0);
-            debugInfoView.frame = CGRectMake(CGFloat(screenRight - 20 - DEBUG_WIDTH), CGFloat(screenBottom - 20 - DEBUG_HEIGHT), DEBUG_WIDTH, DEBUG_HEIGHT)
+            
+            let navigationBarHeight = 2.5*UIApplication.sharedApplication().statusBarFrame.size.height
+            
+            debugInfoView.frame = CGRectMake(CGFloat(screenRight - 20 - DEBUG_WIDTH), CGFloat(screenBottom - 20 - DEBUG_HEIGHT - navigationBarHeight), DEBUG_WIDTH, DEBUG_HEIGHT)
         }
     }
     
@@ -101,7 +122,10 @@ class DebugInfoClass: NSObject {
         let screenBottom: CGFloat = UIScreen.mainScreen().bounds.height
         if debugInfoView != nil {
             debugInfoView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2));
-            debugInfoView.frame = CGRectMake(CGFloat(screenRight - 20 - DEBUG_HEIGHT), CGFloat(screenBottom - 20 - DEBUG_WIDTH), debugInfoView.frame.width, debugInfoView.frame.height)
+            
+            let navigationBarHeight = 2.5*UIApplication.sharedApplication().statusBarFrame.size.height
+            
+            debugInfoView.frame = CGRectMake(CGFloat(screenRight - 20 - DEBUG_HEIGHT - 20), CGFloat(screenBottom - 20 - DEBUG_WIDTH - navigationBarHeight), debugInfoView.frame.width, debugInfoView.frame.height)
         }
     }
     

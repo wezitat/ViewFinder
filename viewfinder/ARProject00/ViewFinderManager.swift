@@ -159,7 +159,7 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
                 
                 //device is not stable. stop timer
                 wrapperSceneDelegate?.stopWrapperHeadingDataGatheringTimer()
-                debugInfo.singleStatus("Don`t shake device")
+                debugInfo.singleStatus("Don`t shake device!")
             }
             
             wrapperSceneDelegate?.setWrapperCalibratedHeading(heading)
