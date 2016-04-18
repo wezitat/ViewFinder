@@ -22,18 +22,6 @@ protocol SceneEventsDelegate {
     func locationUpdated(location: CLLocation)
 }
 
-protocol RenderingSceneDelegate{
-    func setEventDelegate(object: SceneEventsDelegate?)
-    func getCameraNode() -> SCNNode
-    func setCameraNodePosition(vector: SCNVector3)
-    func getShowingObject() -> [WitObject]
-    func rotationChanged(orientation: SCNQuaternion)
-    func isNodeOnMotionScreen(node: SCNNode) -> Bool
-    func nodePosToScreenMotionCoordinates(node: SCNNode) -> Point3D
-    func resetMotionScene()
-    func initialize3DSceneMotionWithHeading(calibratedHeading: CLLocationDirection)
-}
-
 /** GameViewController - class that draws all the 3D scene.
     */
 

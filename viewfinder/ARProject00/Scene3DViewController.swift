@@ -16,25 +16,6 @@ enum AppStatus {
     case Unknown
 }
 
-protocol WrapperSceneDelegate {
-    func getAppStatus() -> AppStatus
-    func getCalibratedHeading() -> CLLocationDirection
-    func isHeadingStable() -> Bool
-    func setStable(stable: Bool)
-    func startWrapperHeadingDataGatheringTimer()
-    func stopWrapperHeadingDataGatheringTimer()
-    func setWrapperCalibratedHeading(heading: CLLocationDirection)
-    func retrieveWrapperInitialHeading()
-    func getWitMarkers() -> [WitMarker]
-    func setDetailsHeaderText(string: String)
-    func setDetailsDescriptionText(string: String)
-    func setDetailsViewHidden(bool: Bool)
-    func witMarkersAppend(marker: WitMarker)
-    func markerViewAddSubview(view: UIView)
-    func setWrapperWitMarkers(wits: [WitMarker])
-    func updateWrapperPointIfObjectIsBehind(point: Point3D) -> Point3D
-}
-
 class Scene3DViewController: UIViewController, WrapperSceneDelegate, CLLocationManagerDelegate {
     
     var customLocation: CLLocation = CLLocation()
@@ -59,7 +40,7 @@ class Scene3DViewController: UIViewController, WrapperSceneDelegate, CLLocationM
 //    @IBOutlet weak var refreshSceneButton: UIButton!
 //    @IBOutlet weak var debugView: UIView!
     @IBOutlet weak var markerView: WitMarkersView!
-//    @IBOutlet weak var detailsView: UIView!
+//    @IBOutlet weak var             : UIView!
     
     //details view
     var smallDetailsView: UIView! = nil

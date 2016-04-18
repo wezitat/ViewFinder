@@ -11,15 +11,6 @@ import CoreLocation
 import SceneKit
 import AVFoundation
 
-//protocol TestSceneEventsDelegate {
-//    func showTopInfo(string: String)
-//    func showObjectDetails(wObject: WitObject)
-//    func addNewWitMarker(wObject: WitObject)
-//    func filterWitMarkers()
-//    func cameraMoved()
-//    func locationUpdated(location: CLLocation)
-//}
-
 class Rendering3DViewController: UIViewController, RenderingSceneDelegate {
     
     var eventDelegate: SceneEventsDelegate! = nil

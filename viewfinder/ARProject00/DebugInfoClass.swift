@@ -173,7 +173,7 @@ class DebugInfoClass: NSObject {
            fullMessageToShow = "\(generalStatus)"
         }
         if debugStatus == .FullInfo {
-            let initialPoint: String = "\nlat:\(ViewFinderManager.sharedInstance.centerPoint.coordinate.latitude)\n lon:\(ViewFinderManager.sharedInstance.centerPoint.coordinate.longitude)\n alt:\(ViewFinderManager.sharedInstance.centerPoint.coordinate.latitude)"
+            let initialPoint: String = "\nlat:\(ViewFinderManager.sharedInstance.centerPoint.coordinate.latitude)\n lon:\(ViewFinderManager.sharedInstance.centerPoint.coordinate.longitude)\n alt:\(ViewFinderManager.sharedInstance.centerPoint.altitude)"
             fullMessageToShow = "Init.Point: \(initialPoint)\n\nCur.point: \n\(currentPosition)\n\nDistance: \(distance)\n\nCur.Altitute: \(altitude)\n\nAccuracy: \(accuracyTime)\n\nLast update: \(updateTime)"
         }
 

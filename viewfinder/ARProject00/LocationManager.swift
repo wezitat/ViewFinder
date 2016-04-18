@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 
 let kDistanceFilter: Double = 25
-let kHeadingFilter: Double = 0
+let kHeadingFilter: Double = 1
 
 protocol LocationManagerDelegate {
     func altitudeUpdated(altitude: CLLocationDistance)
