@@ -604,22 +604,19 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mVd-Q0-vRA">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <connections>
-                                    <segue destination="1hu-g5-h8X" kind="embed" id="GIb-kJ-Nyp"/>
+                                    <segue destination="9TX-kh-m8j" kind="embed" id="izO-cn-KHo"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zGc-g2-3Hh" customClass="WitMarkersView" customModule="ARProject00" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="PNm-Rg-xuX" appends="YES" id="b6y-zf-eBd"/>
-                                </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5L6-qb-RNr" userLabel="Details View">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tvg-V5-45H" userLabel="Debug View">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tvg-V5-45H" userLabel="Debug View">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -663,11 +660,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oew-Or-SI4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="PNm-Rg-xuX">
-                    <connections>
-                        <action selector="testGestureRecognizer:" destination="H3K-XE-U7N" id="Por-fW-Xau"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2259" y="-4"/>
         </scene>
@@ -704,39 +696,18 @@
             <point key="canvasLocation" x="-95" y="-4"/>
         </scene>
         <!--Rendering3D View Controller-->
-        <scene sceneID="LeF-4h-uei">
+        <scene sceneID="itM-46-YmE">
             <objects>
-                <viewController id="1hu-g5-h8X" customClass="Rendering3DViewController" customModule="ARProject00" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="mkw-id-M6F"/>
-                        <viewControllerLayoutGuide type="bottom" id="phg-qr-g3Q"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="1ki-Mn-Q17">
+                <viewController id="9TX-kh-m8j" customClass="Rendering3DViewController" customModule="ARProject00" customModuleProvider="target" sceneMemberID="viewController">
+                    <sceneKitView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="mZ3-b6-W9o">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5mS-88-BON">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <gestureRecognizers/>
-                            </sceneKitView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <gestureRecognizers/>
-                        <constraints>
-                            <constraint firstItem="5mS-88-BON" firstAttribute="leading" secondItem="1ki-Mn-Q17" secondAttribute="leadingMargin" constant="-20" id="2Wt-cB-Icm"/>
-                            <constraint firstItem="phg-qr-g3Q" firstAttribute="top" secondItem="5mS-88-BON" secondAttribute="bottom" id="4Up-TP-BJI"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="5mS-88-BON" secondAttribute="trailing" constant="-20" id="4Y7-TK-TcL"/>
-                            <constraint firstItem="5mS-88-BON" firstAttribute="top" secondItem="mkw-id-M6F" secondAttribute="bottom" id="uv7-tB-fXB"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="mainSceneView" destination="5mS-88-BON" id="MrX-zn-bgF"/>
-                    </connections>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </sceneKitView>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Hd5-ps-FDk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="epn-8d-8HT" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3002" y="-4"/>
+            <point key="canvasLocation" x="2966" y="-4"/>
         </scene>
     </scenes>
 </document>

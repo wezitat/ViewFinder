@@ -87,10 +87,6 @@ class Scene3DViewController: UIViewController, WrapperSceneDelegate, CLLocationM
                                                          object: nil)
     }
     
-    @IBAction func testGestureRecognizer(sender: AnyObject) {
-        print("I'm here!")
-    }
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
