@@ -29,25 +29,30 @@ class DemoDataClass {
     }
 
     func getWitObjectsFromJSONDict(elements: NSArray) -> [WitObject] {
-        let dict: NSDictionary = elements.firstObject as! NSDictionary
-        let lat: Double = dict["lat"] as! Double
-        let lon: Double = dict["lon"] as! Double
-        let metric: String = dict["altMeasure"] as! String
         
-        var objects:[WitObject] = [WitObject]()
-        var alt: Double = dict["alt"] as! Double
+        var objects:[WitObject] = [WitObject]()  
         
-        if metric == "f" {
-            alt = LocationMath.sharedInstance.covertToMeters(alt)
+        for elem in elements {
+            
+            let dict: NSDictionary = elem as! NSDictionary
+            let lat: Double = dict["lat"] as! Double
+            let lon: Double = dict["lon"] as! Double
+            let metric: String = dict["altMeasure"] as! String
+            
+            var alt: Double = dict["alt"] as! Double
+            
+            if metric == "f" {
+                alt = LocationMath.sharedInstance.covertToMeters(alt)
+            }
+            
+            let coord: WitCoordinate = WitCoordinate(lat: lat, lon: lon, alt: alt)
+            let wit: WitObject = WitObject(coord: coord)
+            
+            wit.witName = dict["name"] as! String
+            wit.witDescription = dict["description"] as! String
+            wit.author = dict["author"] as! String
+            objects.append(wit)
         }
-        
-        let coord: WitCoordinate = WitCoordinate(lat: lat, lon: lon, alt: alt)
-        let wit: WitObject = WitObject(coord: coord)
-        
-        wit.witName = dict["name"] as! String
-        wit.witDescription = dict["description"] as! String
-        wit.author = dict["author"] as! String
-        objects.append(wit)
         
         return objects
     }

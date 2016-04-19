@@ -75,11 +75,11 @@ class CustomLocationViewController: UIViewController, CLLocationManagerDelegate 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let vc = segue.destinationViewController as! Scene3DViewController
         
-        let coords = CLLocationCoordinate2D(latitude: (debugLocationManager.locationManager?.location?.coordinate.latitude)!,
-                                            longitude: (debugLocationManager.locationManager?.location?.coordinate.longitude)!)
+        let coords = CLLocationCoordinate2D(latitude: Double(latitudeTextField.text!)!,
+                                            longitude: Double(longitudeTextField.text!)!)
         
         let location = CLLocation(coordinate: coords,
-                                  altitude: (debugLocationManager.locationManager?.location?.altitude)!,
+                                  altitude: Double(altitudeTextField.text!)!,
                                   horizontalAccuracy: (debugLocationManager.locationManager?.location?.horizontalAccuracy)!,
                                   verticalAccuracy: (debugLocationManager.locationManager?.location?.verticalAccuracy)!,
                                   timestamp: NSDate())
