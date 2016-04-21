@@ -342,68 +342,102 @@ class TopViewController: UIViewController, WrapperSceneDelegate {
     
     //MARK: - WrapperSceneDelegate
     
-    func getAppStatus() -> AppStatus {
-        return appStatus
-    }
-    
-    func getCalibratedHeading() -> CLLocationDirection {
-        return calibratedHeading
-    }
-    
-    func isHeadingStable() -> Bool {
-        return isStable
-    }
-    
-    func setStable(stable: Bool) {
-        isStable = stable
-    }
-    
-    func startWrapperHeadingDataGatheringTimer() {
-        startHeadingDataGatheringTimer()
-    }
-    
-    func stopWrapperHeadingDataGatheringTimer() {
-        stopHeadingDataGatheringTimer()
-    }
-    
-    func setWrapperCalibratedHeading(heading: CLLocationDirection) {
-        calibratedHeading = heading
-    }
-    
-    func retrieveWrapperInitialHeading() {
-        retrieveInitialHeading()
-    }
-    
     func getWitMarkers() -> [WitMarker] {
         return witMarkers
-    }
-    
-    func setDetailsHeaderText(string: String) {
-        detailsHeader.text = string
-    }
-    
-    func setDetailsDescriptionText(string: String) {
-        detailsDescription.text = string
-    }
-    
-    func setDetailsViewHidden(bool: Bool) {
-        detailsView.hidden = bool
-    }
-    
-    func witMarkersAppend(marker: WitMarker) {
-        witMarkers.append(marker)
-    }
-    
-    func markerViewAddSubview(view: UIView) {
-        markerView.addSubview(view)
-    }
-    
-    func setWrapperWitMarkers(wits: [WitMarker]) {
-        witMarkers = wits
     }
     
     func updateWrapperPointIfObjectIsBehind(point: Point3D) -> Point3D {
         return updatePointIfObjectIsBehind(point)
     }
-
+    
+    func headingUpdated(heading: CLLocationDirection) {
+        //if we are in proper status - try to get accurate heading
+        if appStatus == .GettingHeading {
+            if abs(calibratedHeading - heading) < 5 {
+                //device become stable start timer
+                if !isStable {
+                    isStable = true
+                    startHeadingDataGatheringTimer()
+                }
+            } else {
+                isStable = false
+                
+                //device is not stable. stop timer
+                stopHeadingDataGatheringTimer()
+                debugInfo.singleStatus("Don`t shake device!")
+            }
+            
+            calibratedHeading = heading
+        }
+        
+        debugInfo.angleUpdated(CGFloat(heading))
+    }
+    
+    func initLocationReceived() {
+        //we received our location
+        if appStatus == .GettingLocation {
+            retrieveInitialHeading()
+        }
+    }
+    
+    func rotationAngleUpdated(angle: Double) {
+        for marker in witMarkers {
+            marker.updateAngle(angle)
+        }
+    }
+    
+    func showObjectDetails(wObject: WitObject) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.detailsHeader.text = wObject.witName
+            
+            var claimed: String = "NO"
+            
+            if wObject.isClaimed {
+                claimed = "YES"
+            }
+            
+            self.detailsDescription.text = "\(wObject.witDescription)\n\nBy: \(wObject.author) Claimed: \(claimed)"
+        }
+        
+        detailsView.hidden = false
+    }
+    
+    func addNewWitMarker(wObject: WitObject) {
+        // add new witmarker on screen
+        let marker = WitMarker()
+        
+        marker.registerObject(wObject)
+        marker.delegate = ViewFinderManager.sharedInstance
+        
+        witMarkers.append(marker)
+        markerView?.addSubview(marker.view)
+    }
+    
+    func filterWitMarkers() {
+        //check if we have number limitation of witmarkers
+        
+        let maxNumber = SettingsManager.sharedInstance.getWitMarkerNumberValue()
+        
+        witMarkers.sortInPlace({ $0.currentDistance < $1.currentDistance })
+        
+        for i in 0..<witMarkers.count {
+            let marker = witMarkers[i]
+            
+            if i < maxNumber {
+                marker.isShowMarker = true
+            } else {
+                marker.isShowMarker = false
+            }
+        }
+    }
+    
+    func distanceUpdated(location: CLLocation) {
+        for marker in witMarkers {
+            dispatch_async(dispatch_get_main_queue()) {
+                marker.updateDistance(location)
+            }
+        }
+        
+        filterWitMarkers()
+    }
 }

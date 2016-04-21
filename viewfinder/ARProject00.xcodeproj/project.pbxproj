@@ -36,6 +36,7 @@
 		5829F2651CC0D20A0085C861 /* DebugLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5829F2641CC0D20A0085C861 /* DebugLocationManager.swift */; };
 		5829F2671CC0EE740085C861 /* Scene3DViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5829F2661CC0EE740085C861 /* Scene3DViewController.swift */; };
 		5829F2691CC0F3F20085C861 /* Rendering3DViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5829F2681CC0F3F20085C861 /* Rendering3DViewController.swift */; };
+		583964111CC8FC9F00B6497F /* WrapperBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583964101CC8FC9F00B6497F /* WrapperBaseViewController.swift */; };
 		5842112B1CBFF24300ED0274 /* CustomLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5842112A1CBFF24300ED0274 /* CustomLocationViewController.swift */; };
 		585720B41CC4C770000EFAE1 /* WrapperSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585720B31CC4C770000EFAE1 /* WrapperSceneDelegate.swift */; };
 		585720B61CC4C907000EFAE1 /* RenderingSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585720B51CC4C907000EFAE1 /* RenderingSceneDelegate.swift */; };
@@ -87,6 +88,7 @@
 		5829F2641CC0D20A0085C861 /* DebugLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugLocationManager.swift; sourceTree = "<group>"; };
 		5829F2661CC0EE740085C861 /* Scene3DViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene3DViewController.swift; sourceTree = "<group>"; };
 		5829F2681CC0F3F20085C861 /* Rendering3DViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rendering3DViewController.swift; sourceTree = "<group>"; };
+		583964101CC8FC9F00B6497F /* WrapperBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrapperBaseViewController.swift; sourceTree = "<group>"; };
 		5842112A1CBFF24300ED0274 /* CustomLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLocationViewController.swift; sourceTree = "<group>"; };
 		585720B31CC4C770000EFAE1 /* WrapperSceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrapperSceneDelegate.swift; sourceTree = "<group>"; };
 		585720B51CC4C907000EFAE1 /* RenderingSceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderingSceneDelegate.swift; sourceTree = "<group>"; };
@@ -183,20 +185,21 @@
 			isa = PBXGroup;
 			children = (
 				523AB3181B8E0870008B6FA2 /* resources */,
-				582CC7391CC634EC00BC9185 /* CustomLocationViewController */,
-				582CC7381CC6349D00BC9185 /* LocationDebugViewController */,
-				585720B71CC4C9B9000EFAE1 /* Delegates */,
-				521A903B1B725C4100CC3178 /* Misc */,
 				521A903A1B725C2300CC3178 /* Managers */,
+				582CC73A1CC6352E00BC9185 /* Location+3D */,
+				582CC7391CC634EC00BC9185 /* CustomLocationViewController */,
+				585720B71CC4C9B9000EFAE1 /* Delegates */,
+				582CC7381CC6349D00BC9185 /* LocationDebugViewController */,
+				521A903B1B725C4100CC3178 /* Misc */,
 				521A90391B725C1C00CC3178 /* Models */,
 				5255B8B71B6777CE00C87383 /* AppDelegate.swift */,
 				588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */,
 				5829F2641CC0D20A0085C861 /* DebugLocationManager.swift */,
-				582CC73A1CC6352E00BC9185 /* Location+3D */,
 				5255B8BD1B6777CE00C87383 /* Main.storyboard */,
 				5255B8C01B6777CE00C87383 /* Images.xcassets */,
 				5255B8C21B6777CE00C87383 /* LaunchScreen.xib */,
 				5255B8B51B6777CE00C87383 /* Supporting Files */,
+				583964101CC8FC9F00B6497F /* WrapperBaseViewController.swift */,
 			);
 			path = ARProject00;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 				52AE60D51B8F722700668DDE /* WitMarkersView.swift in Sources */,
 				585720B61CC4C907000EFAE1 /* RenderingSceneDelegate.swift in Sources */,
 				5226F6261B90478500FC5DBA /* SettingsManager.swift in Sources */,
+				583964111CC8FC9F00B6497F /* WrapperBaseViewController.swift in Sources */,
 				5255B8BC1B6777CE00C87383 /* GameViewController.swift in Sources */,
 				5255B8DA1B677EDE00C87383 /* MotionManager.swift in Sources */,
 				525B3B631BA1E10400CE57CA /* Line2D.swift in Sources */,

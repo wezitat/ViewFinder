@@ -11,20 +11,13 @@ import CoreLocation
 import UIKit
 
 protocol WrapperSceneDelegate {
-    func getAppStatus() -> AppStatus
-    func getCalibratedHeading() -> CLLocationDirection
-    func isHeadingStable() -> Bool
-    func setStable(stable: Bool)
-    func startWrapperHeadingDataGatheringTimer()
-    func stopWrapperHeadingDataGatheringTimer()
-    func setWrapperCalibratedHeading(heading: CLLocationDirection)
-    func retrieveWrapperInitialHeading()
     func getWitMarkers() -> [WitMarker]
-    func setDetailsHeaderText(string: String)
-    func setDetailsDescriptionText(string: String)
-    func setDetailsViewHidden(bool: Bool)
-    func witMarkersAppend(marker: WitMarker)
-    func markerViewAddSubview(view: UIView)
-    func setWrapperWitMarkers(wits: [WitMarker])
     func updateWrapperPointIfObjectIsBehind(point: Point3D) -> Point3D
+    func headingUpdated(heading: CLLocationDirection)
+    func initLocationReceived()
+    func rotationAngleUpdated(angle: Double)
+    func showObjectDetails(wObject: WitObject)
+    func addNewWitMarker(wObject: WitObject)
+    func filterWitMarkers()
+    func distanceUpdated(location: CLLocation)
 }

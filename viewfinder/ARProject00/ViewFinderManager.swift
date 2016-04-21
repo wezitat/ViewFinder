@@ -92,16 +92,12 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
     
     func altitudeUpdated(altitude: CLLocationDistance) { // altituteUpdated(altitude*SCALE)
         //altitude of user location is updated
-        
         renderingSceneDelegate?.altitudeUpdated(altitude)
     }
     
     func locationUpdated(location: CLLocation) { // locationUpdated()
-        
         let point: Point2D = LocationMath.sharedInstance.convertLLtoXY(ViewFinderManager.sharedInstance.centerPoint, newLocation: location)
-        
         renderingSceneDelegate?.locationUpdated(point, location: location)
-        
 }
 
     //MARK: - MotionManagerDelegate
@@ -118,100 +114,35 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
     //MARK: - DeviceCalibrateDelegate
     
     func headingUpdated(heading: CLLocationDirection) {
-        
-        // wrapperSceneDelegate.getAccurateHeading
-        
-        //if we are in proper status - try to get accurate heading
-        if wrapperSceneDelegate?.getAppStatus() == .GettingHeading {
-            if abs((wrapperSceneDelegate?.getCalibratedHeading())! - heading) < 5 {
-                //device become stable start timer
-                if !(wrapperSceneDelegate?.isHeadingStable())! {
-                    wrapperSceneDelegate?.setStable(true)
-                    wrapperSceneDelegate?.startWrapperHeadingDataGatheringTimer()
-                }
-            } else {
-                wrapperSceneDelegate?.setStable(false)
-                
-                //device is not stable. stop timer
-                wrapperSceneDelegate?.stopWrapperHeadingDataGatheringTimer()
-                debugInfo.singleStatus("Don`t shake device!")
-            }
-            
-            wrapperSceneDelegate?.setWrapperCalibratedHeading(heading)
-        }
-        
-        debugInfo.angleUpdated(CGFloat(heading))
+        wrapperSceneDelegate?.headingUpdated(heading)
     }
     
     func initLocationReceived() {
-        //we received our location
-        if wrapperSceneDelegate?.getAppStatus() == .GettingLocation {
-            wrapperSceneDelegate?.retrieveWrapperInitialHeading()
-        }
+        wrapperSceneDelegate?.initLocationReceived()
     }
     
     //MARK: - RotationManagerDelegate
     
     func rotationAngleUpdated(angle: Double) {
-        //device has moved - update witMarker position
-        
-        let witMarkers: [WitMarker] = (wrapperSceneDelegate?.getWitMarkers())!
-        
-        for marker in witMarkers {
-            marker.updateAngle(angle)
-        }
+        wrapperSceneDelegate?.rotationAngleUpdated(angle)
     }
     
     //MARK: - SceneEventsDelegate (and WitMarkerDelegate for the 1st method)
     
     func showObjectDetails(wObject: WitObject) {
-        dispatch_async(dispatch_get_main_queue()) {
-            ViewFinderManager.sharedInstance.wrapperSceneDelegate?.setDetailsHeaderText(wObject.witName)
-            
-            var claimed: String = "NO"
-            
-            if wObject.isClaimed {
-                claimed = "YES"
-            }
-            
-            ViewFinderManager.sharedInstance.wrapperSceneDelegate?.setDetailsDescriptionText("\(wObject.witDescription)\n\nBy: \(wObject.author) Claimed: \(claimed)")
-        }
-        
-        wrapperSceneDelegate?.setDetailsViewHidden(false)
+        wrapperSceneDelegate?.showObjectDetails(wObject)
     }
     
     func addNewWitMarker(wObject: WitObject) {
-        // add new witmarker on screen
-        let marker: WitMarker = WitMarker()
-        
-        marker.registerObject(wObject)
-        marker.delegate = ViewFinderManager.sharedInstance
-        
-        wrapperSceneDelegate?.witMarkersAppend(marker)
-        wrapperSceneDelegate?.markerViewAddSubview(marker.view)
+        wrapperSceneDelegate?.addNewWitMarker(wObject)
     }
     
     func filterWitMarkers() {
-        //check if we have number limitation of witmarkers
-        
-        let maxNumber = SettingsManager.sharedInstance.getWitMarkerNumberValue()
-        
-        wrapperSceneDelegate?.setWrapperWitMarkers((wrapperSceneDelegate?.getWitMarkers().sort({ $0.currentDistance < $1.currentDistance }))!)
-        
-        let witMarkers: [WitMarker] = (wrapperSceneDelegate?.getWitMarkers())!
-        
-        for i in 0..<witMarkers.count {
-            let marker = (wrapperSceneDelegate?.getWitMarkers())![i]
-            
-            if i < maxNumber {
-                marker.isShowMarker = true
-            } else {
-                marker.isShowMarker = false
-            }
-        }
+        wrapperSceneDelegate?.filterWitMarkers()
     }
     
     func cameraMoved() {
+        
         //if camera moved we neeed to update witmarkers on screen. For that we will need what is object coordinates based on screen coordinates
         
         let screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
@@ -262,15 +193,9 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
     }
     
     func distanceUpdated(location: CLLocation) {
-        let witMarkers: [WitMarker] = (wrapperSceneDelegate?.getWitMarkers())!
         
-        for marker in witMarkers {
-            dispatch_async(dispatch_get_main_queue()) {
-                marker.updateDistance(location)
-            }
-        }
-        
-        filterWitMarkers()
+        // move to wrapperSceneDelegate
+        wrapperSceneDelegate?.distanceUpdated(location)
     }
 
     //MARK: - Methods, setting Delegates
