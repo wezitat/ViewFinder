@@ -14,7 +14,7 @@ import CoreLocation
 import AVFoundation
 
 protocol SceneEventsDelegate {
-    func showTopInfo(string: String)
+//    func showTopInfo(string: String)
     func showObjectDetails(wObject: WitObject)
     func addNewWitMarker(wObject: WitObject)
     func filterWitMarkers()
@@ -178,9 +178,6 @@ class GameViewController: UIViewController, RenderingSceneDelegate {
     }
     
     //display info text
-    func showLocationInfo(string: String) {
-        eventDelegate?.showTopInfo(string)
-    }
     
     func addWitObjects() {
         //init demo datas
@@ -198,6 +195,18 @@ class GameViewController: UIViewController, RenderingSceneDelegate {
         eventDelegate?.filterWitMarkers()
     }
     
+    func altitudeUpdated(altitude: CLLocationDistance) {
+        
+        SCNTransaction.begin()
+        SCNTransaction.setDisableActions(true)
+        
+        setCameraNodePosition(SCNVector3Make(getCameraNode().position.x, getCameraNode().position.y, Float(altitude*DEFAULT_METR_SCALE)))
+        SCNTransaction.commit()
+    }
+    
+    func setCameraNodePosition(vector: SCNVector3) {
+        cameraNode.position = vector
+    }
     
     func isNodeOnScreen(node: SCNNode) -> Bool {
         //chech if node is visible for a user
@@ -245,10 +254,6 @@ class GameViewController: UIViewController, RenderingSceneDelegate {
         return cameraNode
     }
     
-    func setCameraNodePosition(vector: SCNVector3) {
-        cameraNode.position = vector
-    }
-    
     func getShowingObject() -> [WitObject] {
         return showingObject
     }
@@ -274,5 +279,17 @@ class GameViewController: UIViewController, RenderingSceneDelegate {
         initialize3DSceneWithHeading(calibratedHeading)
     }
 
-
+    func locationUpdated(point: Point2D, location: CLLocation) {
+        //user location updated. move camera on new position in 3d scene
+        SCNTransaction.begin()
+        SCNTransaction.setDisableActions(true)
+        
+        setCameraNodePosition(SCNVector3Make(Float(point.x), Float(point.y), cameraNode.position.z))
+        
+        for object in showingObject {
+            object.updateWitObjectSize(location)
+        }
+        
+        SCNTransaction.commit()
+    }
 }

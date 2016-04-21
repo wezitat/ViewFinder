@@ -20,6 +20,8 @@ protocol RotationManagerDelegate {
     func rotationAngleUpdated(angle: Double)
 }
 
+var max_acc: Double = -1000000.0
+
 /** This is custom cover arround IOS MotionManager */
 class MotionManager {
     
@@ -33,6 +35,7 @@ class MotionManager {
         motionManager.gyroUpdateInterval = 0.2
         
         play()
+        trackLocation()
     }
     
     func pause() {
@@ -43,6 +46,25 @@ class MotionManager {
         self.motionManager.startDeviceMotionUpdatesUsingReferenceFrame(CMAttitudeReferenceFrame.XArbitraryCorrectedZVertical, toQueue: NSOperationQueue()) { (motion, error) -> Void in
             // translate the attitude
             self.outputDeviceMotion(motion!)
+        }
+    }
+    
+    func trackLocation() {
+        if motionManager.accelerometerAvailable {
+            motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: { (data: CMAccelerometerData?, error: NSError?) in
+                if let acceleration = data?.acceleration {
+                    let rotation = atan2(acceleration.x, acceleration.y) - M_PI
+                    print("x = \(acceleration.x)")
+                    print("y = \(acceleration.y)")
+                    print("z = \(acceleration.z)")
+                    
+                    if max_acc < acceleration.x {
+                        max_acc = acceleration.x
+                    }
+                    
+                    print("max x = \(max_acc)")
+                }
+            })
         }
     }
     

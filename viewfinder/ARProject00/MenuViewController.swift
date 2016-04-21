@@ -14,7 +14,6 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var sceneButton: UIButton!
     @IBOutlet weak var bothButton: UIButton!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
