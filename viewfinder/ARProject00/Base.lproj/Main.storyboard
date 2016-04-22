@@ -663,10 +663,10 @@
             </objects>
             <point key="canvasLocation" x="2259" y="-4"/>
         </scene>
-        <!--Game View Controller-->
+        <!--Rendering Base View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="GameViewController" customModule="ARProject00" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BV1-FR-VrT" customClass="RenderingBaseViewController" customModule="ARProject00" customModuleProvider="target" sceneMemberID="viewController">
                     <sceneKitView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -695,10 +695,10 @@
             </objects>
             <point key="canvasLocation" x="-95" y="-4"/>
         </scene>
-        <!--Rendering3D View Controller-->
+        <!--Rendering Base View Controller-->
         <scene sceneID="itM-46-YmE">
             <objects>
-                <viewController id="9TX-kh-m8j" customClass="Rendering3DViewController" customModule="ARProject00" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9TX-kh-m8j" customClass="RenderingBaseViewController" customModule="ARProject00" customModuleProvider="target" sceneMemberID="viewController">
                     <sceneKitView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="mZ3-b6-W9o">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -1,20 +1,27 @@
 //
-//  Rendering3DViewController.swift
+//  RenderingBaseViewController.swift
 //  ARProject00
 //
-//  Created by Ihor on 4/15/16.
+//  Created by Ihor on 4/21/16.
 //  Copyright © 2016 Techmagic. All rights reserved.
 //
 
 import UIKit
 import CoreLocation
+import CoreMotion
 import SceneKit
 import AVFoundation
 
-class Rendering3DViewController: UIViewController, RenderingSceneDelegate {
-    
-    @IBOutlet weak var mainSceneView: SCNView!
-    
+protocol SceneEventsDelegate {
+    func showObjectDetails(wObject: WitObject)
+    func addNewWitMarker(wObject: WitObject)
+    func filterWitMarkers()
+    func cameraMoved()
+    func locationUpdated(location: CLLocation)
+}
+
+class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
+
     var eventDelegate: SceneEventsDelegate! = nil
     
     var demoData: DemoDataClass = DemoDataClass()
@@ -176,6 +183,7 @@ class Rendering3DViewController: UIViewController, RenderingSceneDelegate {
         for object in showingObject {
             
             geometryNode.addChildNode(object.objectGeometry)
+            
             eventDelegate?.addNewWitMarker(object)
         }
         
@@ -245,8 +253,8 @@ class Rendering3DViewController: UIViewController, RenderingSceneDelegate {
         return showingObject
     }
     
-    func rotationChanged(orientation: SCNQuaternion) {
-        cameraNode.orientation = orientation
+    func rotationChanged(orientation: CMQuaternion) {
+        cameraNode.orientation = LocationMath.sharedInstance.orientationFromCMQuaternion(orientation)
         eventDelegate?.cameraMoved()
     }
     
@@ -279,4 +287,15 @@ class Rendering3DViewController: UIViewController, RenderingSceneDelegate {
         
         SCNTransaction.commit()
     }
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
 }

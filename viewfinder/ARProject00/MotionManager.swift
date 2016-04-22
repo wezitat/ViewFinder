@@ -12,7 +12,7 @@ import GLKit
 import SceneKit
 
 protocol MotionManagerDelegate {
-    func rotationChanged(orientation: SCNQuaternion)
+    func rotationChanged(orientation: CMQuaternion)
     func drasticDeviceMove()
 }
 
@@ -35,7 +35,6 @@ class MotionManager {
         motionManager.gyroUpdateInterval = 0.2
         
         play()
-        trackLocation()
     }
     
     func pause() {
@@ -49,30 +48,11 @@ class MotionManager {
         }
     }
     
-    func trackLocation() {
-        if motionManager.accelerometerAvailable {
-            motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: { (data: CMAccelerometerData?, error: NSError?) in
-                if let acceleration = data?.acceleration {
-                    let rotation = atan2(acceleration.x, acceleration.y) - M_PI
-                    print("x = \(acceleration.x)")
-                    print("y = \(acceleration.y)")
-                    print("z = \(acceleration.z)")
-                    
-                    if max_acc < acceleration.x {
-                        max_acc = acceleration.x
-                    }
-                    
-                    print("max x = \(max_acc)")
-                }
-            })
-        }
-    }
-    
     func outputAccelerationData(acceleration:CMAcceleration) {
     }
     
     func outputDeviceMotion(motion: CMDeviceMotion) {
-        motionManagerDelegate?.rotationChanged(self.orientationFromCMQuaternion(motion.attitude))
+        motionManagerDelegate?.rotationChanged(motion.attitude.quaternion)
         
         if deviceMadeDrasticMove(motion) {
             motionManagerDelegate?.drasticDeviceMove()
@@ -88,17 +68,4 @@ class MotionManager {
                abs(motion.rotationRate.z) > 0.1
     }
     
-    func orientationFromCMQuaternion(attitude:CMAttitude) -> SCNQuaternion {
-        let q: CMQuaternion = attitude.quaternion
-        
-        var rq: CMQuaternion = CMQuaternion()
-        
-        rq.x = q.x
-        rq.y = q.y
-        rq.z = q.z
-        rq.w = q.w
-        
-        return SCNVector4Make(Float(rq.x), Float(rq.y), Float(rq.z), Float(rq.w))
-    }
- 
 }

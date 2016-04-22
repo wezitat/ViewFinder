@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import CoreMotion
 import SceneKit
 
 private let _ViewFinderManager = ViewFinderManager()
@@ -90,19 +91,19 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
 
     //MARK: - LocationManagerDelegate
     
-    func altitudeUpdated(altitude: CLLocationDistance) { // altituteUpdated(altitude*SCALE)
+    func altitudeUpdated(altitude: CLLocationDistance) {
         //altitude of user location is updated
         renderingSceneDelegate?.altitudeUpdated(altitude)
     }
     
-    func locationUpdated(location: CLLocation) { // locationUpdated()
+    func locationUpdated(location: CLLocation) {
         let point: Point2D = LocationMath.sharedInstance.convertLLtoXY(ViewFinderManager.sharedInstance.centerPoint, newLocation: location)
         renderingSceneDelegate?.locationUpdated(point, location: location)
-}
+    }
 
     //MARK: - MotionManagerDelegate
     
-    func rotationChanged(orientation: SCNQuaternion) {
+    func rotationChanged(orientation: CMQuaternion) {
         //user moved camera and pointing of camera changed
         renderingSceneDelegate?.rotationChanged(orientation)
     }

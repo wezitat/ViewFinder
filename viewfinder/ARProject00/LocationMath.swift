@@ -8,6 +8,8 @@
 
 import Foundation
 import CoreLocation
+import SceneKit
+import CoreMotion
 
 //value which represents scale in 3d scene
 
@@ -109,4 +111,9 @@ class LocationMath {
         
         return angleBetween2Lines(line1, line2: line2)
     }
+    
+    func orientationFromCMQuaternion(quaternion: CMQuaternion) -> SCNQuaternion {
+        return SCNVector4Make(Float(quaternion.x), Float(quaternion.y), Float(quaternion.z), Float(quaternion.w))
+    }
+    
 }
