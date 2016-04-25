@@ -43,6 +43,7 @@
 		585720B61CC4C907000EFAE1 /* RenderingSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585720B51CC4C907000EFAE1 /* RenderingSceneDelegate.swift */; };
 		588AB4A81CBD1EF400EA8D3B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */; };
 		588AB4AA1CBD2B0E00EA8D3B /* LocationDebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588AB4A91CBD2B0E00EA8D3B /* LocationDebugViewController.swift */; };
+		6759D4547662D7E8556B4B0E /* libPods-ARProject00.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 12A8A67508D7FCDFC9D4B1FB /* libPods-ARProject00.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		12A8A67508D7FCDFC9D4B1FB /* libPods-ARProject00.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ARProject00.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5226F6231B90464800FC5DBA /* settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = settings.plist; sourceTree = "<group>"; };
 		5226F6251B90478400FC5DBA /* SettingsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		523AB3191B8E087C008B6FA2 /* lviv_objects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = lviv_objects.json; path = resources/lviv_objects.json; sourceTree = "<group>"; };
@@ -90,12 +92,15 @@
 		583964101CC8FC9F00B6497F /* WrapperBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrapperBaseViewController.swift; sourceTree = "<group>"; };
 		583964121CC913A300B6497F /* RenderingBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderingBaseViewController.swift; sourceTree = "<group>"; };
 		5842112A1CBFF24300ED0274 /* CustomLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLocationViewController.swift; sourceTree = "<group>"; };
+		584349891CCE53D600242F48 /* ARProject00-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ARProject00-Bridging-Header.h"; sourceTree = "<group>"; };
 		584CB7161CCA7C6000B31288 /* HardwareManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareManager.swift; sourceTree = "<group>"; };
 		584CB7181CCA83A700B31288 /* LocationBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationBaseViewController.swift; sourceTree = "<group>"; };
 		585720B31CC4C770000EFAE1 /* WrapperSceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrapperSceneDelegate.swift; sourceTree = "<group>"; };
 		585720B51CC4C907000EFAE1 /* RenderingSceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderingSceneDelegate.swift; sourceTree = "<group>"; };
 		588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		588AB4A91CBD2B0E00EA8D3B /* LocationDebugViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationDebugViewController.swift; sourceTree = "<group>"; };
+		856EF09B23C0DD470CC24AAD /* Pods-ARProject00.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARProject00.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00.release.xcconfig"; sourceTree = "<group>"; };
+		CB573DADE3496ADD5D0B8BA7 /* Pods-ARProject00.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARProject00.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +110,7 @@
 			files = (
 				5263E2C41B73AC5E002A550F /* UIKit.framework in Frameworks */,
 				5255B8DC1B67B06100C87383 /* GLKit.framework in Frameworks */,
+				6759D4547662D7E8556B4B0E /* libPods-ARProject00.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +124,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		27026921F8F42D49EEF38671 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				12A8A67508D7FCDFC9D4B1FB /* libPods-ARProject00.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		521A90391B725C1C00CC3178 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +185,8 @@
 				5255B8B41B6777CE00C87383 /* ARProject00 */,
 				5255B8CC1B6777CE00C87383 /* ARProject00Tests */,
 				5255B8B31B6777CE00C87383 /* Products */,
+				F91FB8B2D3C56D28B960F187 /* Pods */,
+				27026921F8F42D49EEF38671 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -206,6 +222,7 @@
 				583964101CC8FC9F00B6497F /* WrapperBaseViewController.swift */,
 				583964121CC913A300B6497F /* RenderingBaseViewController.swift */,
 				584CB7181CCA83A700B31288 /* LocationBaseViewController.swift */,
+				584349891CCE53D600242F48 /* ARProject00-Bridging-Header.h */,
 			);
 			path = ARProject00;
 			sourceTree = "<group>";
@@ -276,6 +293,15 @@
 			name = Delegates;
 			sourceTree = "<group>";
 		};
+		F91FB8B2D3C56D28B960F187 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CB573DADE3496ADD5D0B8BA7 /* Pods-ARProject00.debug.xcconfig */,
+				856EF09B23C0DD470CC24AAD /* Pods-ARProject00.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -283,9 +309,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5255B8D31B6777CE00C87383 /* Build configuration list for PBXNativeTarget "ARProject00" */;
 			buildPhases = (
+				079872815B195FA836362784 /* Check Pods Manifest.lock */,
 				5255B8AE1B6777CE00C87383 /* Sources */,
 				5255B8AF1B6777CE00C87383 /* Frameworks */,
 				5255B8B01B6777CE00C87383 /* Resources */,
+				1C3DE567443DD0FE84599167 /* Embed Pods Frameworks */,
+				D2DEA888E7E185DDA9F02CFE /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -321,7 +350,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 0710;
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = Techmagic;
 				TargetAttributes = {
@@ -329,6 +358,9 @@
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = 4D3PQ2KJ43;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Maps.iOS = {
 								enabled = 0;
 							};
@@ -381,6 +413,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		079872815B195FA836362784 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		1C3DE567443DD0FE84599167 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D2DEA888E7E185DDA9F02CFE /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5255B8AE1B6777CE00C87383 /* Sources */ = {
@@ -540,8 +620,10 @@
 		};
 		5255B8D41B6777CE00C87383 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB573DADE3496ADD5D0B8BA7 /* Pods-ARProject00.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Kuzmych (NUWD2JVU26)";
 				INFOPLIST_FILE = ARProject00/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -549,13 +631,17 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.techmagic.Forq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "445aaee2-e407-4e15-be12-31a46f1377f7";
+				SWIFT_OBJC_BRIDGING_HEADER = "ARProject00/ARProject00-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		5255B8D51B6777CE00C87383 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 856EF09B23C0DD470CC24AAD /* Pods-ARProject00.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Kuzmych (NUWD2JVU26)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Kuzmych (NUWD2JVU26)";
 				INFOPLIST_FILE = ARProject00/Info.plist;
@@ -564,6 +650,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.techmagic.Forq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "445aaee2-e407-4e15-be12-31a46f1377f7";
+				SWIFT_OBJC_BRIDGING_HEADER = "ARProject00/ARProject00-Bridging-Header.h";
 			};
 			name = Release;
 		};

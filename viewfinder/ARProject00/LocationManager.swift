@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import LocationKit
 
 let kDistanceFilter: Double = 25
 let kHeadingFilter: Double = 1
@@ -31,7 +32,7 @@ protocol DeviceCalibrateDelegate {
 }
 
 /** This is custom wrapper arround IOS LocationManager */
-class LocationManager: HardwareManager, CLLocationManagerDelegate {
+class LocationManager: HardwareManager, LKLocationManagerDelegate {
     
     let LOCATION_ACCURACCY: CLLocationAccuracy = SettingsManager.sharedInstance.getAccuracyValue()
     
@@ -39,7 +40,7 @@ class LocationManager: HardwareManager, CLLocationManagerDelegate {
     var deviceCalibrateDelegate: DeviceCalibrateDelegate! = nil
     var    infoLocationDelegate: InfoLocationDelegate!    = nil
 
-    var manager: CLLocationManager = CLLocationManager()
+    var manager: LKLocationManager = LKLocationManager()
     
     var previousLocation: CLLocation! = nil
     
@@ -48,7 +49,15 @@ class LocationManager: HardwareManager, CLLocationManagerDelegate {
     var timePassed: Int = 0
     
     override func initManager() {
-        manager.delegate = self
+        
+//        let locationManager = LKLocationManager()
+        // The debug flag is not necessary (and should not be enabled in prod)
+        // but does help to ensure things are working correctly
+        manager.debug = true
+        manager.apiToken = "b93e57618fcbd8d4"
+//        locationManager.startUpdatingLocation()
+
+        manager.advancedDelegate = self
         manager.requestAlwaysAuthorization()
         manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         manager.distanceFilter = kDistanceFilter
@@ -81,7 +90,7 @@ class LocationManager: HardwareManager, CLLocationManagerDelegate {
         manager.stopUpdatingHeading()
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(manager: LKLocationManager, didUpdateLocations locations: [CLLocation]) {
         timePassed = 0
         
         if timerAfterUpdate != nil {
@@ -147,7 +156,7 @@ class LocationManager: HardwareManager, CLLocationManagerDelegate {
         }
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+    func locationManager(manager: LKLocationManager, didUpdateHeading newHeading: CLHeading) {
         if newHeading.headingAccuracy < 0 {
             return
         }
@@ -159,7 +168,7 @@ class LocationManager: HardwareManager, CLLocationManagerDelegate {
         deviceCalibrateDelegate?.headingUpdated(((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading))
     }
     
-    func locationManagerShouldDisplayHeadingCalibration(manager: CLLocationManager) -> Bool {
+    func locationManagerShouldDisplayHeadingCalibration(manager: LKLocationManager) -> Bool {
         return true
     }
 }

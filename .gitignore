@@ -43,3 +43,53 @@ Temporary Items
 .apdisk
 viewfinder/ARProject00.xcodeproj/project.xcworkspace/xcuserdata/ihor.xcuserdatad/UserInterfaceState.xcuserstate
 viewfinder/ARProject00.xcodeproj/xcuserdata/ihor.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+viewfinder/#Podfile#
+viewfinder/Podfile
+viewfinder/Podfile.lock
+viewfinder/ARProject00.xcworkspace/contents.xcworkspacedata
+viewfinder/ARProject00.xcworkspace/xcuserdata/ihor.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+viewfinder/Pods/Manifest.lock
+viewfinder/Pods/Headers/Public/LocationKit/LocationKit/LKEvent.h
+viewfinder/Pods/Headers/Public/LocationKit/LocationKit/LKLocationManager.h
+viewfinder/Pods/Headers/Public/LocationKit/LocationKit/LKPerson.h
+viewfinder/Pods/Headers/Public/LocationKit/LocationKit/LKPlacemark.h
+viewfinder/Pods/Headers/Public/LocationKit/LocationKit/LKRegion.h
+viewfinder/Pods/Headers/Public/LocationKit/LocationKit/LKSearchRequest.h
+viewfinder/Pods/Headers/Public/LocationKit/LocationKit/LKSetting.h
+viewfinder/Pods/Headers/Public/LocationKit/LocationKit/LKUserValues.h
+viewfinder/Pods/Headers/Public/LocationKit/LocationKit/LKVenue.h
+viewfinder/Pods/Headers/Public/LocationKit/LocationKit/LKVisit.h
+viewfinder/Pods/Headers/Public/LocationKit/LocationKit/LKVisitFilter.h
+viewfinder/Pods/Headers/Public/LocationKit/LocationKit/LocationKit.h
+viewfinder/Pods/LocationKit/README.md
+viewfinder/Pods/LocationKit/LocationKit.framework/Info.plist
+viewfinder/Pods/LocationKit/LocationKit.framework/LocationKit
+viewfinder/Pods/LocationKit/LocationKit.framework/Headers/LKEvent.h
+viewfinder/Pods/LocationKit/LocationKit.framework/Headers/LKLocationManager.h
+viewfinder/Pods/LocationKit/LocationKit.framework/Headers/LKPerson.h
+viewfinder/Pods/LocationKit/LocationKit.framework/Headers/LKPlacemark.h
+viewfinder/Pods/LocationKit/LocationKit.framework/Headers/LKRegion.h
+viewfinder/Pods/LocationKit/LocationKit.framework/Headers/LKSearchRequest.h
+viewfinder/Pods/LocationKit/LocationKit.framework/Headers/LKSetting.h
+viewfinder/Pods/LocationKit/LocationKit.framework/Headers/LKUserValues.h
+viewfinder/Pods/LocationKit/LocationKit.framework/Headers/LKVenue.h
+viewfinder/Pods/LocationKit/LocationKit.framework/Headers/LKVisit.h
+viewfinder/Pods/LocationKit/LocationKit.framework/Headers/LKVisitFilter.h
+viewfinder/Pods/LocationKit/LocationKit.framework/Headers/LocationKit.h
+viewfinder/Pods/LocationKit/LocationKit.framework/Modules/module.modulemap
+viewfinder/Pods/LocationKit/LocationKit.framework/PrivateHeaders/LKGeometry.h
+viewfinder/Pods/LocationKit/LocationKit.framework/PrivateHeaders/LKGeometryShape.h
+viewfinder/Pods/LocationKit/LocationKit.framework/PrivateHeaders/LKLocation.h
+viewfinder/Pods/LocationKit/LocationKit.framework/PrivateHeaders/LKMultiPolygon.h
+viewfinder/Pods/LocationKit/LocationKit.framework/PrivateHeaders/LKPoint.h
+viewfinder/Pods/LocationKit/LocationKit.framework/PrivateHeaders/LKSinglePolygon.h
+viewfinder/Pods/Pods.xcodeproj/project.pbxproj
+viewfinder/Pods/Pods.xcodeproj/xcuserdata/ihor.xcuserdatad/xcschemes/Pods-ARProject00.xcscheme
+viewfinder/Pods/Pods.xcodeproj/xcuserdata/ihor.xcuserdatad/xcschemes/xcschememanagement.plist
+viewfinder/Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00-acknowledgements.markdown
+viewfinder/Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00-acknowledgements.plist
+viewfinder/Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00-dummy.m
+viewfinder/Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00-frameworks.sh
+viewfinder/Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00-resources.sh
+viewfinder/Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00.debug.xcconfig
+viewfinder/Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00.release.xcconfig

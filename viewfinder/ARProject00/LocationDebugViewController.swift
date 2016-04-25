@@ -8,8 +8,9 @@
 
 import UIKit
 import CoreLocation
+import LocationKit
 
-class LocationDebugViewController: UIViewController, CLLocationManagerDelegate {
+class LocationDebugViewController: UIViewController, LKLocationManagerDelegate {
 
     @IBOutlet weak var compassImageView: UIImageView!
     
@@ -35,7 +36,7 @@ class LocationDebugViewController: UIViewController, CLLocationManagerDelegate {
 
         compassImageView.image = UIImage(named: "compass")
         
-        debugLocationManager.locationManager!.delegate = self
+        debugLocationManager.locationManager!.advancedDelegate = self
         
         debugLocationManager.setStandardProperties()
     
@@ -62,15 +63,15 @@ class LocationDebugViewController: UIViewController, CLLocationManagerDelegate {
     
     // MARK: - Location Manager Delegate
     
-    func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+    func locationManager(manager: LKLocationManager, didUpdateHeading newHeading: CLHeading) {
         
-        debugLocationManager.timePassedFromLastHeadingUpdate = 0
+        debugLocationManager?.timePassedFromLastHeadingUpdate = 0
         
         headingUpdateLabel.text = "0 seconds"
         
-        debugLocationManager.headingTimer?.invalidate()
+        debugLocationManager?.headingTimer?.invalidate()
         
-        debugLocationManager.headingTimer = NSTimer.scheduledTimerWithTimeInterval(1,
+        debugLocationManager?.headingTimer = NSTimer.scheduledTimerWithTimeInterval(1,
                                                        target: self,
                                                        selector: #selector(headingInformationUpdated),
                                                        userInfo: nil,
@@ -89,14 +90,14 @@ class LocationDebugViewController: UIViewController, CLLocationManagerDelegate {
         compassImageView.transform = CGAffineTransformMakeRotation(-CGFloat((heading*M_PI)/180.0))
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(manager: LKLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        debugLocationManager.timePassedFromLastLocationUpdate = 0
+        debugLocationManager?.timePassedFromLastLocationUpdate = 0
         
         locationUpdateLabel.text = "0 seconds"
         
-        debugLocationManager.locationTimer?.invalidate()
-        debugLocationManager.locationTimer = NSTimer.scheduledTimerWithTimeInterval(1,
+        debugLocationManager?.locationTimer?.invalidate()
+        debugLocationManager?.locationTimer = NSTimer.scheduledTimerWithTimeInterval(1,
                                                                target: self,
                                                                selector: #selector(locationInformationUpdated),
                                                                userInfo: nil,

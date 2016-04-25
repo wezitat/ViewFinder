@@ -8,8 +8,9 @@
 
 import UIKit
 import CoreLocation
+import LocationKit
 
-class CustomLocationViewController: UIViewController, CLLocationManagerDelegate {
+class CustomLocationViewController: UIViewController, LKLocationManagerDelegate {
 
     @IBOutlet weak var latitudeTextField: UITextField!
     @IBOutlet weak var longitudeTextField: UITextField!
@@ -23,7 +24,7 @@ class CustomLocationViewController: UIViewController, CLLocationManagerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        debugLocationManager.locationManager!.delegate = self
+        debugLocationManager.locationManager!.advancedDelegate = self
         debugLocationManager.setStandardProperties()
         debugLocationManager.locationManager!.headingFilter = 0.5
         

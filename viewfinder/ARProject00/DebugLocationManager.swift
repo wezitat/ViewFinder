@@ -8,10 +8,11 @@
 
 import UIKit
 import CoreLocation
+import LocationKit
 
-class DebugLocationManager: NSObject, CLLocationManagerDelegate {
+class DebugLocationManager: NSObject, LKLocationManagerDelegate {
 
-    var locationManager: CLLocationManager? = CLLocationManager()
+    var locationManager: LKLocationManager? = LKLocationManager()
     
     var locationTimer: NSTimer? = nil
     var headingTimer:  NSTimer? = nil
@@ -25,10 +26,13 @@ class DebugLocationManager: NSObject, CLLocationManagerDelegate {
         locationManager?.desiredAccuracy = kCLLocationAccuracyBest
         locationManager?.distanceFilter = kCLDistanceFilterNone
         
-        if CLLocationManager.headingAvailable() {
+        if LKLocationManager.headingAvailable() {
             locationManager?.startUpdatingHeading()
         }
 
+        locationManager?.debug = true
+        locationManager?.apiToken = "b93e57618fcbd8d4"
+        
         locationManager?.startUpdatingLocation()
     }
     

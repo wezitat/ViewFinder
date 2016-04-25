@@ -8,8 +8,9 @@
 
 import UIKit
 import CoreLocation
+import LocationKit
 
-class Scene3DViewController: WrapperBaseViewController, CLLocationManagerDelegate {
+class Scene3DViewController: WrapperBaseViewController, LKLocationManagerDelegate {
     
     var customLocation: CLLocation = CLLocation()
     
@@ -21,9 +22,9 @@ class Scene3DViewController: WrapperBaseViewController, CLLocationManagerDelegat
         super.viewWillAppear(animated)
     }
     
-    //MARK: - CLLocationManagerDelegate
+    //MARK: - LKLocationManagerDelegate
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(manager: LKLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         Brain.sharedInstance.locationManager.timePassed = 0
         Brain.sharedInstance.locationManager.timerAfterUpdate?.invalidate()
@@ -88,7 +89,7 @@ class Scene3DViewController: WrapperBaseViewController, CLLocationManagerDelegat
         }
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+    func locationManager(manager: LKLocationManager, didUpdateHeading newHeading: CLHeading) {
         if newHeading.headingAccuracy < 0 {
             return
         }
