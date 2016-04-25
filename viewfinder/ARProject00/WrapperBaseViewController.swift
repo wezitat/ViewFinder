@@ -44,7 +44,7 @@ class WrapperBaseViewController: UIViewController, WrapperSceneDelegate {
     var detailsHeader: UILabel! = nil
     var detailsDescription: UILabel! = nil
     
-    //    var viewFinderManager = ViewFinderManager.sharedInstance
+    //    var Brain = Brain.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,20 +54,20 @@ class WrapperBaseViewController: UIViewController, WrapperSceneDelegate {
         //load settings
         SettingsManager.sharedInstance.loadSettings()
         
-        ViewFinderManager.sharedInstance.setGameViewController(self.childViewControllers.first! as! RenderingSceneDelegate)
-        ViewFinderManager.sharedInstance.setGameViewControllerDelegate(ViewFinderManager.sharedInstance)
+        Brain.sharedInstance.setGameViewController(self.childViewControllers.first! as! RenderingSceneDelegate)
+        Brain.sharedInstance.setGameViewControllerDelegate(Brain.sharedInstance)
         
         initDebugViewLayer()
         initDetailsView()
         
         //start location manager
-        ViewFinderManager.sharedInstance.startLocationManager()
+        Brain.sharedInstance.startLocationManager()
         
-        ViewFinderManager.sharedInstance.locationManager.startUpdates()
+        Brain.sharedInstance.locationManager.startUpdating()
         
-        ViewFinderManager.sharedInstance.setLocationManagerDeviceCalibrateDelegate(ViewFinderManager.sharedInstance)
-        ViewFinderManager.sharedInstance.setLocationManagerInfoLocationDelegate(ViewFinderManager.sharedInstance)
-        ViewFinderManager.sharedInstance.setMotionManagerRotationManagerDelegate(ViewFinderManager.sharedInstance)
+        Brain.sharedInstance.setLocationManagerDeviceCalibrateDelegate(Brain.sharedInstance)
+        Brain.sharedInstance.setLocationManagerInfoLocationDelegate(Brain.sharedInstance)
+        Brain.sharedInstance.setMotionManagerRotationManagerDelegate(Brain.sharedInstance)
         
         //First step we need to retrieve accurate location. This can take a while (depends on accuracy which we choosed in LocationManager)
         self.retrieveInitialLocation()
@@ -81,13 +81,13 @@ class WrapperBaseViewController: UIViewController, WrapperSceneDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        ViewFinderManager.sharedInstance.setTopViewController(self)
+        Brain.sharedInstance.setTopViewController(self)
     }
     
     override func willMoveToParentViewController(parent: UIViewController?) {
         
         if parent == nil {
-            ViewFinderManager.sharedInstance.resetManager()
+            Brain.sharedInstance.resetManager()
         }
     }
     
@@ -96,7 +96,7 @@ class WrapperBaseViewController: UIViewController, WrapperSceneDelegate {
 //        self.refreshSceneButton.enabled = false
         //self.sceneController.resetScene()
         
-        ViewFinderManager.sharedInstance.getGameViewController()!.resetMotionScene()
+        Brain.sharedInstance.getGameViewController()!.resetMotionScene()
         
         for marker in witMarkers {
             marker.view.removeFromSuperview()
@@ -104,10 +104,10 @@ class WrapperBaseViewController: UIViewController, WrapperSceneDelegate {
         
         witMarkers = [WitMarker]()
         
-        ViewFinderManager.sharedInstance.setLocationManagerDelegate(nil)
+        Brain.sharedInstance.setLocationManagerDelegate(nil)
         
-        ViewFinderManager.sharedInstance.getLocationManager().stopUpdates()
-        ViewFinderManager.sharedInstance.getLocationManager().startUpdates()
+        Brain.sharedInstance.getLocationManager().stopUpdating()
+        Brain.sharedInstance.getLocationManager().startUpdating()
         
         //First step we need to retrieve accurate location. This can take a while (depends on accuracy which we choosed in LocationManager)
         self.retrieveInitialLocation()
@@ -225,14 +225,14 @@ class WrapperBaseViewController: UIViewController, WrapperSceneDelegate {
      */
     func initializeScene() {
         
-        if ViewFinderManager.sharedInstance.getGameViewController() != nil {
+        if Brain.sharedInstance.getGameViewController() != nil {
             
 //            self.refreshSceneButton.enabled = true
             
             debugInfo.fullInfo()
             
-            ViewFinderManager.sharedInstance.setLocationManagerDelegate(ViewFinderManager.sharedInstance)
-            ViewFinderManager.sharedInstance.getGameViewController()!.initialize3DSceneMotionWithHeading(calibratedHeading)
+            Brain.sharedInstance.setLocationManagerDelegate(Brain.sharedInstance)
+            Brain.sharedInstance.getGameViewController()!.initialize3DSceneMotionWithHeading(calibratedHeading)
         }
     }
     
@@ -387,7 +387,7 @@ class WrapperBaseViewController: UIViewController, WrapperSceneDelegate {
         let marker = WitMarker()
         
         marker.registerObject(wObject)
-        marker.delegate = ViewFinderManager.sharedInstance
+        marker.delegate = Brain.sharedInstance
         
         witMarkers.append(marker)
         markerView?.addSubview(marker.view)

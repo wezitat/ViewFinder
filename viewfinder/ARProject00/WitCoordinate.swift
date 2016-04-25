@@ -23,7 +23,7 @@ class WitCoordinate {
         self.alt = alt*DEFAULT_METR_SCALE
         
         let newLocation: CLLocation = CLLocation(latitude: lat, longitude: lon)
-        let centerLocation: CLLocation = ViewFinderManager.sharedInstance.centerPoint
+        let centerLocation: CLLocation = Brain.sharedInstance.centerPoint
     
         point2d = LocationMath.sharedInstance.convertLLtoXY(centerLocation, newLocation: newLocation)
     }

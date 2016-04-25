@@ -31,7 +31,7 @@ protocol DeviceCalibrateDelegate {
 }
 
 /** This is custom wrapper arround IOS LocationManager */
-class LocationManager: NSObject, CLLocationManagerDelegate {
+class LocationManager: HardwareManager, CLLocationManagerDelegate {
     
     let LOCATION_ACCURACCY: CLLocationAccuracy = SettingsManager.sharedInstance.getAccuracyValue()
     
@@ -47,17 +47,17 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     var timePassed: Int = 0
     
-    func initLocatioManager() {
+    override func initManager() {
         manager.delegate = self
         manager.requestAlwaysAuthorization()
         manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         manager.distanceFilter = kDistanceFilter
         manager.headingFilter = kHeadingFilter
         
-        startUpdates()
+        startUpdating()
     }
     
-    func startUpdates() {
+    override func startUpdating() {
         timePassed = 0
         timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1,
                                                                   target: self,
@@ -74,7 +74,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         infoLocationDelegate?.lastTimeLocationUpdate(timePassed)
     }
     
-    func stopUpdates() {
+    override func stopUpdating() {
         previousLocation = nil
         
         manager.stopUpdatingLocation()
@@ -116,10 +116,10 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         
         if previousLocation == nil {
             if newLocation.horizontalAccuracy <= LOCATION_ACCURACCY && deviceCalibrateDelegate != nil{
-                ViewFinderManager.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude)//CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
+                Brain.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude)//CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
                 
                 if newLocation.verticalAccuracy > 0 {
-                    ViewFinderManager.sharedInstance.centerAltitude = newLocation.altitude
+                    Brain.sharedInstance.centerAltitude = newLocation.altitude
                     deviceCalibrateDelegate.initLocationReceived()
                     previousLocation = newLocation
                 }
@@ -132,7 +132,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             if newLocation.horizontalAccuracy <= LOCATION_ACCURACCY {
                 if locationManagerDelegate != nil {
                     locationManagerDelegate.locationUpdated(newLocation)
-                    ViewFinderManager.sharedInstance.userLocation = newLocation
+                    Brain.sharedInstance.userLocation = newLocation
                 }
                 
                 infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(previousLocation)))")

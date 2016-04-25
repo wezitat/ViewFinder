@@ -23,25 +23,25 @@ protocol RotationManagerDelegate {
 var max_acc: Double = -1000000.0
 
 /** This is custom cover arround IOS MotionManager */
-class MotionManager {
+class MotionManager: HardwareManager {
     
     var   motionManagerDelegate: MotionManagerDelegate! = nil
     var rotationManagerDelegate: RotationManagerDelegate! = nil
 
     let motionManager = CMMotionManager()
     
-    func initMotionManger() {
+    override func initManager() {
         motionManager.accelerometerUpdateInterval = 0.2
         motionManager.gyroUpdateInterval = 0.2
         
-        play()
+        startUpdating()
     }
     
-    func pause() {
+    override func stopUpdating() {
         motionManager.stopDeviceMotionUpdates()
     }
     
-    func play() {
+    override func startUpdating() {
         self.motionManager.startDeviceMotionUpdatesUsingReferenceFrame(CMAttitudeReferenceFrame.XArbitraryCorrectedZVertical, toQueue: NSOperationQueue()) { (motion, error) -> Void in
             // translate the attitude
             self.outputDeviceMotion(motion!)

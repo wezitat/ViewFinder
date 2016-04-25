@@ -1,5 +1,5 @@
 //
-//  ViewFinderManager.swift
+//  Brain.swift
 //  ARProject00
 //
 //  Created by Anton Semenyuk on 8/12/15.
@@ -11,10 +11,8 @@ import CoreLocation
 import CoreMotion
 import SceneKit
 
-private let _ViewFinderManager = ViewFinderManager()
-
-class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionManagerDelegate, RotationManagerDelegate, DeviceCalibrateDelegate, SceneEventsDelegate, WitMarkerDelegate {
-    static let sharedInstance = ViewFinderManager()
+class Brain: InfoLocationDelegate, LocationManagerDelegate, MotionManagerDelegate, RotationManagerDelegate, DeviceCalibrateDelegate, SceneEventsDelegate, WitMarkerDelegate {
+    static let sharedInstance = Brain()
     
     var feetSystem: Bool = false
     
@@ -33,28 +31,28 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
     var centerAltitude: CLLocationDistance = CLLocationDistance()
     
     func startMotionManager() {
-         motionManager.initMotionManger()
+         motionManager.initManager()
     }
     
     func startLocationManager() {
-        locationManager.initLocatioManager()
+        locationManager.initManager()
     }
     
     func resetManager() {
-        motionManager.pause()
-        locationManager.stopUpdates()
+        motionManager.stopUpdating()
+        locationManager.stopUpdating()
         
-        ViewFinderManager.sharedInstance.motionManager.rotationManagerDelegate = nil
-        ViewFinderManager.sharedInstance.motionManager.motionManagerDelegate = nil
+        Brain.sharedInstance.motionManager.rotationManagerDelegate = nil
+        Brain.sharedInstance.motionManager.motionManagerDelegate = nil
         
-        ViewFinderManager.sharedInstance.locationManager.locationManagerDelegate = nil
-        ViewFinderManager.sharedInstance.locationManager.deviceCalibrateDelegate = nil
-        ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate = nil
+        Brain.sharedInstance.locationManager.locationManagerDelegate = nil
+        Brain.sharedInstance.locationManager.deviceCalibrateDelegate = nil
+        Brain.sharedInstance.locationManager.infoLocationDelegate = nil
         
-        ViewFinderManager.sharedInstance.wrapperSceneDelegate = nil
+        Brain.sharedInstance.wrapperSceneDelegate = nil
         
-        ViewFinderManager.sharedInstance.renderingSceneDelegate!.setEventDelegate(nil)
-        ViewFinderManager.sharedInstance.renderingSceneDelegate = nil
+        Brain.sharedInstance.renderingSceneDelegate!.setEventDelegate(nil)
+        Brain.sharedInstance.renderingSceneDelegate = nil
     }
     
     func setupCenterPoint(lat: Double, lon: Double) {
@@ -97,7 +95,7 @@ class ViewFinderManager: InfoLocationDelegate, LocationManagerDelegate, MotionMa
     }
     
     func locationUpdated(location: CLLocation) {
-        let point: Point2D = LocationMath.sharedInstance.convertLLtoXY(ViewFinderManager.sharedInstance.centerPoint, newLocation: location)
+        let point: Point2D = LocationMath.sharedInstance.convertLLtoXY(Brain.sharedInstance.centerPoint, newLocation: location)
         renderingSceneDelegate?.locationUpdated(point, location: location)
     }
 

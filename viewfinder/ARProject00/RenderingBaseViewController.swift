@@ -45,7 +45,7 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        ViewFinderManager.sharedInstance.setGameViewController(self)
+        Brain.sharedInstance.setGameViewController(self)
     }
     
     //function which reset scene (removes all objects from 3d scene)
@@ -62,7 +62,7 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
         initializeScene(heading)
         
         //update altitude
-        ViewFinderManager.sharedInstance.altitudeUpdated(ViewFinderManager.sharedInstance.centerAltitude)
+        Brain.sharedInstance.altitudeUpdated(Brain.sharedInstance.centerAltitude)
     }
     
     func initializeCamera() {
@@ -128,12 +128,12 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
         
         cameraNode.camera = SCNCamera()
         cameraNode.camera?.zFar = 1000000 //to draw objects very far from camera
-        cameraNode.position = SCNVector3Make(0, 0, Float(ViewFinderManager.sharedInstance.centerAltitude))
+        cameraNode.position = SCNVector3Make(0, 0, Float(Brain.sharedInstance.centerAltitude))
         
         scene.rootNode.addChildNode(cameraNode)
         
-        ViewFinderManager.sharedInstance.startMotionManager()
-        ViewFinderManager.sharedInstance.setMotionManagerDelegate(ViewFinderManager.sharedInstance)
+        Brain.sharedInstance.startMotionManager()
+        Brain.sharedInstance.setMotionManagerDelegate(Brain.sharedInstance)
         
         // add a tap gesture recognizer to reconize when user taps on objects
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))

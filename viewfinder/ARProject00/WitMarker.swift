@@ -51,7 +51,7 @@ class WitMarker: NSObject {
     func registerObject(object: WitObject) {
         self.wObject = object
         self.createView()
-        self.updateDistance(ViewFinderManager.sharedInstance.centerPoint)
+        self.updateDistance(Brain.sharedInstance.centerPoint)
     }
     
     func updateDistance(userLocation: CLLocation) {

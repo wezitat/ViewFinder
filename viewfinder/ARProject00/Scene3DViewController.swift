@@ -25,9 +25,9 @@ class Scene3DViewController: WrapperBaseViewController, CLLocationManagerDelegat
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        ViewFinderManager.sharedInstance.locationManager.timePassed = 0
-        ViewFinderManager.sharedInstance.locationManager.timerAfterUpdate?.invalidate()
-        ViewFinderManager.sharedInstance.locationManager.timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1,
+        Brain.sharedInstance.locationManager.timePassed = 0
+        Brain.sharedInstance.locationManager.timerAfterUpdate?.invalidate()
+        Brain.sharedInstance.locationManager.timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1,
                                                                                                                    target: self,
                                                                                                                    selector: #selector(timeUpdate),
                                                                                                                    userInfo: nil,
@@ -45,45 +45,45 @@ class Scene3DViewController: WrapperBaseViewController, CLLocationManagerDelegat
         
         if newLocation.verticalAccuracy > 0 {
             
-            ViewFinderManager.sharedInstance.locationManager.locationManagerDelegate?.altitudeUpdated(newLocation.altitude)
-            ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate?.altitudeUpdated(Int(newLocation.altitude))
+            Brain.sharedInstance.locationManager.locationManagerDelegate?.altitudeUpdated(newLocation.altitude)
+            Brain.sharedInstance.locationManager.infoLocationDelegate?.altitudeUpdated(Int(newLocation.altitude))
         }
         
         if newLocation.horizontalAccuracy < 0 {
             return
         }
         
-        ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate?.accuracyUpdated(Int(newLocation.horizontalAccuracy))
+        Brain.sharedInstance.locationManager.infoLocationDelegate?.accuracyUpdated(Int(newLocation.horizontalAccuracy))
         
-        if ViewFinderManager.sharedInstance.locationManager.previousLocation == nil {
-            if newLocation.horizontalAccuracy <= ViewFinderManager.sharedInstance.locationManager.LOCATION_ACCURACCY && ViewFinderManager.sharedInstance.locationManager.deviceCalibrateDelegate != nil{
-                ViewFinderManager.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude)//CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
+        if Brain.sharedInstance.locationManager.previousLocation == nil {
+            if newLocation.horizontalAccuracy <= Brain.sharedInstance.locationManager.LOCATION_ACCURACCY && Brain.sharedInstance.locationManager.deviceCalibrateDelegate != nil{
+                Brain.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude)//CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
                 
                 if newLocation.verticalAccuracy > 0 {
-                    ViewFinderManager.sharedInstance.centerAltitude = newLocation.altitude
-                    ViewFinderManager.sharedInstance.locationManager.deviceCalibrateDelegate.initLocationReceived()
-                    ViewFinderManager.sharedInstance.locationManager.previousLocation = newLocation
+                    Brain.sharedInstance.centerAltitude = newLocation.altitude
+                    Brain.sharedInstance.locationManager.deviceCalibrateDelegate.initLocationReceived()
+                    Brain.sharedInstance.locationManager.previousLocation = newLocation
                 }
                 
-                ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(ViewFinderManager.sharedInstance.locationManager.previousLocation)))")
-                ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
+                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(Brain.sharedInstance.locationManager.previousLocation)))")
+                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
             }
         }
         else {
-            if newLocation.horizontalAccuracy <= ViewFinderManager.sharedInstance.locationManager.LOCATION_ACCURACCY {
-                if ViewFinderManager.sharedInstance.locationManager.locationManagerDelegate != nil {
-                    ViewFinderManager.sharedInstance.locationManager.locationManagerDelegate.locationUpdated(newLocation)
-                    ViewFinderManager.sharedInstance.userLocation = newLocation
+            if newLocation.horizontalAccuracy <= Brain.sharedInstance.locationManager.LOCATION_ACCURACCY {
+                if Brain.sharedInstance.locationManager.locationManagerDelegate != nil {
+                    Brain.sharedInstance.locationManager.locationManagerDelegate.locationUpdated(newLocation)
+                    Brain.sharedInstance.userLocation = newLocation
                 }
                 
-                ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(ViewFinderManager.sharedInstance.locationManager.previousLocation)))")
-                ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
+                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(Brain.sharedInstance.locationManager.previousLocation)))")
+                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
                 
-                ViewFinderManager.sharedInstance.locationManager.previousLocation = newLocation
+                Brain.sharedInstance.locationManager.previousLocation = newLocation
             }
             else {
-                ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("ignoring")
-                ViewFinderManager.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("ignoring")
+                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("ignoring")
+                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("ignoring")
             }
         }
     }
@@ -97,7 +97,7 @@ class Scene3DViewController: WrapperBaseViewController, CLLocationManagerDelegat
         
         print("heading = \((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading)")
         
-        ViewFinderManager.sharedInstance.locationManager.deviceCalibrateDelegate?.headingUpdated(((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading))
+        Brain.sharedInstance.locationManager.deviceCalibrateDelegate?.headingUpdated(((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading))
     }
     
 }

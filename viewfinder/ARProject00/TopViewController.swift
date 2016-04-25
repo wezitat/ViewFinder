@@ -31,7 +31,7 @@ class TopViewController: WrapperBaseViewController {
     override func willMoveToParentViewController(parent: UIViewController?) {
         
         if parent == nil {
-            ViewFinderManager.sharedInstance.resetManager()
+            Brain.sharedInstance.resetManager()
         }
     }
     
@@ -46,7 +46,7 @@ class TopViewController: WrapperBaseViewController {
     override func initializeScene() {
         super.initializeScene()
         
-        if ViewFinderManager.sharedInstance.getGameViewController() != nil {
+        if Brain.sharedInstance.getGameViewController() != nil {
             refreshSceneButton.enabled = true
         }
     }
