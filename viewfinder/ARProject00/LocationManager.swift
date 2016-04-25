@@ -73,7 +73,12 @@ class LocationManager: HardwareManager, LKLocationManagerDelegate {
                                                                   selector: #selector(timeUpdate),
                                                                   userInfo: nil,
                                                                   repeats: true)
-        manager.startUpdatingLocation()
+        if #available(iOS 9.0, *) {
+            manager.requestLocation()
+        } else {
+            manager.startUpdatingLocation()
+        }
+        
         manager.startUpdatingHeading()
     }
     

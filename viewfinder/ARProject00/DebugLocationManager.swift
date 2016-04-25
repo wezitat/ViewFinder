@@ -33,7 +33,13 @@ class DebugLocationManager: NSObject, LKLocationManagerDelegate {
         locationManager?.debug = true
         locationManager?.apiToken = "b93e57618fcbd8d4"
         
-        locationManager?.startUpdatingLocation()
+        if #available(iOS 9.0, *) {
+            locationManager?.requestLocation()
+        } else {
+            locationManager?.startUpdatingLocation()
+        }
+        
+//        locationManager?.startUpdatingLocation()
     }
     
     func invalidateTimers() {
