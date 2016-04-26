@@ -16,7 +16,7 @@ enum AppStatus {
     case Unknown
 }
 
-class WrapperBaseViewController: UIViewController, WrapperSceneDelegate {
+class ScreenBaseViewController: LocationBaseViewController {
 
     @IBOutlet weak var debugView: UIView!
     @IBOutlet weak var markerView: WitMarkersView!
@@ -54,7 +54,7 @@ class WrapperBaseViewController: UIViewController, WrapperSceneDelegate {
         //load settings
         SettingsManager.sharedInstance.loadSettings()
         
-        Brain.sharedInstance.setGameViewController(self.childViewControllers.first! as! RenderingSceneDelegate)
+        Brain.sharedInstance.setGameViewController(self.childViewControllers.first! as! RenderingBaseViewController)
         Brain.sharedInstance.setGameViewControllerDelegate(Brain.sharedInstance)
         
         initDebugViewLayer()
@@ -89,6 +89,58 @@ class WrapperBaseViewController: UIViewController, WrapperSceneDelegate {
         if parent == nil {
             Brain.sharedInstance.resetManager()
         }
+    }
+    
+    override func locationUpdated(newLocation: CLLocation) {
+        let locationAge: NSTimeInterval = -newLocation.timestamp.timeIntervalSinceNow
+        
+        if locationAge > 10.0 {
+            return
+        }
+        
+        if newLocation.verticalAccuracy > 0 {
+            
+            Brain.sharedInstance.locationManager.locationManagerDelegate?.locationDelegateAltitudeUpdated(newLocation.altitude) // rendering
+            Brain.sharedInstance.locationManager.infoLocationDelegate?.altitudeUpdated(Int(newLocation.altitude))
+        }
+        
+        if newLocation.horizontalAccuracy < 0 {
+            return
+        }
+        
+        Brain.sharedInstance.locationManager.infoLocationDelegate?.accuracyUpdated(Int(newLocation.horizontalAccuracy))
+        
+        if Brain.sharedInstance.locationManager.previousLocation == nil {
+            if newLocation.horizontalAccuracy <= Brain.sharedInstance.locationManager.LOCATION_ACCURACCY && Brain.sharedInstance.locationManager.deviceCalibrateDelegate != nil{
+                Brain.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude)//CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
+                
+                if newLocation.verticalAccuracy > 0 {
+                    Brain.sharedInstance.centerAltitude = newLocation.altitude
+                    Brain.sharedInstance.locationManager.deviceCalibrateDelegate.initLocationReceived() // rendering
+                    Brain.sharedInstance.locationManager.previousLocation = newLocation
+                }
+                
+                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(Brain.sharedInstance.locationManager.previousLocation)))")
+                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
+            }
+        }
+        else {
+            if newLocation.horizontalAccuracy <= Brain.sharedInstance.locationManager.LOCATION_ACCURACCY {
+                if Brain.sharedInstance.locationManager.locationManagerDelegate != nil {
+                    Brain.sharedInstance.locationManager.locationManagerDelegate.locationDelegateLocationUpdated(newLocation) // rendering
+                    Brain.sharedInstance.userLocation = newLocation
+                }
+                
+                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(Brain.sharedInstance.locationManager.previousLocation)))")
+                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
+                
+                Brain.sharedInstance.locationManager.previousLocation = newLocation
+            } else {
+                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("ignoring")
+                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("ignoring")
+            }
+        }
+
     }
     
     func refreshStage() {

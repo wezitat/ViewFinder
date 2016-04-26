@@ -10,7 +10,7 @@ import UIKit
 
 class LocationBaseViewController: UIViewController {
     
-    func setLocation() {
+    func locationUpdated(location: CLLocation) {
         
     }
 

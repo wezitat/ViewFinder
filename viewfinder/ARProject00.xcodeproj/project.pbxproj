@@ -34,7 +34,7 @@
 		52C3EE131B81E409007A1851 /* WitMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C3EE121B81E409007A1851 /* WitMarker.swift */; };
 		5829F2651CC0D20A0085C861 /* DebugLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5829F2641CC0D20A0085C861 /* DebugLocationManager.swift */; };
 		5829F2671CC0EE740085C861 /* Scene3DViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5829F2661CC0EE740085C861 /* Scene3DViewController.swift */; };
-		583964111CC8FC9F00B6497F /* WrapperBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583964101CC8FC9F00B6497F /* WrapperBaseViewController.swift */; };
+		583964111CC8FC9F00B6497F /* ScreenBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583964101CC8FC9F00B6497F /* ScreenBaseViewController.swift */; };
 		583964131CC913A300B6497F /* RenderingBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583964121CC913A300B6497F /* RenderingBaseViewController.swift */; };
 		5842112B1CBFF24300ED0274 /* CustomLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5842112A1CBFF24300ED0274 /* CustomLocationViewController.swift */; };
 		584CB7171CCA7C6000B31288 /* HardwareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584CB7161CCA7C6000B31288 /* HardwareManager.swift */; };
@@ -89,7 +89,7 @@
 		52C3EE121B81E409007A1851 /* WitMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WitMarker.swift; sourceTree = "<group>"; };
 		5829F2641CC0D20A0085C861 /* DebugLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugLocationManager.swift; sourceTree = "<group>"; };
 		5829F2661CC0EE740085C861 /* Scene3DViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene3DViewController.swift; sourceTree = "<group>"; };
-		583964101CC8FC9F00B6497F /* WrapperBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrapperBaseViewController.swift; sourceTree = "<group>"; };
+		583964101CC8FC9F00B6497F /* ScreenBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenBaseViewController.swift; sourceTree = "<group>"; };
 		583964121CC913A300B6497F /* RenderingBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderingBaseViewController.swift; sourceTree = "<group>"; };
 		5842112A1CBFF24300ED0274 /* CustomLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLocationViewController.swift; sourceTree = "<group>"; };
 		584349891CCE53D600242F48 /* ARProject00-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ARProject00-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -219,7 +219,7 @@
 				5255B8C01B6777CE00C87383 /* Images.xcassets */,
 				5255B8C21B6777CE00C87383 /* LaunchScreen.xib */,
 				5255B8B51B6777CE00C87383 /* Supporting Files */,
-				583964101CC8FC9F00B6497F /* WrapperBaseViewController.swift */,
+				583964101CC8FC9F00B6497F /* ScreenBaseViewController.swift */,
 				583964121CC913A300B6497F /* RenderingBaseViewController.swift */,
 				584CB7181CCA83A700B31288 /* LocationBaseViewController.swift */,
 				584349891CCE53D600242F48 /* ARProject00-Bridging-Header.h */,
@@ -483,7 +483,7 @@
 				52AE60D51B8F722700668DDE /* WitMarkersView.swift in Sources */,
 				585720B61CC4C907000EFAE1 /* RenderingSceneDelegate.swift in Sources */,
 				5226F6261B90478500FC5DBA /* SettingsManager.swift in Sources */,
-				583964111CC8FC9F00B6497F /* WrapperBaseViewController.swift in Sources */,
+				583964111CC8FC9F00B6497F /* ScreenBaseViewController.swift in Sources */,
 				584CB7191CCA83A700B31288 /* LocationBaseViewController.swift in Sources */,
 				5255B8DA1B677EDE00C87383 /* MotionManager.swift in Sources */,
 				525B3B631BA1E10400CE57CA /* Line2D.swift in Sources */,
@@ -626,7 +626,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Kuzmych (NUWD2JVU26)";
 				INFOPLIST_FILE = ARProject00/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.techmagic.Forq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -645,7 +645,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Kuzmych (NUWD2JVU26)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Kuzmych (NUWD2JVU26)";
 				INFOPLIST_FILE = ARProject00/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.techmagic.Forq;
 				PRODUCT_NAME = "$(TARGET_NAME)";

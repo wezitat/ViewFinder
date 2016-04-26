@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import LocationKit
 
-class LocationDebugViewController: UIViewController, LKLocationManagerDelegate {
+class LocationDebugViewController: LocationBaseViewController, LKLocationManagerDelegate {
 
     @IBOutlet weak var compassImageView: UIImageView!
     

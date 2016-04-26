@@ -10,8 +10,9 @@ import Foundation
 import CoreLocation
 import CoreMotion
 import SceneKit
+import LocationKit
 
-class Brain: InfoLocationDelegate, LocationManagerDelegate, MotionManagerDelegate, RotationManagerDelegate, DeviceCalibrateDelegate, SceneEventsDelegate, WitMarkerDelegate {
+class Brain: NSObject, InfoLocationDelegate, LocationManagerDelegate, MotionManagerDelegate, RotationManagerDelegate, DeviceCalibrateDelegate, SceneEventsDelegate, WitMarkerDelegate, LKLocationManagerDelegate {
     static let sharedInstance = Brain()
     
     var feetSystem: Bool = false
@@ -21,8 +22,8 @@ class Brain: InfoLocationDelegate, LocationManagerDelegate, MotionManagerDelegat
     
     var debugInfo: DebugInfoClass = DebugInfoClass.sharedInstance
     
-    var wrapperSceneDelegate: WrapperSceneDelegate? = nil
-    var renderingSceneDelegate: RenderingSceneDelegate? = nil
+    var screenViewController: LocationBaseViewController? = nil
+    var renderingViewController: RenderingBaseViewController? = nil
     
     //initial location of user (based on this LL point 3D scene is builing)
     var  centerPoint: CLLocation = CLLocation(latitude: 0, longitude: 0)
@@ -42,17 +43,17 @@ class Brain: InfoLocationDelegate, LocationManagerDelegate, MotionManagerDelegat
         motionManager.stopUpdating()
         locationManager.stopUpdating()
         
-        Brain.sharedInstance.motionManager.rotationManagerDelegate = nil
-        Brain.sharedInstance.motionManager.motionManagerDelegate = nil
+        motionManager.rotationManagerDelegate = nil
+        motionManager.motionManagerDelegate = nil
         
-        Brain.sharedInstance.locationManager.locationManagerDelegate = nil
-        Brain.sharedInstance.locationManager.deviceCalibrateDelegate = nil
-        Brain.sharedInstance.locationManager.infoLocationDelegate = nil
+        locationManager.locationManagerDelegate = nil
+        locationManager.deviceCalibrateDelegate = nil
+        locationManager.infoLocationDelegate = nil
         
-        Brain.sharedInstance.wrapperSceneDelegate = nil
+        screenViewController = nil
         
-        Brain.sharedInstance.renderingSceneDelegate!.setEventDelegate(nil)
-        Brain.sharedInstance.renderingSceneDelegate = nil
+        renderingViewController!.setEventDelegate(nil)
+        renderingViewController = nil
     }
     
     func setupCenterPoint(lat: Double, lon: Double) {
@@ -89,21 +90,21 @@ class Brain: InfoLocationDelegate, LocationManagerDelegate, MotionManagerDelegat
 
     //MARK: - LocationManagerDelegate
     
-    func altitudeUpdated(altitude: CLLocationDistance) {
+    func locationDelegateAltitudeUpdated(altitude: CLLocationDistance) {
         //altitude of user location is updated
-        renderingSceneDelegate?.altitudeUpdated(altitude)
+        renderingViewController?.altitudeUpdated(altitude)
     }
     
-    func locationUpdated(location: CLLocation) {
+    func locationDelegateLocationUpdated(location: CLLocation) {
         let point: Point2D = LocationMath.sharedInstance.convertLLtoXY(Brain.sharedInstance.centerPoint, newLocation: location)
-        renderingSceneDelegate?.locationUpdated(point, location: location)
+        renderingViewController?.locationUpdated(point, location: location)
     }
 
     //MARK: - MotionManagerDelegate
     
     func rotationChanged(orientation: CMQuaternion) {
         //user moved camera and pointing of camera changed
-        renderingSceneDelegate?.rotationChanged(orientation)
+        renderingViewController?.rotationChanged(orientation)
     }
     
     func drasticDeviceMove() {
@@ -113,31 +114,31 @@ class Brain: InfoLocationDelegate, LocationManagerDelegate, MotionManagerDelegat
     //MARK: - DeviceCalibrateDelegate
     
     func headingUpdated(heading: CLLocationDirection) {
-        wrapperSceneDelegate?.headingUpdated(heading)
+        (screenViewController as! ScreenBaseViewController).headingUpdated(heading)
     }
     
     func initLocationReceived() {
-        wrapperSceneDelegate?.initLocationReceived()
+        (screenViewController as! ScreenBaseViewController).initLocationReceived()
     }
     
     //MARK: - RotationManagerDelegate
     
     func rotationAngleUpdated(angle: Double) {
-        wrapperSceneDelegate?.rotationAngleUpdated(angle)
+        (screenViewController as! ScreenBaseViewController).rotationAngleUpdated(angle)
     }
     
     //MARK: - SceneEventsDelegate (and WitMarkerDelegate for the 1st method)
     
     func showObjectDetails(wObject: WitObject) {
-        wrapperSceneDelegate?.showObjectDetails(wObject)
+        (screenViewController as! ScreenBaseViewController).showObjectDetails(wObject)
     }
     
     func addNewWitMarker(wObject: WitObject) {
-        wrapperSceneDelegate?.addNewWitMarker(wObject)
+        (screenViewController as! ScreenBaseViewController).addNewWitMarker(wObject)
     }
     
     func filterWitMarkers() {
-        wrapperSceneDelegate?.filterWitMarkers()
+        (screenViewController as! ScreenBaseViewController).filterWitMarkers()
     }
     
     func cameraMoved() {
@@ -147,17 +148,19 @@ class Brain: InfoLocationDelegate, LocationManagerDelegate, MotionManagerDelegat
         let screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
         let  screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
         
-        let witMarkers: [WitMarker] = (wrapperSceneDelegate?.getWitMarkers())!
+//        let witMarkers: [WitMarker] = (screenViewController?.getWitMarkers())!
+        
+        let witMarkers: [WitMarker] = (screenViewController as! ScreenBaseViewController).witMarkers
         
         for marker in witMarkers {
             
-            if renderingSceneDelegate!.isNodeOnMotionScreen(marker.wObject.objectGeometry) {
+            if renderingViewController!.isNodeOnMotionScreen(marker.wObject.objectGeometry) {
                 marker.showMarker(false)
             } else {
                 marker.showMarker(true)
             }
             
-            var point: Point3D = renderingSceneDelegate!.nodePosToScreenMotionCoordinates(marker.wObject.objectGeometry)
+            var point: Point3D = (renderingViewController?.nodePosToScreenMotionCoordinates(marker.wObject.objectGeometry))!
             
             point.x -= 30
             point.y -= 30
@@ -180,7 +183,7 @@ class Brain: InfoLocationDelegate, LocationManagerDelegate, MotionManagerDelegat
             
             //check if element is behind - if yes our point will be inside the screen
             if (point.z > 1) {
-                point = (wrapperSceneDelegate?.updateWrapperPointIfObjectIsBehind(point))!
+                point = ((screenViewController as! ScreenBaseViewController).updatePointIfObjectIsBehind(point))
                 //originalPoint = Point2D(xPos: point.x, yPos: point.y)
             }
             
@@ -194,21 +197,21 @@ class Brain: InfoLocationDelegate, LocationManagerDelegate, MotionManagerDelegat
     func distanceUpdated(location: CLLocation) {
         
         // move to wrapperSceneDelegate
-        wrapperSceneDelegate?.distanceUpdated(location)
+        (screenViewController as! ScreenBaseViewController).distanceUpdated(location)
     }
 
     //MARK: - Methods, setting Delegates
     
-    func setGameViewController(gameVC: RenderingSceneDelegate!) {
-        renderingSceneDelegate = gameVC
+    func setGameViewController(gameVC: RenderingBaseViewController!) {
+        renderingViewController = gameVC
     }
     
-    func setTopViewController(topVC: WrapperSceneDelegate!) {
-        wrapperSceneDelegate = topVC
+    func setTopViewController(topVC: ScreenBaseViewController!) {
+        screenViewController = topVC
     }
     
     func setGameViewControllerDelegate(delegate: SceneEventsDelegate) {
-        renderingSceneDelegate?.setEventDelegate(delegate)
+        renderingViewController?.setEventDelegate(delegate)
     }
     
     func setLocationManagerDelegate(delegate: AnyObject?) {
@@ -231,15 +234,99 @@ class Brain: InfoLocationDelegate, LocationManagerDelegate, MotionManagerDelegat
         motionManager.rotationManagerDelegate = delegate as? RotationManagerDelegate
     }
     
-    func getGameViewController() -> RenderingSceneDelegate? {
-        return renderingSceneDelegate
+    func getGameViewController() -> RenderingBaseViewController? {
+        return renderingViewController
     }
     
-    func getTopViewController() -> WrapperSceneDelegate? {
-        return wrapperSceneDelegate
+    func getTopViewController() -> ScreenBaseViewController? {
+        return screenViewController as? ScreenBaseViewController
     }
     
     func getLocationManager() -> LocationManager {
         return locationManager
+    }
+    
+    //MARK: - CLLocationManagerDelegate
+    
+    func locationManager(manager: LKLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        self.locationManager.resetTimer()
+        
+        /*
+         
+         Here we have to work only with presentVC: we have to send a message to ScreenVC and RenderingVC about changes
+         We have to create a Base class for these VC and they will handle this message on their own, we don't know what exactly object is this
+         
+        */
+        
+        screenViewController?.locationUpdated(locations.last! as CLLocation)
+//        renderingViewController?.locationUpdated(locations.last! as CLLocation)
+        
+//        let newLocation: CLLocation = locations.last! as CLLocation
+//        let locationAge: NSTimeInterval = -newLocation.timestamp.timeIntervalSinceNow
+//        
+//        if locationAge > 10.0 {
+//            return
+//        }
+//        
+//        if newLocation.verticalAccuracy > 0 {
+//            
+//            self.locationManager.locationManagerDelegate?.locationDelegateAltitudeUpdated(newLocation.altitude)
+//            self.locationManager.infoLocationDelegate?.altitudeUpdated(Int(newLocation.altitude))
+//        }
+//        
+//        if newLocation.horizontalAccuracy < 0 {
+//            return
+//        }
+//        
+//        self.locationManager.infoLocationDelegate?.accuracyUpdated(Int(newLocation.horizontalAccuracy))
+//        
+//        if self.locationManager.previousLocation == nil {
+//            if newLocation.horizontalAccuracy <= self.locationManager.LOCATION_ACCURACCY && self.locationManager.deviceCalibrateDelegate != nil{
+//                Brain.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude)//CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
+//                
+//                if newLocation.verticalAccuracy > 0 {
+//                    Brain.sharedInstance.centerAltitude = newLocation.altitude
+//                    self.locationManager.deviceCalibrateDelegate.initLocationReceived()
+//                    self.locationManager.previousLocation = newLocation
+//                }
+//                
+//                self.locationManager.infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(self.locationManager.previousLocation)))")
+//                self.locationManager.infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
+//            }
+//        }
+//        else {
+//            if newLocation.horizontalAccuracy <= self.locationManager.LOCATION_ACCURACCY {
+//                if self.locationManager.locationManagerDelegate != nil {
+//                    self.locationManager.locationManagerDelegate.locationDelegateLocationUpdated(newLocation)
+//                    Brain.sharedInstance.userLocation = newLocation
+//                }
+//                
+//                self.locationManager.infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(self.locationManager.previousLocation)))")
+//                self.locationManager.infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
+//                
+//                self.locationManager.previousLocation = newLocation
+//            }
+//            else {
+//                self.locationManager.infoLocationDelegate?.locationDistanceUpdated("ignoring")
+//                self.locationManager.infoLocationDelegate?.locationUpdated("ignoring")
+//            }
+//        }
+    }
+    
+    func locationManager(manager: LKLocationManager, didUpdateHeading newHeading: CLHeading) {
+        if newHeading.headingAccuracy < 0 {
+            return
+        }
+        
+        // Use the true heading if it is valid.
+        
+        print("heading = \((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading)")
+        
+        self.locationManager.deviceCalibrateDelegate?.headingUpdated(((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading))
+    }
+    
+    func locationManagerShouldDisplayHeadingCalibration(manager: LKLocationManager) -> Bool {
+        return true
     }
 }

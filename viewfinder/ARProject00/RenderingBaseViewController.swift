@@ -17,7 +17,7 @@ protocol SceneEventsDelegate {
     func addNewWitMarker(wObject: WitObject)
     func filterWitMarkers()
     func cameraMoved()
-    func locationUpdated(location: CLLocation)
+    func distanceUpdated(location: CLLocation)
 }
 
 class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
@@ -62,7 +62,7 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
         initializeScene(heading)
         
         //update altitude
-        Brain.sharedInstance.altitudeUpdated(Brain.sharedInstance.centerAltitude)
+        altitudeUpdated(Brain.sharedInstance.centerAltitude)
     }
     
     func initializeCamera() {
@@ -181,7 +181,6 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
         
         //add wit markers for objects
         for object in showingObject {
-            
             geometryNode.addChildNode(object.objectGeometry)
             
             eventDelegate?.addNewWitMarker(object)

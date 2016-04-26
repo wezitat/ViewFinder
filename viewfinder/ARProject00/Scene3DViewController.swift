@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import LocationKit
 
-class Scene3DViewController: WrapperBaseViewController, LKLocationManagerDelegate {
+class Scene3DViewController: ScreenBaseViewController, LKLocationManagerDelegate {
     
     var customLocation: CLLocation = CLLocation()
     
@@ -46,7 +46,7 @@ class Scene3DViewController: WrapperBaseViewController, LKLocationManagerDelegat
         
         if newLocation.verticalAccuracy > 0 {
             
-            Brain.sharedInstance.locationManager.locationManagerDelegate?.altitudeUpdated(newLocation.altitude)
+            Brain.sharedInstance.locationManager.locationManagerDelegate?.locationDelegateAltitudeUpdated(newLocation.altitude)
             Brain.sharedInstance.locationManager.infoLocationDelegate?.altitudeUpdated(Int(newLocation.altitude))
         }
         
@@ -73,7 +73,7 @@ class Scene3DViewController: WrapperBaseViewController, LKLocationManagerDelegat
         else {
             if newLocation.horizontalAccuracy <= Brain.sharedInstance.locationManager.LOCATION_ACCURACCY {
                 if Brain.sharedInstance.locationManager.locationManagerDelegate != nil {
-                    Brain.sharedInstance.locationManager.locationManagerDelegate.locationUpdated(newLocation)
+                    Brain.sharedInstance.locationManager.locationManagerDelegate.locationDelegateLocationUpdated(newLocation)
                     Brain.sharedInstance.userLocation = newLocation
                 }
                 

@@ -14,8 +14,8 @@ let kDistanceFilter: Double = 25
 let kHeadingFilter: Double = 1
 
 protocol LocationManagerDelegate {
-    func altitudeUpdated(altitude: CLLocationDistance)
-    func locationUpdated(location: CLLocation)
+    func locationDelegateAltitudeUpdated(altitude: CLLocationDistance)
+    func locationDelegateLocationUpdated(location: CLLocation)
 }
 
 protocol InfoLocationDelegate {
@@ -32,7 +32,7 @@ protocol DeviceCalibrateDelegate {
 }
 
 /** This is custom wrapper arround IOS LocationManager */
-class LocationManager: HardwareManager, LKLocationManagerDelegate {
+class LocationManager: HardwareManager {
     
     let LOCATION_ACCURACCY: CLLocationAccuracy = SettingsManager.sharedInstance.getAccuracyValue()
     
@@ -57,7 +57,8 @@ class LocationManager: HardwareManager, LKLocationManagerDelegate {
         manager.apiToken = "b93e57618fcbd8d4"
 //        locationManager.startUpdatingLocation()
 
-        manager.advancedDelegate = self
+        manager.advancedDelegate = Brain.sharedInstance
+        
         manager.requestAlwaysAuthorization()
         manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         manager.distanceFilter = kDistanceFilter
@@ -95,7 +96,7 @@ class LocationManager: HardwareManager, LKLocationManagerDelegate {
         manager.stopUpdatingHeading()
     }
     
-    func locationManager(manager: LKLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func resetTimer() {
         timePassed = 0
         
         if timerAfterUpdate != nil {
@@ -107,73 +108,5 @@ class LocationManager: HardwareManager, LKLocationManagerDelegate {
                                                                   selector: #selector(timeUpdate),
                                                                   userInfo: nil,
                                                                   repeats: true)
-        
-        let newLocation: CLLocation = locations.last! as CLLocation
-        let locationAge: NSTimeInterval = -newLocation.timestamp.timeIntervalSinceNow
-        
-        if locationAge > 10.0 {
-            return
-        }
-        
-        if newLocation.verticalAccuracy > 0 {
-            
-            locationManagerDelegate?.altitudeUpdated(newLocation.altitude)
-        
-            infoLocationDelegate?.altitudeUpdated(Int(newLocation.altitude))
-        }
-        
-        if newLocation.horizontalAccuracy < 0 {
-            return
-        }
-        
-        infoLocationDelegate?.accuracyUpdated(Int(newLocation.horizontalAccuracy))
-        
-        if previousLocation == nil {
-            if newLocation.horizontalAccuracy <= LOCATION_ACCURACCY && deviceCalibrateDelegate != nil{
-                Brain.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude)//CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
-                
-                if newLocation.verticalAccuracy > 0 {
-                    Brain.sharedInstance.centerAltitude = newLocation.altitude
-                    deviceCalibrateDelegate.initLocationReceived()
-                    previousLocation = newLocation
-                }
-                
-                infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(previousLocation)))")
-                infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
-            }
-        }
-        else {
-            if newLocation.horizontalAccuracy <= LOCATION_ACCURACCY {
-                if locationManagerDelegate != nil {
-                    locationManagerDelegate.locationUpdated(newLocation)
-                    Brain.sharedInstance.userLocation = newLocation
-                }
-                
-                infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(previousLocation)))")
-                infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
-                
-                previousLocation = newLocation
-            }
-            else {
-                infoLocationDelegate?.locationDistanceUpdated("ignoring")
-                infoLocationDelegate?.locationUpdated("ignoring")
-            }
-        }
-    }
-    
-    func locationManager(manager: LKLocationManager, didUpdateHeading newHeading: CLHeading) {
-        if newHeading.headingAccuracy < 0 {
-            return
-        }
-        
-        // Use the true heading if it is valid.
-        
-        print("heading = \((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading)")
-        
-        deviceCalibrateDelegate?.headingUpdated(((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading))
-    }
-    
-    func locationManagerShouldDisplayHeadingCalibration(manager: LKLocationManager) -> Bool {
-        return true
     }
 }

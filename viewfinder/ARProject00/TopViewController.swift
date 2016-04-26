@@ -14,7 +14,7 @@ import CoreLocation
     It shows all the statuses and WitMarkers. Can be used to
     represent additional GUI */
 
-class TopViewController: WrapperBaseViewController {
+class TopViewController: ScreenBaseViewController {
     
     @IBOutlet weak var refreshSceneButton: UIButton!
 
