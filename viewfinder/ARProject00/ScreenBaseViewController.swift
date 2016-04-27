@@ -434,6 +434,14 @@ class ScreenBaseViewController: LocationBaseViewController {
         detailsView.hidden = false
     }
     
+    func addWitMarkers(witObjects: [WitObject]) {
+        
+        for object in witObjects {
+            addNewWitMarker(object)
+        }
+        
+    }
+    
     func addNewWitMarker(wObject: WitObject) {
         // add new witmarker on screen
         let marker = WitMarker()

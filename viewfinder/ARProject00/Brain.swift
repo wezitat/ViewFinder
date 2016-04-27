@@ -25,11 +25,22 @@ class Brain: NSObject, InfoLocationDelegate, LocationManagerDelegate, MotionMana
     var screenViewController: LocationBaseViewController? = nil
     var renderingViewController: RenderingBaseViewController? = nil
     
+    var demoData = DemoDataClass()
+    
     //initial location of user (based on this LL point 3D scene is builing)
     var  centerPoint: CLLocation = CLLocation(latitude: 0, longitude: 0)
     var userLocation: CLLocation = CLLocation(latitude: 0, longitude: 0)
     
     var centerAltitude: CLLocationDistance = CLLocationDistance()
+    
+    func addWits() {
+        
+        demoData.initData()
+        
+        renderingViewController?.addWitObjects(demoData.objects)
+        (screenViewController as? ScreenBaseViewController)?.addWitMarkers(demoData.objects)
+        
+    }
     
     func startMotionManager() {
          motionManager.initManager()

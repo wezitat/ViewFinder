@@ -24,7 +24,7 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
 
     var eventDelegate: SceneEventsDelegate! = nil
     
-    var demoData: DemoDataClass = DemoDataClass()
+//    var demoData: DemoDataClass = DemoDataClass()
     var showingObject: [WitObject] = [WitObject]()
     
     // Geometry
@@ -114,7 +114,8 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
         sceneView.allowsCameraControl = false
         
         //add all wits on scene
-        addWitObjects()
+//        addWitObjects()
+        Brain.sharedInstance.addWits()
         
         //rotate all scene based on heading so Oy will be heading on north
         let angle: Float = (Float(M_PI)/180.0)*Float(-currentHeading)
@@ -174,19 +175,19 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
     
     //display info text
     
-    func addWitObjects() {
+    func addWitObjects(witObjects: [WitObject]) {
         //init demo datas
-        demoData.initData()
-        showingObject = demoData.objects
+//        demoData.initData()
+        showingObject = witObjects
         
         //add wit markers for objects
         for object in showingObject {
             geometryNode.addChildNode(object.objectGeometry)
             
-            eventDelegate?.addNewWitMarker(object)
+//            eventDelegate?.addNewWitMarker(object)
         }
         
-        eventDelegate?.filterWitMarkers()
+//        eventDelegate?.filterWitMarkers()
     }
     
     func altitudeUpdated(altitude: CLLocationDistance) {
