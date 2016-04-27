@@ -424,9 +424,9 @@ class ScreenBaseViewController: LocationBaseViewController {
             
             var claimed: String = "NO"
             
-            if wObject.isClaimed {
-                claimed = "YES"
-            }
+//            if wObject.isClaimed {
+//                claimed = "YES"
+//            }
             
             self.detailsDescription.text = "\(wObject.witDescription)\n\nBy: \(wObject.author) Claimed: \(claimed)"
         }
@@ -441,6 +441,20 @@ class ScreenBaseViewController: LocationBaseViewController {
         }
         
     }
+    
+    func addNewWitMarkerWithWitModel(witModel: Wit3DModel) {
+        // add new witmarker on screen
+        let marker = WitMarker()
+        
+        marker.registerObject(witModel.wObject)
+        marker.delegate = Brain.sharedInstance
+        
+        marker.wit3DModel = witModel
+        
+        witMarkers.append(marker)
+        markerView?.addSubview(marker.view)
+    }
+
     
     func addNewWitMarker(wObject: WitObject) {
         // add new witmarker on screen

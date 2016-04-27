@@ -37,8 +37,18 @@ class Brain: NSObject, InfoLocationDelegate, LocationManagerDelegate, MotionMana
         
         demoData.initData()
         
-        renderingViewController?.addWitObjects(demoData.objects)
-        (screenViewController as? ScreenBaseViewController)?.addWitMarkers(demoData.objects)
+//        renderingViewController?.addWitObjects(demoData.objects)
+//        (screenViewController as? ScreenBaseViewController)?.addWitMarkers(demoData.objects)
+
+        for object in demoData.objects {
+            
+            let wit3DModel = Wit3DModel(wit: object)
+            
+            (screenViewController as? ScreenBaseViewController)?.addNewWitMarkerWithWitModel(wit3DModel)
+            
+            renderingViewController?.showingObject.append(wit3DModel)
+            renderingViewController?.geometryNode.addChildNode(wit3DModel.objectGeometry)
+        }
         
     }
     
@@ -165,13 +175,13 @@ class Brain: NSObject, InfoLocationDelegate, LocationManagerDelegate, MotionMana
         
         for marker in witMarkers {
             
-            if renderingViewController!.isNodeOnMotionScreen(marker.wObject.objectGeometry) {
+            if renderingViewController!.isNodeOnMotionScreen(marker.wit3DModel.objectGeometry) {
                 marker.showMarker(false)
             } else {
                 marker.showMarker(true)
             }
             
-            var point: Point3D = (renderingViewController?.nodePosToScreenMotionCoordinates(marker.wObject.objectGeometry))!
+            var point: Point3D = (renderingViewController?.nodePosToScreenMotionCoordinates(marker.wit3DModel.objectGeometry))!
             
             point.x -= 30
             point.y -= 30

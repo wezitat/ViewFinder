@@ -38,6 +38,7 @@ class WitMarker: NSObject {
     var delegate: WitMarkerDelegate! = nil
     var currentDistance: CLLocationDistance = 0
     var wObject: WitObject! = nil
+    var wit3DModel: Wit3DModel! = nil
     
     var        view: UIView! = nil
     var pointerView: UIView! = nil

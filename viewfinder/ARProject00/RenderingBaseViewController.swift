@@ -25,7 +25,7 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
     var eventDelegate: SceneEventsDelegate! = nil
     
 //    var demoData: DemoDataClass = DemoDataClass()
-    var showingObject: [WitObject] = [WitObject]()
+    var showingObject: [Wit3DModel] = [Wit3DModel]()
     
     // Geometry
     
@@ -165,7 +165,7 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
                     if result.node == object.objectGeometry {
                         if eventDelegate != nil {
                             object.isClaimed = true
-                            eventDelegate.showObjectDetails(object)
+                            eventDelegate.showObjectDetails(object.wObject)
                         }
                     }
                 }
@@ -176,18 +176,12 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
     //display info text
     
     func addWitObjects(witObjects: [WitObject]) {
-        //init demo datas
-//        demoData.initData()
-        showingObject = witObjects
+//        showingObject = witObjects
         
         //add wit markers for objects
         for object in showingObject {
             geometryNode.addChildNode(object.objectGeometry)
-            
-//            eventDelegate?.addNewWitMarker(object)
         }
-        
-//        eventDelegate?.filterWitMarkers()
     }
     
     func altitudeUpdated(altitude: CLLocationDistance) {
@@ -249,9 +243,9 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
         return cameraNode
     }
     
-    func getShowingObject() -> [WitObject] {
-        return showingObject
-    }
+//    func getShowingObject() -> [WitObject] {
+//        return showingObject
+//    }
     
     func rotationChanged(orientation: CMQuaternion) {
         cameraNode.orientation = LocationMath.sharedInstance.orientationFromCMQuaternion(orientation)
