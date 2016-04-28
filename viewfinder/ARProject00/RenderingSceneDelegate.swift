@@ -21,5 +21,5 @@ protocol RenderingSceneDelegate{
     func resetMotionScene()
     func initialize3DSceneMotionWithHeading(calibratedHeading: CLLocationDirection)
     func altitudeUpdated(altitude: CLLocationDistance)
-    func locationUpdated(point: Point2D, location: CLLocation)
+    func redrawModels(point: Point2D)
 }

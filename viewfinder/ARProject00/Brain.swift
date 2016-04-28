@@ -132,9 +132,8 @@ class Brain: NSObject, InfoLocationDelegate, LocationManagerDelegate, MotionMana
     func locationDelegateLocationUpdated(location: CLLocation) {
         let point: Point2D = LocationMath.sharedInstance.convertLLtoXY(Brain.sharedInstance.centerPoint, newLocation: location)
         
-//        update3DModels(location)
-        
-        renderingViewController?.locationUpdated(point, location: location)
+        update3DModels(location)
+        renderingViewController?.redrawModels(point)
     }
 
     //MARK: - MotionManagerDelegate

@@ -240,14 +240,12 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
     
     // change this method to "redrawModels" because 3D can't react on changes, it just draws the scene when we want
     
-    func locationUpdated(point: Point2D, location: CLLocation) {
+    func redrawModels(point: Point2D) {
         //user location updated. move camera on new position in 3d scene
         SCNTransaction.begin()
         SCNTransaction.setDisableActions(true)
         
         setCameraNodePosition(SCNVector3Make(Float(point.x), Float(point.y), cameraNode.position.z))
-        
-        Brain.sharedInstance.update3DModels(location)
         
         SCNTransaction.commit()
     }

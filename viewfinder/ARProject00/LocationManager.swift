@@ -60,7 +60,7 @@ class LocationManager: HardwareManager {
         manager.advancedDelegate = Brain.sharedInstance
         
         manager.requestAlwaysAuthorization()
-        manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.distanceFilter = kCLDistanceFilterNone
         manager.headingFilter = kHeadingFilter
         
