@@ -33,23 +33,36 @@ class Brain: NSObject, InfoLocationDelegate, LocationManagerDelegate, MotionMana
     
     var centerAltitude: CLLocationDistance = CLLocationDistance()
     
+    var wit3DModels: [Wit3DModel]! = nil
+    
     func addWits() {
         
         demoData.initData()
-        
-//        renderingViewController?.addWitObjects(demoData.objects)
-//        (screenViewController as? ScreenBaseViewController)?.addWitMarkers(demoData.objects)
 
+        wit3DModels = [Wit3DModel]()
+        
         for object in demoData.objects {
             
             let wit3DModel = Wit3DModel(wit: object)
             
             (screenViewController as? ScreenBaseViewController)?.addNewWitMarkerWithWitModel(wit3DModel)
             
-            renderingViewController?.showingObject.append(wit3DModel)
             renderingViewController?.geometryNode.addChildNode(wit3DModel.objectGeometry)
+            
+            wit3DModels.append(wit3DModel)
         }
         
+    }
+    
+    func initialize3DSceneWithHeading(calibratedHeading: CLLocationDirection) {
+        renderingViewController?.initialize3DSceneWithHeading(calibratedHeading)
+        addWits()
+    }
+    
+    func update3DModels(location: CLLocation) {
+        for object in wit3DModels {
+            object.updateWitObjectSize(location)
+        }
     }
     
     func startMotionManager() {
@@ -118,6 +131,9 @@ class Brain: NSObject, InfoLocationDelegate, LocationManagerDelegate, MotionMana
     
     func locationDelegateLocationUpdated(location: CLLocation) {
         let point: Point2D = LocationMath.sharedInstance.convertLLtoXY(Brain.sharedInstance.centerPoint, newLocation: location)
+        
+//        update3DModels(location)
+        
         renderingViewController?.locationUpdated(point, location: location)
     }
 
@@ -148,10 +164,21 @@ class Brain: NSObject, InfoLocationDelegate, LocationManagerDelegate, MotionMana
         (screenViewController as! ScreenBaseViewController).rotationAngleUpdated(angle)
     }
     
-    //MARK: - SceneEventsDelegate (and WitMarkerDelegate for the 1st method)
+    //MARK: - WitMarkerDelegate
     
     func showObjectDetails(wObject: WitObject) {
         (screenViewController as! ScreenBaseViewController).showObjectDetails(wObject)
+    }
+    
+    //MARK: - SceneEventsDelegate
+    
+    func showObjectDetails(result: SCNHitTestResult) {
+        
+        for object in wit3DModels {
+            if result.node == object.objectGeometry {
+                (screenViewController as! ScreenBaseViewController).showObjectDetails(object.wObject)
+            }
+        }
     }
     
     func addNewWitMarker(wObject: WitObject) {

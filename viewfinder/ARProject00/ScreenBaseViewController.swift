@@ -284,7 +284,8 @@ class ScreenBaseViewController: LocationBaseViewController {
             debugInfo.fullInfo()
             
             Brain.sharedInstance.setLocationManagerDelegate(Brain.sharedInstance)
-            Brain.sharedInstance.getGameViewController()!.initialize3DSceneMotionWithHeading(calibratedHeading)
+//            Brain.sharedInstance.getGameViewController()!.initialize3DSceneMotionWithHeading(calibratedHeading)
+            Brain.sharedInstance.initialize3DSceneWithHeading(calibratedHeading)
         }
     }
     

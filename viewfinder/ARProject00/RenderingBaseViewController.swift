@@ -13,7 +13,7 @@ import SceneKit
 import AVFoundation
 
 protocol SceneEventsDelegate {
-    func showObjectDetails(wObject: WitObject)
+    func showObjectDetails(result: SCNHitTestResult)
     func addNewWitMarker(wObject: WitObject)
     func filterWitMarkers()
     func cameraMoved()
@@ -23,9 +23,6 @@ protocol SceneEventsDelegate {
 class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
 
     var eventDelegate: SceneEventsDelegate! = nil
-    
-//    var demoData: DemoDataClass = DemoDataClass()
-    var showingObject: [Wit3DModel] = [Wit3DModel]()
     
     // Geometry
     
@@ -113,10 +110,6 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
         sceneView.autoenablesDefaultLighting = true
         sceneView.allowsCameraControl = false
         
-        //add all wits on scene
-//        addWitObjects()
-        Brain.sharedInstance.addWits()
-        
         //rotate all scene based on heading so Oy will be heading on north
         let angle: Float = (Float(M_PI)/180.0)*Float(-currentHeading)
         
@@ -137,17 +130,17 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
         Brain.sharedInstance.setMotionManagerDelegate(Brain.sharedInstance)
         
         // add a tap gesture recognizer to reconize when user taps on objects
+        addTapGestureRecognizer()
+    }
+    
+    func addTapGestureRecognizer() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         
-        var gestureRecognizers = [AnyObject]()
-        
-        gestureRecognizers.append(tapGesture)
-        
-        if let existingGestureRecognizers = sceneView.gestureRecognizers {
-            gestureRecognizers.append(existingGestureRecognizers)
+        if sceneView.gestureRecognizers == nil {
+            sceneView.gestureRecognizers = [UIGestureRecognizer]()
         }
         
-        sceneView.gestureRecognizers = gestureRecognizers as? [UIGestureRecognizer]
+        sceneView.gestureRecognizers!.append(tapGesture as UIGestureRecognizer)
     }
     
     func handleTap(gestureRecognize: UIGestureRecognizer) {
@@ -160,27 +153,8 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
                 // retrieved the first clicked object
                 let result: SCNHitTestResult! = hitResults![0]
                 
-                //check what object user tapped and then show info about it
-                for object in showingObject {
-                    if result.node == object.objectGeometry {
-                        if eventDelegate != nil {
-                            object.isClaimed = true
-                            eventDelegate.showObjectDetails(object.wObject)
-                        }
-                    }
-                }
+                eventDelegate?.showObjectDetails(result)
             }
-        }
-    }
-    
-    //display info text
-    
-    func addWitObjects(witObjects: [WitObject]) {
-//        showingObject = witObjects
-        
-        //add wit markers for objects
-        for object in showingObject {
-            geometryNode.addChildNode(object.objectGeometry)
         }
     }
     
@@ -233,7 +207,7 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
         // Release any cached data, images, etc that aren't in use.
     }
     
-    //MARK: - MotionEventDelegate
+    //MARK: - RenderingSceneDelegate
     
     func setEventDelegate(object: SceneEventsDelegate?) {
         eventDelegate = object
@@ -242,10 +216,6 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
     func getCameraNode() -> SCNNode {
         return cameraNode
     }
-    
-//    func getShowingObject() -> [WitObject] {
-//        return showingObject
-//    }
     
     func rotationChanged(orientation: CMQuaternion) {
         cameraNode.orientation = LocationMath.sharedInstance.orientationFromCMQuaternion(orientation)
@@ -268,6 +238,8 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
         initialize3DSceneWithHeading(calibratedHeading)
     }
     
+    // change this method to "redrawModels" because 3D can't react on changes, it just draws the scene when we want
+    
     func locationUpdated(point: Point2D, location: CLLocation) {
         //user location updated. move camera on new position in 3d scene
         SCNTransaction.begin()
@@ -275,9 +247,7 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
         
         setCameraNodePosition(SCNVector3Make(Float(point.x), Float(point.y), cameraNode.position.z))
         
-        for object in showingObject {
-            object.updateWitObjectSize(location)
-        }
+        Brain.sharedInstance.update3DModels(location)
         
         SCNTransaction.commit()
     }
