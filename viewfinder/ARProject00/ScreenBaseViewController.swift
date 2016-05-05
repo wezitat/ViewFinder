@@ -39,7 +39,7 @@ class ScreenBaseViewController: LocationBaseViewController {
     
     var debugInfo: DebugInfoClass = DebugInfoClass.sharedInstance
     
-    //details view
+    // details view
     var smallDetailsView: UIView! = nil
     var detailsHeader: UILabel! = nil
     var detailsDescription: UILabel! = nil
@@ -148,7 +148,7 @@ class ScreenBaseViewController: LocationBaseViewController {
 //        self.refreshSceneButton.enabled = false
         //self.sceneController.resetScene()
         
-        Brain.sharedInstance.getGameViewController()!.resetMotionScene()
+        Brain.sharedInstance.getGameViewController()!.resetScene()
         
         for marker in witMarkers {
             marker.view.removeFromSuperview()
@@ -284,7 +284,6 @@ class ScreenBaseViewController: LocationBaseViewController {
             debugInfo.fullInfo()
             
             Brain.sharedInstance.setLocationManagerDelegate(Brain.sharedInstance)
-//            Brain.sharedInstance.getGameViewController()!.initialize3DSceneMotionWithHeading(calibratedHeading)
             Brain.sharedInstance.initialize3DSceneWithHeading(calibratedHeading)
         }
     }

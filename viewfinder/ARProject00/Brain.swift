@@ -132,8 +132,15 @@ class Brain: NSObject, InfoLocationDelegate, LocationManagerDelegate, MotionMana
     func locationDelegateLocationUpdated(location: CLLocation) {
         let point: Point2D = LocationMath.sharedInstance.convertLLtoXY(Brain.sharedInstance.centerPoint, newLocation: location)
         
+        SCNTransaction.begin()
+        SCNTransaction.setDisableActions(true)
+        
+        renderingViewController?.setCameraNodePosition(SCNVector3Make(Float(point.x), Float(point.y), (renderingViewController?.getCameraNode().position.z)!))
         update3DModels(location)
-        renderingViewController?.redrawModels(point)
+        
+        SCNTransaction.commit()
+        
+//        renderingViewController?.redrawModels(point)
     }
 
     //MARK: - MotionManagerDelegate
@@ -201,13 +208,13 @@ class Brain: NSObject, InfoLocationDelegate, LocationManagerDelegate, MotionMana
         
         for marker in witMarkers {
             
-            if renderingViewController!.isNodeOnMotionScreen(marker.wit3DModel.objectGeometry) {
+            if renderingViewController!.isNodeOnScreen(marker.wit3DModel.objectGeometry) {
                 marker.showMarker(false)
             } else {
                 marker.showMarker(true)
             }
             
-            var point: Point3D = (renderingViewController?.nodePosToScreenMotionCoordinates(marker.wit3DModel.objectGeometry))!
+            var point: Point3D = (renderingViewController?.nodePosToScreenCoordinates(marker.wit3DModel.objectGeometry))!
             
             point.x -= 30
             point.y -= 30

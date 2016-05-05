@@ -222,33 +222,33 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
         eventDelegate?.cameraMoved()
     }
     
-    func isNodeOnMotionScreen(node: SCNNode) -> Bool {
-        return isNodeOnScreen(node)
-    }
+//    func isNodeOnMotionScreen(node: SCNNode) -> Bool {
+//        return isNodeOnScreen(node)
+//    }
     
-    func nodePosToScreenMotionCoordinates(node: SCNNode) -> Point3D {
-        return nodePosToScreenCoordinates(node)
-    }
+//    func nodePosToScreenMotionCoordinates(node: SCNNode) -> Point3D {
+//        return nodePosToScreenCoordinates(node)
+//    }
     
-    func resetMotionScene() {
-        resetScene()
-    }
+//    func resetMotionScene() {
+//        resetScene()
+//    }
     
-    func initialize3DSceneMotionWithHeading(calibratedHeading: CLLocationDirection) {
-        initialize3DSceneWithHeading(calibratedHeading)
-    }
+//    func initialize3DSceneMotionWithHeading(calibratedHeading: CLLocationDirection) {
+//        initialize3DSceneWithHeading(calibratedHeading)
+//    }
     
     // change this method to "redrawModels" because 3D can't react on changes, it just draws the scene when we want
     
-    func redrawModels(point: Point2D) {
-        //user location updated. move camera on new position in 3d scene
-        SCNTransaction.begin()
-        SCNTransaction.setDisableActions(true)
-        
-        setCameraNodePosition(SCNVector3Make(Float(point.x), Float(point.y), cameraNode.position.z))
-        
-        SCNTransaction.commit()
-    }
+//    func redrawModels(point: Point2D) {
+//        //user location updated. move camera on new position in 3d scene
+//        SCNTransaction.begin()
+//        SCNTransaction.setDisableActions(true)
+//        
+//        setCameraNodePosition(SCNVector3Make(Float(point.x), Float(point.y), cameraNode.position.z))
+//        
+//        SCNTransaction.commit()
+//    }
 
     /*
     // MARK: - Navigation

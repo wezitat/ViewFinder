@@ -16,10 +16,10 @@ protocol RenderingSceneDelegate{
     func getCameraNode() -> SCNNode
 //    func getShowingObject() -> [WitObject]
     func rotationChanged(orientation: CMQuaternion)
-    func isNodeOnMotionScreen(node: SCNNode) -> Bool
-    func nodePosToScreenMotionCoordinates(node: SCNNode) -> Point3D
-    func resetMotionScene()
-    func initialize3DSceneMotionWithHeading(calibratedHeading: CLLocationDirection)
+//    func isNodeOnMotionScreen(node: SCNNode) -> Bool
+//    func nodePosToScreenMotionCoordinates(node: SCNNode) -> Point3D
+//    func resetMotionScene()
+//    func initialize3DSceneMotionWithHeading(calibratedHeading: CLLocationDirection)
     func altitudeUpdated(altitude: CLLocationDistance)
-    func redrawModels(point: Point2D)
+//    func redrawModels(point: Point2D)
 }
