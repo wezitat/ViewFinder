@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import LocationKit
 
-let kDistanceFilter: Double = 25
+let kDistanceFilter: Double = 1
 let kHeadingFilter: Double = 1
 
 protocol LocationManagerDelegate {
@@ -55,16 +55,15 @@ class LocationManager: HardwareManager {
         // but does help to ensure things are working correctly
         manager.debug = true
         manager.apiToken = "b93e57618fcbd8d4"
-//        locationManager.startUpdatingLocation()
 
         manager.advancedDelegate = Brain.sharedInstance
         
         manager.requestAlwaysAuthorization()
         manager.desiredAccuracy = kCLLocationAccuracyBest
-        manager.distanceFilter = kDistanceFilter
+        manager.distanceFilter = kCLDistanceFilterNone
         manager.headingFilter = kHeadingFilter
         
-        startUpdating()
+//        startUpdating()
     }
     
     override func startUpdating() {

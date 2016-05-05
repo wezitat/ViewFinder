@@ -22,7 +22,7 @@ class Brain: NSObject, InfoLocationDelegate, LocationManagerDelegate, MotionMana
     
     var debugInfo: DebugInfoClass = DebugInfoClass.sharedInstance
     
-    var screenViewController: LocationBaseViewController? = nil
+    var screenViewController: UIProtocol? = nil
     var renderingViewController: RenderingBaseViewController? = nil
     
     var demoData = DemoDataClass()
@@ -260,7 +260,7 @@ class Brain: NSObject, InfoLocationDelegate, LocationManagerDelegate, MotionMana
         renderingViewController = gameVC
     }
     
-    func setTopViewController(topVC: ScreenBaseViewController!) {
+    func setTopViewController(topVC: UIProtocol!) {
         screenViewController = topVC
     }
     
@@ -300,7 +300,7 @@ class Brain: NSObject, InfoLocationDelegate, LocationManagerDelegate, MotionMana
         return locationManager
     }
     
-    //MARK: - CLLocationManagerDelegate
+    //MARK: - LKLocationManagerDelegate
     
     func locationManager(manager: LKLocationManager, didUpdateLocations locations: [CLLocation]) {
         
@@ -369,15 +369,8 @@ class Brain: NSObject, InfoLocationDelegate, LocationManagerDelegate, MotionMana
     }
     
     func locationManager(manager: LKLocationManager, didUpdateHeading newHeading: CLHeading) {
-        if newHeading.headingAccuracy < 0 {
-            return
-        }
         
-        // Use the true heading if it is valid.
-        
-        print("heading = \((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading)")
-        
-        self.locationManager.deviceCalibrateDelegate?.headingUpdated(((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading))
+        screenViewController?.headingDirectionUpdated(newHeading)
     }
     
     func locationManagerShouldDisplayHeadingCalibration(manager: LKLocationManager) -> Bool {

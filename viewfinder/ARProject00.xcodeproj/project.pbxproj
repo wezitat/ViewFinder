@@ -36,6 +36,7 @@
 		5829F2671CC0EE740085C861 /* Scene3DViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5829F2661CC0EE740085C861 /* Scene3DViewController.swift */; };
 		583857DE1CDB51ED00B702F8 /* ScreenBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583857DD1CDB51ED00B702F8 /* ScreenBaseViewController.swift */; };
 		583857E01CDB51F600B702F8 /* Wit3DModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583857DF1CDB51F600B702F8 /* Wit3DModel.swift */; };
+		583857E21CDB57BE00B702F8 /* UIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583857E11CDB57BE00B702F8 /* UIProtocol.swift */; };
 		583964131CC913A300B6497F /* RenderingBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583964121CC913A300B6497F /* RenderingBaseViewController.swift */; };
 		5842112B1CBFF24300ED0274 /* CustomLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5842112A1CBFF24300ED0274 /* CustomLocationViewController.swift */; };
 		584CB7171CCA7C6000B31288 /* HardwareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584CB7161CCA7C6000B31288 /* HardwareManager.swift */; };
@@ -92,6 +93,7 @@
 		5829F2661CC0EE740085C861 /* Scene3DViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene3DViewController.swift; sourceTree = "<group>"; };
 		583857DD1CDB51ED00B702F8 /* ScreenBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenBaseViewController.swift; sourceTree = "<group>"; };
 		583857DF1CDB51F600B702F8 /* Wit3DModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wit3DModel.swift; sourceTree = "<group>"; };
+		583857E11CDB57BE00B702F8 /* UIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIProtocol.swift; sourceTree = "<group>"; };
 		583964121CC913A300B6497F /* RenderingBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderingBaseViewController.swift; sourceTree = "<group>"; };
 		5842112A1CBFF24300ED0274 /* CustomLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLocationViewController.swift; sourceTree = "<group>"; };
 		584349891CCE53D600242F48 /* ARProject00-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ARProject00-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -210,7 +212,7 @@
 				521A903A1B725C2300CC3178 /* Managers */,
 				582CC73A1CC6352E00BC9185 /* Location+3D */,
 				582CC7391CC634EC00BC9185 /* CustomLocationViewController */,
-				585720B71CC4C9B9000EFAE1 /* Delegates */,
+				585720B71CC4C9B9000EFAE1 /* Protocols */,
 				582CC7381CC6349D00BC9185 /* LocationDebugViewController */,
 				521A903B1B725C4100CC3178 /* Misc */,
 				521A90391B725C1C00CC3178 /* Models */,
@@ -287,13 +289,14 @@
 			name = LocationViewControllers;
 			sourceTree = "<group>";
 		};
-		585720B71CC4C9B9000EFAE1 /* Delegates */ = {
+		585720B71CC4C9B9000EFAE1 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				585720B31CC4C770000EFAE1 /* WrapperSceneDelegate.swift */,
 				585720B51CC4C907000EFAE1 /* RenderingSceneDelegate.swift */,
+				583857E11CDB57BE00B702F8 /* UIProtocol.swift */,
 			);
-			name = Delegates;
+			name = Protocols;
 			sourceTree = "<group>";
 		};
 		F91FB8B2D3C56D28B960F187 /* Pods */ = {
@@ -498,6 +501,7 @@
 				5263E2C21B73AAD9002A550F /* TopViewController.swift in Sources */,
 				584CB7171CCA7C6000B31288 /* HardwareManager.swift in Sources */,
 				583857E01CDB51F600B702F8 /* Wit3DModel.swift in Sources */,
+				583857E21CDB57BE00B702F8 /* UIProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import LocationKit
 
-class LocationDebugViewController: LocationBaseViewController, LKLocationManagerDelegate {
+class LocationDebugViewController: LocationBaseViewController, UIProtocol {
 
     @IBOutlet weak var compassImageView: UIImageView!
     
@@ -25,7 +25,13 @@ class LocationDebugViewController: LocationBaseViewController, LKLocationManager
     @IBOutlet weak var headingFilterLabel: UILabel!
     @IBOutlet weak var distanceFilterLabel: UILabel!
 
-    var debugLocationManager: DebugLocationManager! = DebugLocationManager()
+    var locationTimer: NSTimer? = nil
+    var headingTimer:  NSTimer? = nil
+    
+    var timePassedFromLastHeadingUpdate: Int = 0
+    var timePassedFromLastLocationUpdate: Int = 0
+    
+//    var debugLocationManager: DebugLocationManager! = DebugLocationManager()
     
     @IBAction func backButtonPressed(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
@@ -34,15 +40,20 @@ class LocationDebugViewController: LocationBaseViewController, LKLocationManager
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        Brain.sharedInstance.setTopViewController(self)
+        
+        Brain.sharedInstance.startLocationManager()
+        Brain.sharedInstance.locationManager.startUpdating()
+        
         compassImageView.image = UIImage(named: "compass")
         
-        debugLocationManager.locationManager!.advancedDelegate = self
+//        debugLocationManager.locationManager!.advancedDelegate = self
+//        
+//        debugLocationManager.setStandardProperties()
+//    
+//        debugLocationManager.locationManager!.headingFilter = 0.5
         
-        debugLocationManager.setStandardProperties()
-    
-        debugLocationManager.locationManager!.headingFilter = 0.5
-        
-        headingFilterLabel.text = "\((debugLocationManager.locationManager!.headingFilter)) angles"
+        headingFilterLabel.text = "\((Brain.sharedInstance.locationManager.manager.headingFilter)) angles"
         distanceAccuraceLabel.text = "Best"
         distanceFilterLabel.text = "None (any movement)"
         
@@ -56,26 +67,37 @@ class LocationDebugViewController: LocationBaseViewController, LKLocationManager
     
     override func willMoveToParentViewController(parent: UIViewController?) {
         if parent == nil {
-            debugLocationManager.invalidateTimers()
-            debugLocationManager = nil
+            invalidateTimers()
+            Brain.sharedInstance.locationManager.stopUpdating()
         }
     }
     
-    // MARK: - Location Manager Delegate
-    
-    func locationManager(manager: LKLocationManager, didUpdateHeading newHeading: CLHeading) {
+    func invalidateTimers() {
+        locationTimer?.invalidate()
+        headingTimer?.invalidate()
         
-        debugLocationManager?.timePassedFromLastHeadingUpdate = 0
+        locationTimer = nil
+        headingTimer = nil
+    }
+
+    //MARK: - UIProtocol
+    
+    func applicationLaunched() {
+        
+    }
+    
+    func headingDirectionUpdated(newHeading: CLHeading) {
+        
+        timePassedFromLastHeadingUpdate = 0
         
         headingUpdateLabel.text = "0 seconds"
         
-        debugLocationManager?.headingTimer?.invalidate()
-        
-        debugLocationManager?.headingTimer = NSTimer.scheduledTimerWithTimeInterval(1,
-                                                       target: self,
-                                                       selector: #selector(headingInformationUpdated),
-                                                       userInfo: nil,
-                                                       repeats: true)
+        headingTimer?.invalidate()
+        headingTimer = NSTimer.scheduledTimerWithTimeInterval(1,
+                                                                                    target: self,
+                                                                                    selector: #selector(headingInformationUpdated),
+                                                                                    userInfo: nil,
+                                                                                    repeats: true)
         
         if newHeading.headingAccuracy < 0 {
             return
@@ -90,20 +112,18 @@ class LocationDebugViewController: LocationBaseViewController, LKLocationManager
         compassImageView.transform = CGAffineTransformMakeRotation(-CGFloat((heading*M_PI)/180.0))
     }
     
-    func locationManager(manager: LKLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationUpdated(location: CLLocation) {
         
-        debugLocationManager?.timePassedFromLastLocationUpdate = 0
+        timePassedFromLastLocationUpdate = 0
         
         locationUpdateLabel.text = "0 seconds"
         
-        debugLocationManager?.locationTimer?.invalidate()
-        debugLocationManager?.locationTimer = NSTimer.scheduledTimerWithTimeInterval(1,
+        locationTimer?.invalidate()
+        locationTimer = NSTimer.scheduledTimerWithTimeInterval(1,
                                                                target: self,
                                                                selector: #selector(locationInformationUpdated),
                                                                userInfo: nil,
                                                                repeats: true)
-        
-        let location: CLLocation = locations.last!
         
         altitudeLabel.text = "\(location.altitude)"
         latitudeLabel.text = "\(location.coordinate.latitude)"
@@ -113,17 +133,70 @@ class LocationDebugViewController: LocationBaseViewController, LKLocationManager
         print("Latitude  = \(location.coordinate.latitude)")
         print("Longitude = \(location.coordinate.longitude)")
     }
+    
+    // MARK: - Location Manager Delegate
+    
+//    func locationManager(manager: LKLocationManager, didUpdateHeading newHeading: CLHeading) {
+//        
+//        debugLocationManager?.timePassedFromLastHeadingUpdate = 0
+//        
+//        headingUpdateLabel.text = "0 seconds"
+//        
+//        debugLocationManager?.headingTimer?.invalidate()
+//        
+//        debugLocationManager?.headingTimer = NSTimer.scheduledTimerWithTimeInterval(1,
+//                                                       target: self,
+//                                                       selector: #selector(headingInformationUpdated),
+//                                                       userInfo: nil,
+//                                                       repeats: true)
+//        
+//        if newHeading.headingAccuracy < 0 {
+//            return
+//        }
+//        
+//        let heading: CLLocationDirection = ((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading)
+//        
+//        headingLabel.text = "\(heading)"
+//        
+//        print("heading = \(heading)")
+//        
+//        compassImageView.transform = CGAffineTransformMakeRotation(-CGFloat((heading*M_PI)/180.0))
+//    }
+//    
+//    func locationManager(manager: LKLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        
+//        debugLocationManager?.timePassedFromLastLocationUpdate = 0
+//        
+//        locationUpdateLabel.text = "0 seconds"
+//        
+//        debugLocationManager?.locationTimer?.invalidate()
+//        debugLocationManager?.locationTimer = NSTimer.scheduledTimerWithTimeInterval(1,
+//                                                               target: self,
+//                                                               selector: #selector(locationInformationUpdated),
+//                                                               userInfo: nil,
+//                                                               repeats: true)
+//        
+//        let location: CLLocation = locations.last!
+//        
+//        altitudeLabel.text = "\(location.altitude)"
+//        latitudeLabel.text = "\(location.coordinate.latitude)"
+//        longitudeLabel.text = "\(location.coordinate.longitude)"
+//        
+//        print("Altitude  = \(location.altitude)")
+//        print("Latitude  = \(location.coordinate.latitude)")
+//        print("Longitude = \(location.coordinate.longitude)")
+//    }
 
     // MARK: - Selectors
     
     func headingInformationUpdated() {
-        debugLocationManager.timePassedFromLastHeadingUpdate += 1
-        headingUpdateLabel.text = "\(debugLocationManager.timePassedFromLastHeadingUpdate) seconds"
+        timePassedFromLastHeadingUpdate += 1
+        headingUpdateLabel.text = "\(timePassedFromLastHeadingUpdate) seconds"
     }
     
     func locationInformationUpdated() {
-        debugLocationManager.timePassedFromLastLocationUpdate += 1
-        locationUpdateLabel.text = "\(debugLocationManager.timePassedFromLastLocationUpdate) seconds"
+        timePassedFromLastLocationUpdate += 1
+        locationUpdateLabel.text = "\(timePassedFromLastLocationUpdate) seconds"
     }
     
     /*

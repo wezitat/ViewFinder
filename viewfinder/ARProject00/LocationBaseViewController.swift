@@ -10,8 +10,8 @@ import UIKit
 
 class LocationBaseViewController: UIViewController {
     
-    func locationUpdated(location: CLLocation) {
-        
-    }
+//    func locationUpdated(location: CLLocation) {
+//        
+//    }
 
 }
