@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import CoreLocation
+import CoreMotion
+import SceneKit
 
 /** TopViewController - is a class which represent upper layer of app.
     It shows all the statuses and WitMarkers. Can be used to represent additional GUI */
@@ -31,9 +33,7 @@ class TopViewController: ScreenBaseViewController, UIProtocol {
     
     override func willMoveToParentViewController(parent: UIViewController?) {
         
-        if parent == nil {
-            Brain.sharedInstance.resetManager()
-        }
+        super.willMoveToParentViewController(parent)
     }
     
     override func refreshStage() {
@@ -47,7 +47,7 @@ class TopViewController: ScreenBaseViewController, UIProtocol {
     override func initializeScene() {
         super.initializeScene()
         
-        if Brain.sharedInstance.getGameViewController() != nil {
+        if renderingViewController != nil {
             refreshSceneButton.enabled = true
         }
     }
@@ -136,4 +136,23 @@ class TopViewController: ScreenBaseViewController, UIProtocol {
         Brain.sharedInstance.locationManager.deviceCalibrateDelegate?.headingUpdated(((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading))
     }
     
+    func updateSceneAltitude(altitude: CLLocationDistance) {
+        renderingViewController?.altitudeUpdated(altitude)
+    }
+    
+    func updateSceneLocation(location: CLLocation) {
+        let point: Point2D = LocationMath.sharedInstance.convertLLtoXY(Brain.sharedInstance.centerPoint, newLocation: location)
+        
+        SCNTransaction.begin()
+        SCNTransaction.setDisableActions(true)
+        
+        renderingViewController?.setCameraNodePosition(SCNVector3Make(Float(point.x), Float(point.y), (renderingViewController?.getCameraNode().position.z)!))
+        update3DModels(location)
+        
+        SCNTransaction.commit()
+    }
+    
+    func changeSceneRotation(orientation: CMQuaternion) {
+        renderingViewController?.rotationChanged(orientation)
+    }
 }

@@ -19,14 +19,17 @@ class CustomLocationViewController: UIViewController, LKLocationManagerDelegate 
     @IBOutlet weak var getCoordsButton: UIButton!
     @IBOutlet weak var goTo3DSceneButton: UIButton!
     
-    var debugLocationManager: DebugLocationManager! = DebugLocationManager()
+//    var debugLocationManager: DebugLocationManager! = DebugLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        debugLocationManager.locationManager!.advancedDelegate = self
-        debugLocationManager.setStandardProperties()
-        debugLocationManager.locationManager!.headingFilter = 0.5
+        Brain.sharedInstance.startLocationManager()
+        Brain.sharedInstance.locationManager.startUpdating()
+        
+//        debugLocationManager.locationManager!.advancedDelegate = self
+//        debugLocationManager.setStandardProperties()
+//        debugLocationManager.locationManager!.headingFilter = 0.5
         
         // Do any additional setup after loading the view.
     }
@@ -38,9 +41,9 @@ class CustomLocationViewController: UIViewController, LKLocationManagerDelegate 
     
     @IBAction func getCoordsButtonPressed(sender: AnyObject) {
         
-        latitudeTextField.text = "\((debugLocationManager.locationManager?.location?.coordinate.latitude)!)"
-        longitudeTextField.text = "\((debugLocationManager.locationManager?.location?.coordinate.longitude)!)"
-        altitudeTextField.text = "\((debugLocationManager.locationManager?.location?.altitude)!)"
+        latitudeTextField.text = "\((Brain.sharedInstance.locationManager.manager.location?.coordinate.latitude)!)"
+        longitudeTextField.text = "\((Brain.sharedInstance.locationManager.manager.location?.coordinate.longitude)!)"
+        altitudeTextField.text = "\((Brain.sharedInstance.locationManager.manager.location?.altitude)!)"
         
     }
     
@@ -81,12 +84,10 @@ class CustomLocationViewController: UIViewController, LKLocationManagerDelegate 
         
         let location = CLLocation(coordinate: coords,
                                   altitude: Double(altitudeTextField.text!)!,
-                                  horizontalAccuracy: (debugLocationManager.locationManager?.location?.horizontalAccuracy)!,
-                                  verticalAccuracy: (debugLocationManager.locationManager?.location?.verticalAccuracy)!,
+                                  horizontalAccuracy: (Brain.sharedInstance.locationManager.manager.location?.horizontalAccuracy)!,
+                                  verticalAccuracy: (Brain.sharedInstance.locationManager.manager.location?.verticalAccuracy)!,
                                   timestamp: NSDate())
         
         vc.customLocation = location
     }
-    
-    
 }

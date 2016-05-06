@@ -14,12 +14,6 @@ import CoreMotion
 protocol RenderingSceneDelegate{
     func setEventDelegate(object: SceneEventsDelegate?)
     func getCameraNode() -> SCNNode
-//    func getShowingObject() -> [WitObject]
     func rotationChanged(orientation: CMQuaternion)
-//    func isNodeOnMotionScreen(node: SCNNode) -> Bool
-//    func nodePosToScreenMotionCoordinates(node: SCNNode) -> Point3D
-//    func resetMotionScene()
-//    func initialize3DSceneMotionWithHeading(calibratedHeading: CLLocationDirection)
     func altitudeUpdated(altitude: CLLocationDistance)
-//    func redrawModels(point: Point2D)
 }

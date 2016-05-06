@@ -7,9 +7,15 @@
 //
 
 import Foundation
+import CoreMotion
 
-protocol UIProtocol {
+@objc protocol UIProtocol {
+    
     func applicationLaunched()
     func locationUpdated(location: CLLocation)
     func headingDirectionUpdated(heading: CLHeading)
+    
+    optional func updateSceneAltitude(altitude: CLLocationDistance)
+    optional func updateSceneLocation(location: CLLocation)
+    optional func changeSceneRotation(orientation: CMQuaternion)
 }

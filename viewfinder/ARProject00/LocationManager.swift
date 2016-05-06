@@ -62,8 +62,6 @@ class LocationManager: HardwareManager {
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.distanceFilter = kDistanceFilter
         manager.headingFilter = kHeadingFilter
-        
-//        startUpdating()
     }
     
     override func startUpdating() {
@@ -73,12 +71,8 @@ class LocationManager: HardwareManager {
                                                                   selector: #selector(timeUpdate),
                                                                   userInfo: nil,
                                                                   repeats: true)
-        if #available(iOS 9.0, *) {
-            manager.requestLocation()
-        } else {
-            manager.startUpdatingLocation()
-        }
         
+        manager.startUpdatingLocation()
         manager.startUpdatingHeading()
     }
     

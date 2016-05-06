@@ -41,8 +41,6 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        Brain.sharedInstance.setGameViewController(self)
     }
     
     //function which reset scene (removes all objects from 3d scene)
@@ -221,22 +219,6 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
         cameraNode.orientation = LocationMath.sharedInstance.orientationFromCMQuaternion(orientation)
         eventDelegate?.cameraMoved()
     }
-    
-//    func isNodeOnMotionScreen(node: SCNNode) -> Bool {
-//        return isNodeOnScreen(node)
-//    }
-    
-//    func nodePosToScreenMotionCoordinates(node: SCNNode) -> Point3D {
-//        return nodePosToScreenCoordinates(node)
-//    }
-    
-//    func resetMotionScene() {
-//        resetScene()
-//    }
-    
-//    func initialize3DSceneMotionWithHeading(calibratedHeading: CLLocationDirection) {
-//        initialize3DSceneWithHeading(calibratedHeading)
-//    }
     
     // change this method to "redrawModels" because 3D can't react on changes, it just draws the scene when we want
     

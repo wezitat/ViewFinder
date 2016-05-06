@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import SceneKit
 
 enum AppStatus {
     case GettingLocation
@@ -16,7 +17,7 @@ enum AppStatus {
     case Unknown
 }
 
-class ScreenBaseViewController: LocationBaseViewController {
+class ScreenBaseViewController: UIViewController, SceneEventsDelegate {
 
     @IBOutlet weak var debugView: UIView!
     @IBOutlet weak var markerView: WitMarkersView!
@@ -28,6 +29,9 @@ class ScreenBaseViewController: LocationBaseViewController {
     
     //array of wit markers
     var witMarkers: [WitMarker] = [WitMarker]()
+    
+    // array of wit models
+    var wit3DModels: [Wit3DModel]! = nil
     
     //heading calibration
     var calibrationTime: Int = 5
@@ -46,13 +50,17 @@ class ScreenBaseViewController: LocationBaseViewController {
     
     //    var Brain = Brain.sharedInstance
     
+    var renderingViewController: RenderingBaseViewController? = nil
+    
+    var demoData = DemoDataClass()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
 //        refreshSceneButton.enabled = false
         
-        Brain.sharedInstance.setGameViewController(self.childViewControllers.first! as! RenderingBaseViewController)
-        Brain.sharedInstance.setGameViewControllerDelegate(Brain.sharedInstance)
+        renderingViewController = self.childViewControllers.first! as? RenderingBaseViewController
+        renderingViewController?.setEventDelegate(self)
         
         initDebugViewLayer()
         initDetailsView()
@@ -60,7 +68,6 @@ class ScreenBaseViewController: LocationBaseViewController {
         //start location manager
         Brain.sharedInstance.startLocationManager()
         Brain.sharedInstance.locationManager.startUpdating()
-
         
         Brain.sharedInstance.setLocationManagerDeviceCalibrateDelegate(Brain.sharedInstance)
         Brain.sharedInstance.setLocationManagerInfoLocationDelegate(Brain.sharedInstance)
@@ -85,67 +92,20 @@ class ScreenBaseViewController: LocationBaseViewController {
         
         if parent == nil {
             Brain.sharedInstance.resetManager()
+            
+            if renderingViewController != nil {
+                renderingViewController!.setEventDelegate(nil)
+                renderingViewController = nil
+            }
         }
     }
     
-//    func locationUpdated(newLocation: CLLocation) {
-//        let locationAge: NSTimeInterval = -newLocation.timestamp.timeIntervalSinceNow
-//        
-//        if locationAge > 10.0 {
-//            return
-//        }
-//        
-//        if newLocation.verticalAccuracy > 0 {
-//            
-//            Brain.sharedInstance.locationManager.locationManagerDelegate?.locationDelegateAltitudeUpdated(newLocation.altitude) // rendering
-//            Brain.sharedInstance.locationManager.infoLocationDelegate?.altitudeUpdated(Int(newLocation.altitude))
-//        }
-//        
-//        if newLocation.horizontalAccuracy < 0 {
-//            return
-//        }
-//        
-//        Brain.sharedInstance.locationManager.infoLocationDelegate?.accuracyUpdated(Int(newLocation.horizontalAccuracy))
-//        
-//        if Brain.sharedInstance.locationManager.previousLocation == nil {
-//            if newLocation.horizontalAccuracy <= Brain.sharedInstance.locationManager.LOCATION_ACCURACCY && Brain.sharedInstance.locationManager.deviceCalibrateDelegate != nil{
-//                Brain.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude)//CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
-//                
-//                if newLocation.verticalAccuracy > 0 {
-//                    Brain.sharedInstance.centerAltitude = newLocation.altitude
-//                    Brain.sharedInstance.locationManager.deviceCalibrateDelegate.initLocationReceived() // rendering
-//                    Brain.sharedInstance.locationManager.previousLocation = newLocation
-//                }
-//                
-//                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(Brain.sharedInstance.locationManager.previousLocation)))")
-//                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
-//            }
-//        }
-//        else {
-//            if newLocation.horizontalAccuracy <= Brain.sharedInstance.locationManager.LOCATION_ACCURACCY {
-//                if Brain.sharedInstance.locationManager.locationManagerDelegate != nil {
-//                    Brain.sharedInstance.locationManager.locationManagerDelegate.locationDelegateLocationUpdated(newLocation) // rendering
-//                    Brain.sharedInstance.userLocation = newLocation
-//                }
-//                
-//                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(Brain.sharedInstance.locationManager.previousLocation)))")
-//                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
-//                
-//                Brain.sharedInstance.locationManager.previousLocation = newLocation
-//            } else {
-//                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("ignoring")
-//                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("ignoring")
-//            }
-//        }
-//
-//    }
-    
     func refreshStage() {
         //reset whole information in app
-//        self.refreshSceneButton.enabled = false
+        //self.refreshSceneButton.enabled = false
         //self.sceneController.resetScene()
         
-        Brain.sharedInstance.getGameViewController()!.resetScene()
+        renderingViewController?.resetScene()
         
         for marker in witMarkers {
             marker.view.removeFromSuperview()
@@ -274,14 +234,14 @@ class ScreenBaseViewController: LocationBaseViewController {
      */
     func initializeScene() {
         
-        if Brain.sharedInstance.getGameViewController() != nil {
+        if renderingViewController != nil {
             
 //            self.refreshSceneButton.enabled = true
             
             debugInfo.fullInfo()
             
             Brain.sharedInstance.setLocationManagerDelegate(Brain.sharedInstance)
-            Brain.sharedInstance.initialize3DSceneWithHeading(calibratedHeading)
+            initialize3DSceneWithHeading(calibratedHeading)
         }
     }
     
@@ -431,12 +391,37 @@ class ScreenBaseViewController: LocationBaseViewController {
         detailsView.hidden = false
     }
     
-    func addWitMarkers(witObjects: [WitObject]) {
+    // 3D Scene
+    
+    func initialize3DSceneWithHeading(calibratedHeading: CLLocationDirection) { // remove
+        renderingViewController?.initialize3DSceneWithHeading(calibratedHeading)
+        addWits()
+    }
+    
+    // Wits
+    
+    func addWits() {
         
-        for object in witObjects {
-            addNewWitMarker(object)
+        demoData.initData()
+        
+        wit3DModels = [Wit3DModel]()
+        
+        for object in demoData .objects {
+            
+            let wit3DModel = Wit3DModel(wit: object)
+            
+            addNewWitMarkerWithWitModel(wit3DModel)
+            
+            renderingViewController?.geometryNode.addChildNode(wit3DModel.objectGeometry)
+            
+            wit3DModels.append(wit3DModel)
         }
-        
+    }
+
+    func update3DModels(location: CLLocation) {
+        for object in wit3DModels {
+            object.updateWitObjectSize(location)
+        }
     }
     
     func addNewWitMarkerWithWitModel(witModel: Wit3DModel) {
@@ -452,6 +437,16 @@ class ScreenBaseViewController: LocationBaseViewController {
         markerView?.addSubview(marker.view)
     }
 
+    //MARK: - SceneEventsDelegate
+    
+    func showObjectDetails(result: SCNHitTestResult) {
+        
+        for object in wit3DModels {
+            if result.node == object.objectGeometry {
+                showObjectDetails(object.wObject)
+            }
+        }
+    }
     
     func addNewWitMarker(wObject: WitObject) {
         // add new witmarker on screen
@@ -478,6 +473,60 @@ class ScreenBaseViewController: LocationBaseViewController {
                 marker.isShowMarker = true
             } else {
                 marker.isShowMarker = false
+            }
+        }
+    }
+    
+    func cameraMoved() {
+        
+        //if camera moved we neeed to update witmarkers on screen. For that we will need what is object coordinates based on screen coordinates
+        
+        let screenHeight: Double = Double(UIScreen.mainScreen().bounds.height)
+        let  screenWidth: Double = Double(UIScreen.mainScreen().bounds.width)
+        
+        for marker in witMarkers {
+            
+            if renderingViewController != nil {
+                if renderingViewController!.isNodeOnScreen(marker.wit3DModel.objectGeometry) {
+                    marker.showMarker(false)
+                } else {
+                    marker.showMarker(true)
+                }
+                
+                if marker.wit3DModel != nil {
+                
+                    var point: Point3D = (renderingViewController?.nodePosToScreenCoordinates(marker.wit3DModel.objectGeometry))!
+                    
+                    point.x -= 30
+                    point.y -= 30
+                    
+                    if  point.x < 0 {
+                        point.x = 0
+                    }
+                    
+                    if point.y < 0 {
+                        point.y = 0
+                    }
+                    
+                    if point.x > screenWidth - Double(WIT_MARKER_SIZE) {
+                        point.x = Double(screenWidth) - Double(WIT_MARKER_SIZE)
+                    }
+                    
+                    if point.y > screenHeight - Double(WIT_MARKER_SIZE) {
+                        point.y = screenHeight - Double(WIT_MARKER_SIZE)
+                    }
+                    
+                    //check if element is behind - if yes our point will be inside the screen
+                    if (point.z > 1) {
+                        point = updatePointIfObjectIsBehind(point)
+                        //originalPoint = Point2D(xPos: point.x, yPos: point.y)
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        marker.view.frame = CGRectMake(CGFloat(point.x), CGFloat(point.y), WIT_MARKER_SIZE, WIT_MARKER_SIZE)
+                        marker.updatePointerAngle(0)
+                    }
+                }
             }
         }
     }

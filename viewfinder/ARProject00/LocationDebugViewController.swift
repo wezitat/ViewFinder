@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import LocationKit
 
-class LocationDebugViewController: LocationBaseViewController, UIProtocol {
+class LocationDebugViewController: UIViewController, UIProtocol {
 
     @IBOutlet weak var compassImageView: UIImageView!
     
@@ -31,8 +31,6 @@ class LocationDebugViewController: LocationBaseViewController, UIProtocol {
     var timePassedFromLastHeadingUpdate: Int = 0
     var timePassedFromLastLocationUpdate: Int = 0
     
-//    var debugLocationManager: DebugLocationManager! = DebugLocationManager()
-    
     @IBAction func backButtonPressed(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }
@@ -46,12 +44,6 @@ class LocationDebugViewController: LocationBaseViewController, UIProtocol {
         Brain.sharedInstance.locationManager.startUpdating()
         
         compassImageView.image = UIImage(named: "compass")
-        
-//        debugLocationManager.locationManager!.advancedDelegate = self
-//        
-//        debugLocationManager.setStandardProperties()
-//    
-//        debugLocationManager.locationManager!.headingFilter = 0.5
         
         headingFilterLabel.text = "\((Brain.sharedInstance.locationManager.manager.headingFilter)) angles"
         distanceAccuraceLabel.text = "Best"
