@@ -45,6 +45,8 @@ class CustomLocationViewController: UIViewController, LKLocationManagerDelegate 
         longitudeTextField.text = "\((Brain.sharedInstance.locationManager.manager.location?.coordinate.longitude)!)"
         altitudeTextField.text = "\((Brain.sharedInstance.locationManager.manager.location?.altitude)!)"
         
+        Brain.sharedInstance.locationManager.stopUpdating()
+        
     }
     
     //MARK: - IBActions

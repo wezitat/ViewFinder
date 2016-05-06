@@ -83,45 +83,75 @@ class TopViewController: ScreenBaseViewController, UIProtocol {
         if newLocation.verticalAccuracy > 0 {
             
             Brain.sharedInstance.locationManager.locationManagerDelegate?.locationDelegateAltitudeUpdated(newLocation.altitude) // rendering
-            Brain.sharedInstance.locationManager.infoLocationDelegate?.altitudeUpdated(Int(newLocation.altitude))
+            Brain.sharedInstance.locationManager.infoLocationDelegate?.altitudeUpdatedInfo(Int(newLocation.altitude))
         }
         
         if newLocation.horizontalAccuracy < 0 {
             return
         }
         
-        Brain.sharedInstance.locationManager.infoLocationDelegate?.accuracyUpdated(Int(newLocation.horizontalAccuracy))
+        Brain.sharedInstance.locationManager.infoLocationDelegate?.accuracyUpdatedInfo(Int(newLocation.horizontalAccuracy))
         
-        if Brain.sharedInstance.locationManager.previousLocation == nil {
-            if newLocation.horizontalAccuracy <= Brain.sharedInstance.locationManager.LOCATION_ACCURACCY && Brain.sharedInstance.locationManager.deviceCalibrateDelegate != nil{
-                Brain.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude)//CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
+        /////////////////////////////////////
+        
+        if newLocation.horizontalAccuracy <= Brain.sharedInstance.locationManager.LOCATION_ACCURACCY {
+            
+            if Brain.sharedInstance.locationManager.previousLocation == nil {
+                Brain.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude) //CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
                 
                 if newLocation.verticalAccuracy > 0 {
                     Brain.sharedInstance.centerAltitude = newLocation.altitude
                     Brain.sharedInstance.locationManager.deviceCalibrateDelegate.initLocationReceived() // rendering
                     Brain.sharedInstance.locationManager.previousLocation = newLocation
                 }
-                
-                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(Brain.sharedInstance.locationManager.previousLocation)))")
-                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
-            }
-        }
-        else {
-            if newLocation.horizontalAccuracy <= Brain.sharedInstance.locationManager.LOCATION_ACCURACCY {
+            } else {
                 if Brain.sharedInstance.locationManager.locationManagerDelegate != nil {
                     Brain.sharedInstance.locationManager.locationManagerDelegate.locationDelegateLocationUpdated(newLocation) // rendering
                     Brain.sharedInstance.userLocation = newLocation
                 }
                 
-                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(Brain.sharedInstance.locationManager.previousLocation)))")
-                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
-                
                 Brain.sharedInstance.locationManager.previousLocation = newLocation
-            } else {
-                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("ignoring")
-                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("ignoring")
             }
+            
+            Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdatedInfo("\(Int(newLocation.distanceFromLocation(Brain.sharedInstance.locationManager.previousLocation)))")
+            Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdatedInfo("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
+            
+        } else {
+            Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdatedInfo("ignoring")
+            Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdatedInfo("ignoring")
         }
+        
+//        if Brain.sharedInstance.locationManager.previousLocation == nil {
+//            if newLocation.horizontalAccuracy <= Brain.sharedInstance.locationManager.LOCATION_ACCURACCY && Brain.sharedInstance.locationManager.deviceCalibrateDelegate != nil {
+//                Brain.sharedInstance.setupCenterPoint(newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude) //CLLocation(latitude: 49.840210, longitude:  24.032991)//previousLocation
+//                
+//                if newLocation.verticalAccuracy > 0 {
+//                    Brain.sharedInstance.centerAltitude = newLocation.altitude
+//                    Brain.sharedInstance.locationManager.deviceCalibrateDelegate.initLocationReceived() // rendering
+//                    Brain.sharedInstance.locationManager.previousLocation = newLocation
+//                }
+//                
+//                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(Brain.sharedInstance.locationManager.previousLocation)))")
+//                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
+//            }
+//        } else {
+//            if newLocation.horizontalAccuracy <= Brain.sharedInstance.locationManager.LOCATION_ACCURACCY {
+//                if Brain.sharedInstance.locationManager.locationManagerDelegate != nil {
+//                    Brain.sharedInstance.locationManager.locationManagerDelegate.locationDelegateLocationUpdated(newLocation) // rendering
+//                    Brain.sharedInstance.userLocation = newLocation
+//                }
+//                
+//                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("\(Int(newLocation.distanceFromLocation(Brain.sharedInstance.locationManager.previousLocation)))")
+//                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("lat: \(newLocation.coordinate.latitude) \nlon: \(newLocation.coordinate.longitude)")
+//                
+//                Brain.sharedInstance.locationManager.previousLocation = newLocation
+//            } else {
+//                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationDistanceUpdated("ignoring")
+//                Brain.sharedInstance.locationManager.infoLocationDelegate?.locationUpdated("ignoring")
+//            }
+//        }
+        
+        ///////////////////////////////////////
     }
     
     func headingDirectionUpdated(newHeading: CLHeading) {

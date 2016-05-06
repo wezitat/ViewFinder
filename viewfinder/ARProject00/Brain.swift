@@ -12,12 +12,10 @@ import CoreMotion
 import SceneKit
 import LocationKit
 
-class Brain: NSObject, InfoLocationDelegate,    // remove?
-                       LocationManagerDelegate, // leave here
+class Brain: NSObject, LocationManagerDelegate, // leave here
                        MotionManagerDelegate,   // leave here
                        RotationManagerDelegate, // leave here
                        DeviceCalibrateDelegate, // leave here
-                       WitMarkerDelegate,       // wit is a UI part so we can remove
                        LKLocationManagerDelegate { // leave here
     
     static let sharedInstance = Brain()
@@ -26,8 +24,6 @@ class Brain: NSObject, InfoLocationDelegate,    // remove?
     
     var   motionManager: MotionManager   = MotionManager() // leave here
     var locationManager: LocationManager = LocationManager() // leave here
-    
-    var debugInfo: DebugInfoClass = DebugInfoClass.sharedInstance // leave here
     
     var screenViewController: UIProtocol? = nil // leave here
      // remove from here
@@ -69,33 +65,6 @@ class Brain: NSObject, InfoLocationDelegate,    // remove?
         userLocation = CLLocation(latitude: lat, longitude: lon)
     }
     
-    //MARK: - InfoLocationDelegate ???
-    
-    func locationUpdated(location: String) {
-        debugInfo.currentPosition = location
-        debugInfo.generateDebugMessage()
-    }
-    
-    func locationDistanceUpdated(dist: String) {
-        debugInfo.distance = "\(dist) m"
-        debugInfo.generateDebugMessage()
-    }
-    
-    func altitudeUpdated(alt: Int) {
-        debugInfo.altitude = "\(alt) m"
-        debugInfo.generateDebugMessage()
-    }
-    
-    func accuracyUpdated(acc: Int) {
-        debugInfo.accuracyTime = "\(acc) m"
-        debugInfo.generateDebugMessage()
-    }
-    
-    func lastTimeLocationUpdate(timeUpdate: Int) {
-        debugInfo.updateTime = "\(timeUpdate) sec"
-        debugInfo.generateDebugMessage()
-    }
-
     //MARK: - LocationManagerDelegate leave
     
     func locationDelegateAltitudeUpdated(altitude: CLLocationDistance) {
@@ -123,6 +92,8 @@ class Brain: NSObject, InfoLocationDelegate,    // remove?
     
     //MARK: - DeviceCalibrateDelegate leave
     
+    // what to do with type casting?
+    
     func headingUpdated(heading: CLLocationDirection) {
         (screenViewController as! ScreenBaseViewController).headingUpdated(heading)
     }
@@ -137,12 +108,6 @@ class Brain: NSObject, InfoLocationDelegate,    // remove?
         (screenViewController as! ScreenBaseViewController).rotationAngleUpdated(angle)
     }
     
-    //MARK: - WitMarkerDelegate remove
-    
-    func showObjectDetails(wObject: WitObject) {
-        (screenViewController as! ScreenBaseViewController).showObjectDetails(wObject)
-    }
-
     //MARK: - Methods, setting Delegates
     
     func setTopViewController(topVC: UIProtocol!) {

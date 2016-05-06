@@ -17,7 +17,7 @@ enum AppStatus {
     case Unknown
 }
 
-class ScreenBaseViewController: UIViewController, SceneEventsDelegate {
+class ScreenBaseViewController: UIViewController, SceneEventsDelegate, WitMarkerDelegate, InfoLocationDelegate {
 
     @IBOutlet weak var debugView: UIView!
     @IBOutlet weak var markerView: WitMarkersView!
@@ -70,7 +70,7 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate {
         Brain.sharedInstance.locationManager.startUpdating()
         
         Brain.sharedInstance.setLocationManagerDeviceCalibrateDelegate(Brain.sharedInstance)
-        Brain.sharedInstance.setLocationManagerInfoLocationDelegate(Brain.sharedInstance)
+        Brain.sharedInstance.setLocationManagerInfoLocationDelegate(self)
         Brain.sharedInstance.setMotionManagerRotationManagerDelegate(Brain.sharedInstance)
         
         //First step we need to retrieve accurate location. This can take a while (depends on accuracy which we choosed in LocationManager)
@@ -375,22 +375,6 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate {
         }
     }
     
-    func showObjectDetails(wObject: WitObject) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.detailsHeader.text = wObject.witName
-            
-            var claimed: String = "NO"
-            
-//            if wObject.isClaimed {
-//                claimed = "YES"
-//            }
-            
-            self.detailsDescription.text = "\(wObject.witDescription)\n\nBy: \(wObject.author) Claimed: \(claimed)"
-        }
-        
-        detailsView.hidden = false
-    }
-    
     // 3D Scene
     
     func initialize3DSceneWithHeading(calibratedHeading: CLLocationDirection) { // remove
@@ -406,8 +390,7 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate {
         
         wit3DModels = [Wit3DModel]()
         
-        for object in demoData .objects {
-            
+        for object in demoData.objects {
             let wit3DModel = Wit3DModel(wit: object)
             
             addNewWitMarkerWithWitModel(wit3DModel)
@@ -429,7 +412,7 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate {
         let marker = WitMarker()
         
         marker.registerObject(witModel.wObject)
-        marker.delegate = Brain.sharedInstance
+        marker.delegate = self
         
         marker.wit3DModel = witModel
         
@@ -453,7 +436,7 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate {
         let marker = WitMarker()
         
         marker.registerObject(wObject)
-        marker.delegate = Brain.sharedInstance
+        marker.delegate = self
         
         witMarkers.append(marker)
         markerView?.addSubview(marker.view)
@@ -494,37 +477,37 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate {
                 }
                 
                 if marker.wit3DModel != nil {
-                
-                    var point: Point3D = (renderingViewController?.nodePosToScreenCoordinates(marker.wit3DModel.objectGeometry))!
                     
-                    point.x -= 30
-                    point.y -= 30
-                    
-                    if  point.x < 0 {
-                        point.x = 0
-                    }
-                    
-                    if point.y < 0 {
-                        point.y = 0
-                    }
-                    
-                    if point.x > screenWidth - Double(WIT_MARKER_SIZE) {
-                        point.x = Double(screenWidth) - Double(WIT_MARKER_SIZE)
-                    }
-                    
-                    if point.y > screenHeight - Double(WIT_MARKER_SIZE) {
-                        point.y = screenHeight - Double(WIT_MARKER_SIZE)
-                    }
-                    
-                    //check if element is behind - if yes our point will be inside the screen
-                    if (point.z > 1) {
-                        point = updatePointIfObjectIsBehind(point)
-                        //originalPoint = Point2D(xPos: point.x, yPos: point.y)
-                    }
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        marker.view.frame = CGRectMake(CGFloat(point.x), CGFloat(point.y), WIT_MARKER_SIZE, WIT_MARKER_SIZE)
-                        marker.updatePointerAngle(0)
+                    if var point = renderingViewController?.nodePosToScreenCoordinates(marker.wit3DModel.objectGeometry) {
+                        point.x -= 30
+                        point.y -= 30
+                        
+                        if  point.x < 0 {
+                            point.x = 0
+                        }
+                        
+                        if point.y < 0 {
+                            point.y = 0
+                        }
+                        
+                        if point.x > screenWidth - Double(WIT_MARKER_SIZE) {
+                            point.x = Double(screenWidth) - Double(WIT_MARKER_SIZE)
+                        }
+                        
+                        if point.y > screenHeight - Double(WIT_MARKER_SIZE) {
+                            point.y = screenHeight - Double(WIT_MARKER_SIZE)
+                        }
+                        
+                        //check if element is behind - if yes our point will be inside the screen
+                        if (point.z > 1) {
+                            point = updatePointIfObjectIsBehind(point)
+                            //originalPoint = Point2D(xPos: point.x, yPos: point.y)
+                        }
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            marker.view.frame = CGRectMake(CGFloat(point.x), CGFloat(point.y), WIT_MARKER_SIZE, WIT_MARKER_SIZE)
+                            marker.updatePointerAngle(0)
+                        }
                     }
                 }
             }
@@ -539,6 +522,51 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate {
         }
         
         filterWitMarkers()
+    }
+    
+    // WitMarkerDelegate
+    
+    func showObjectDetails(wObject: WitObject) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.detailsHeader.text = wObject.witName
+            
+            var claimed: String = "NO"
+            
+            //            if wObject.isClaimed {
+            //                claimed = "YES"
+            //            }
+            
+            self.detailsDescription.text = "\(wObject.witDescription)\n\nBy: \(wObject.author) Claimed: \(claimed)"
+        }
+        
+        detailsView.hidden = false
+    }
+    
+    //MARK: - InfoLocationDelegate ???
+    
+    func locationUpdatedInfo(location: String) {
+        debugInfo.currentPosition = location
+        debugInfo.generateDebugMessage()
+    }
+    
+    func locationDistanceUpdatedInfo(dist: String) {
+        debugInfo.distance = "\(dist) m"
+        debugInfo.generateDebugMessage()
+    }
+    
+    func altitudeUpdatedInfo(alt: Int) {
+        debugInfo.altitude = "\(alt) m"
+        debugInfo.generateDebugMessage()
+    }
+    
+    func accuracyUpdatedInfo(acc: Int) {
+        debugInfo.accuracyTime = "\(acc) m"
+        debugInfo.generateDebugMessage()
+    }
+    
+    func lastTimeLocationUpdateInfo(timeUpdate: Int) {
+        debugInfo.updateTime = "\(timeUpdate) sec"
+        debugInfo.generateDebugMessage()
     }
     
     /*

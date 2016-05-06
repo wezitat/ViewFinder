@@ -19,11 +19,11 @@ protocol LocationManagerDelegate {
 }
 
 protocol InfoLocationDelegate {
-    func locationUpdated(location: String)
-    func locationDistanceUpdated(distance: String)
-    func altitudeUpdated(altitude: Int)
-    func accuracyUpdated(accuracy: Int)
-    func lastTimeLocationUpdate(timeUpdate: Int)
+    func locationUpdatedInfo(location: String)
+    func locationDistanceUpdatedInfo(distance: String)
+    func altitudeUpdatedInfo(altitude: Int)
+    func accuracyUpdatedInfo(accuracy: Int)
+    func lastTimeLocationUpdateInfo(timeUpdate: Int)
 }
 
 protocol DeviceCalibrateDelegate {
@@ -79,11 +79,14 @@ class LocationManager: HardwareManager {
     func timeUpdate() {
         timePassed += 1
         
-        infoLocationDelegate?.lastTimeLocationUpdate(timePassed)
+        infoLocationDelegate?.lastTimeLocationUpdateInfo(timePassed)
     }
     
     override func stopUpdating() {
         previousLocation = nil
+        
+        timerAfterUpdate?.invalidate()
+        timerAfterUpdate = nil
         
         manager.stopUpdatingLocation()
         manager.stopUpdatingHeading()
@@ -92,14 +95,17 @@ class LocationManager: HardwareManager {
     func resetTimer() {
         timePassed = 0
         
-        if timerAfterUpdate != nil {
-            timerAfterUpdate.invalidate()
-        }
+//        if timerAfterUpdate != nil {
+//            timerAfterUpdate.invalidate()
+//        }
         
-        timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1,
-                                                                  target: self,
-                                                                  selector: #selector(timeUpdate),
-                                                                  userInfo: nil,
-                                                                  repeats: true)
+        timerAfterUpdate?.invalidate()
+        timerAfterUpdate = nil
+        
+//        timerAfterUpdate = NSTimer.scheduledTimerWithTimeInterval(1,
+//                                                                  target: self,
+//                                                                  selector: #selector(timeUpdate),
+//                                                                  userInfo: nil,
+//                                                                  repeats: true)
     }
 }
