@@ -60,7 +60,7 @@ class LocationManager: HardwareManager {
         
         manager.requestAlwaysAuthorization()
         manager.desiredAccuracy = kCLLocationAccuracyBest
-        manager.distanceFilter = kCLDistanceFilterNone
+        manager.distanceFilter = kDistanceFilter
         manager.headingFilter = kHeadingFilter
         
 //        startUpdating()

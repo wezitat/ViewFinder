@@ -11,8 +11,7 @@ import UIKit
 import CoreLocation
 
 /** TopViewController - is a class which represent upper layer of app.
-    It shows all the statuses and WitMarkers. Can be used to
-    represent additional GUI */
+    It shows all the statuses and WitMarkers. Can be used to represent additional GUI */
 
 class TopViewController: ScreenBaseViewController, UIProtocol {
     
