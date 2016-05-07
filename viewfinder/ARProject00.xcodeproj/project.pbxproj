@@ -43,7 +43,7 @@
 		585720B61CC4C907000EFAE1 /* RenderingSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585720B51CC4C907000EFAE1 /* RenderingSceneDelegate.swift */; };
 		588AB4A81CBD1EF400EA8D3B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */; };
 		588AB4AA1CBD2B0E00EA8D3B /* LocationDebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588AB4A91CBD2B0E00EA8D3B /* LocationDebugViewController.swift */; };
-		6759D4547662D7E8556B4B0E /* libPods-ARProject00.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 12A8A67508D7FCDFC9D4B1FB /* libPods-ARProject00.a */; };
+		C7F2DD8CF8486089144E5088 /* Pods_ARProject00.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62C206300AC6B3710BFE4EFF /* Pods_ARProject00.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +57,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		12A8A67508D7FCDFC9D4B1FB /* libPods-ARProject00.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ARProject00.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5226F6231B90464800FC5DBA /* settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = settings.plist; sourceTree = "<group>"; };
 		5226F6251B90478400FC5DBA /* SettingsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		523AB3191B8E087C008B6FA2 /* lviv_objects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = lviv_objects.json; path = resources/lviv_objects.json; sourceTree = "<group>"; };
@@ -99,6 +98,7 @@
 		585720B51CC4C907000EFAE1 /* RenderingSceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderingSceneDelegate.swift; sourceTree = "<group>"; };
 		588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		588AB4A91CBD2B0E00EA8D3B /* LocationDebugViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationDebugViewController.swift; sourceTree = "<group>"; };
+		62C206300AC6B3710BFE4EFF /* Pods_ARProject00.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARProject00.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		856EF09B23C0DD470CC24AAD /* Pods-ARProject00.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARProject00.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00.release.xcconfig"; sourceTree = "<group>"; };
 		CB573DADE3496ADD5D0B8BA7 /* Pods-ARProject00.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARProject00.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -110,7 +110,7 @@
 			files = (
 				5263E2C41B73AC5E002A550F /* UIKit.framework in Frameworks */,
 				5255B8DC1B67B06100C87383 /* GLKit.framework in Frameworks */,
-				6759D4547662D7E8556B4B0E /* libPods-ARProject00.a in Frameworks */,
+				C7F2DD8CF8486089144E5088 /* Pods_ARProject00.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,7 +127,7 @@
 		27026921F8F42D49EEF38671 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				12A8A67508D7FCDFC9D4B1FB /* libPods-ARProject00.a */,
+				62C206300AC6B3710BFE4EFF /* Pods_ARProject00.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
