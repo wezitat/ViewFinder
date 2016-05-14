@@ -1,0 +1,143 @@
+{
+    "wits" : [
+              {
+              "name" : "w1",
+              "description": "hoover tower",
+              "lat": 37.427604,
+              "lon": -122.1669495,
+              "alt": 297,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              
+              {
+              "name" : "w2",
+              "description": "the stanford hospital",
+              "lat": 37.4328862,
+              "lon": -122.1768522,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              
+              {
+              "name" : "w3",
+              "description": "ducks at cloudera",
+              "lat": 37.4174816,
+              "lon": -122.14595320000001,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              
+              {
+              "name" : "w4",
+              "description": "mama old work",
+              "lat": 37.42828560000001,
+              "lon": -122.16335540000001,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              
+              {
+              "name" : "w5",
+              "description": "2002 columbia",
+              "lat": 37.4196502,
+              "lon": -122.1556788,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              {
+              "name" : "w6",
+              "description": "samuels",
+              "lat": 37.4203063,
+              "lon": -122.1630764,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              {
+              "name" : "w7",
+              "description": "tennis court park",
+              "lat": 37.4191517,
+              "lon": -122.1521223,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              {
+              "name" : "w8",
+              "description": "escondido chickens",
+              "lat": 37.420383,
+              "lon": -122.15557160000002,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              {
+              "name" : "w9",
+              "description": "new macs",
+              "lat": 37.4199399,
+              "lon": -122.1554482,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              {
+              "name" : "w10",
+              "description": "field across stanford ave",
+              "lat": 37.4198973,
+              "lon": -122.15599,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              {
+              "name" : "w11",
+              "description": "university church",
+              "lat": 37.4187597,
+              "lon": -122.1561241,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              {
+              "name" : "w12",
+              "description": "kite hill",
+              "lat": 37.4149976,
+              "lon": -122.1532219,
+              "alt": 102,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              {
+              "name" : "w13",
+              "description": "crazy g",
+              "lat": 37.4188982,
+              "lon": -122.15453089999998,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              {
+              "name" : "w14",
+              "description": "our creek",
+              "lat": 37.4194414,
+              "lon": -122.15574590000001,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              },
+              {
+              "name" : "w15",
+              "description": "trash cans for p",
+              "lat": 37.4199527,
+              "lon": -122.1582055,
+              "alt": 72,
+              "altMeasure": "f",
+              "author": "user"
+              }
+              ]
+}

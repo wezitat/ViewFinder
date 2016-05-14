@@ -22,22 +22,23 @@ class Wit3DModel {
         
         wObject = wit
         
-        let diceRoll = Int(arc4random_uniform(2))
+        let diceRoll = Int(arc4random_uniform(3))
         if diceRoll == 0 {
             self.makeImage()
+        } else if diceRoll == 1 {
+            self.makeNarrowWhiteBox()
+        } else {
+            self.makeFlatBlueBox()
         }
-        else {
-            //self.makeImage()
-            self.makeBox()
-        }
+        
 
     }
     
-    func makeBox() {
+    func makeNarrowWhiteBox() {
         is3D = true
         let texture  = SCNMaterial()
         texture.diffuse.contents = UIColor.whiteColor()
-        objectElement = SCNBox(width: CGFloat(LocationMath.sharedInstance.metersToCoordinate(WITOBJECT_BIGGEST_SIZE)),
+        objectElement = SCNBox(width: CGFloat(LocationMath.sharedInstance.metersToCoordinate(WITOBJECT_BIGGEST_SIZE*0.5)),
                                height: CGFloat(LocationMath.sharedInstance.metersToCoordinate(WITOBJECT_BIGGEST_SIZE)),
                                length: CGFloat(LocationMath.sharedInstance.metersToCoordinate(WITOBJECT_BIGGEST_SIZE)),
                                chamferRadius: 1.0)
@@ -45,6 +46,20 @@ class Wit3DModel {
         objectGeometry = SCNNode(geometry: objectElement)
         objectGeometry.position = SCNVector3Make(Float(wObject.witCoordinat.point2d.x), Float(wObject.witCoordinat.point2d.y), Float(wObject.witCoordinat.alt))
     }
+    
+    func makeFlatBlueBox() {
+        is3D = true
+        let texture  = SCNMaterial()
+        texture.diffuse.contents = UIColor.blueColor()
+        objectElement = SCNBox(width: CGFloat(LocationMath.sharedInstance.metersToCoordinate(WITOBJECT_BIGGEST_SIZE)),
+                               height: CGFloat(LocationMath.sharedInstance.metersToCoordinate(WITOBJECT_BIGGEST_SIZE)),
+                               length: CGFloat(LocationMath.sharedInstance.metersToCoordinate(WITOBJECT_BIGGEST_SIZE*0.5)),
+                               chamferRadius: 2.0)
+        objectElement.materials = [texture]
+        objectGeometry = SCNNode(geometry: objectElement)
+        objectGeometry.position = SCNVector3Make(Float(wObject.witCoordinat.point2d.x), Float(wObject.witCoordinat.point2d.y), Float(wObject.witCoordinat.alt))
+    }
+
     
     func makeImage() {
         let texture  = SCNMaterial()
