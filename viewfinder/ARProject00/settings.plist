@@ -3,18 +3,18 @@
 <plist version="1.0">
 <dict>
 	<key>LocationAccuracy</key>
-	<integer>150</integer>
+	<integer>50</integer>
 	<key>ClaimingEmail</key>
 	<string>test@wezitat.com</string>
 	<key>WitMarkersNumber</key>
-	<integer>5</integer>
+	<integer>8</integer>
 	<key>WitObjectsFileName</key>
-	<string>lviv_objects</string>
+	<string>columbia_objects</string>
 	<key>DistanceNear</key>
-	<real>5000</real>
+	<real>2000</real>
 	<key>DistanceHere</key>
-	<real>1000</real>
+	<integer>100</integer>
 	<key>HIdeThereMarkers</key>
-	<true/>
+	<false/>
 </dict>
 </plist>

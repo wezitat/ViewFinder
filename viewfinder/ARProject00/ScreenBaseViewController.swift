@@ -384,17 +384,17 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate, WitMarker
     
     // Wits
     
-    func addWits() {
+    func addWits() {  // gary; should only be adding wits that are near  ... and then should refresh scene when location changes by xxxx
         
         demoData.initData()
         
         wit3DModels = [Wit3DModel]()
         
-        for object in demoData.objects {
-            let wit3DModel = Wit3DModel(wit: object)
+        for wit3DModel in demoData.objects {
+            let wit3DModel = Wit3DModel(wit: wit3DModel)
             
             addNewWitMarkerWithWitModel(wit3DModel)
-            
+            print ("adding wit \(wit3DModel.wObject.witDescription)")
             renderingViewController?.geometryNode.addChildNode(wit3DModel.objectGeometry)
             
             wit3DModels.append(wit3DModel)
@@ -403,6 +403,7 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate, WitMarker
 
     func update3DModels(location: CLLocation) {
         for object in wit3DModels {
+            print ("updating 3dmodels")
             object.updateWitObjectSize(location)
         }
     }
@@ -426,6 +427,7 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate, WitMarker
         
         for object in wit3DModels {
             if result.node == object.objectGeometry {
+                print ("showing object details \(object.wObject.witDescription)")
                 showObjectDetails(object.wObject)
             }
         }

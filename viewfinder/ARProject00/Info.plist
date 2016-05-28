@@ -24,6 +24,8 @@
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We need your location to help show you where you are</string>
+	<key>NSLocationUsageDescription</key>
+	<string>We need your location to help show you where you are</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Tests</string>
 	<key>UIBackgroundModes</key>
@@ -51,7 +53,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSLocationUsageDescription</key>
-	<string>We need your location to help show you where you are</string>
 </dict>
 </plist>
