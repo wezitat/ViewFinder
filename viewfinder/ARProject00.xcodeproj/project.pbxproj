@@ -43,6 +43,8 @@
 		585720B61CC4C907000EFAE1 /* RenderingSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585720B51CC4C907000EFAE1 /* RenderingSceneDelegate.swift */; };
 		588AB4A81CBD1EF400EA8D3B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */; };
 		588AB4AA1CBD2B0E00EA8D3B /* LocationDebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588AB4A91CBD2B0E00EA8D3B /* LocationDebugViewController.swift */; };
+		6D3830FC1CDE7D7C0054298E /* columbia_objects.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D3830FA1CDE7D7C0054298E /* columbia_objects.json */; };
+		6D3830FD1CDE7D7C0054298E /* few_objects.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D3830FB1CDE7D7C0054298E /* few_objects.json */; };
 		C7F2DD8CF8486089144E5088 /* Pods_ARProject00.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62C206300AC6B3710BFE4EFF /* Pods_ARProject00.framework */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +101,8 @@
 		588AB4A71CBD1EF400EA8D3B /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		588AB4A91CBD2B0E00EA8D3B /* LocationDebugViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationDebugViewController.swift; sourceTree = "<group>"; };
 		62C206300AC6B3710BFE4EFF /* Pods_ARProject00.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARProject00.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D3830FA1CDE7D7C0054298E /* columbia_objects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = columbia_objects.json; path = resources/columbia_objects.json; sourceTree = "<group>"; };
+		6D3830FB1CDE7D7C0054298E /* few_objects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = few_objects.json; path = resources/few_objects.json; sourceTree = "<group>"; };
 		856EF09B23C0DD470CC24AAD /* Pods-ARProject00.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARProject00.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00.release.xcconfig"; sourceTree = "<group>"; };
 		CB573DADE3496ADD5D0B8BA7 /* Pods-ARProject00.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARProject00.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARProject00/Pods-ARProject00.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -174,6 +178,8 @@
 				523AB3191B8E087C008B6FA2 /* lviv_objects.json */,
 				523AB31A1B8E087C008B6FA2 /* us_objects.json */,
 				5226F6231B90464800FC5DBA /* settings.plist */,
+				6D3830FA1CDE7D7C0054298E /* columbia_objects.json */,
+				6D3830FB1CDE7D7C0054298E /* few_objects.json */,
 			);
 			name = resources;
 			sourceTree = "<group>";
@@ -356,7 +362,7 @@
 				TargetAttributes = {
 					5255B8B11B6777CE00C87383 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 4D3PQ2KJ43;
+						DevelopmentTeam = KA8HZCVPH8;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -399,9 +405,11 @@
 				523AB31C1B8E087C008B6FA2 /* us_objects.json in Resources */,
 				5226F6241B90464800FC5DBA /* settings.plist in Resources */,
 				5255B8C41B6777CE00C87383 /* LaunchScreen.xib in Resources */,
+				6D3830FD1CDE7D7C0054298E /* few_objects.json in Resources */,
 				5255B8C11B6777CE00C87383 /* Images.xcassets in Resources */,
 				523AB31B1B8E087C008B6FA2 /* lviv_objects.json in Resources */,
 				5255B8BF1B6777CE00C87383 /* Main.storyboard in Resources */,
+				6D3830FC1CDE7D7C0054298E /* columbia_objects.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,13 +632,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Kuzmych (NUWD2JVU26)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = ARProject00/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.techmagic.Forq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wezitat.ar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "445aaee2-e407-4e15-be12-31a46f1377f7";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ARProject00/ARProject00-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -642,14 +651,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Kuzmych (NUWD2JVU26)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Kuzmych (NUWD2JVU26)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = ARProject00/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.techmagic.Forq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wezitat.ar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "445aaee2-e407-4e15-be12-31a46f1377f7";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ARProject00/ARProject00-Bridging-Header.h";
 			};
 			name = Release;
