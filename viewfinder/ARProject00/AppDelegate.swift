@@ -8,11 +8,14 @@
 //
 
 import UIKit
+import SwiftyBeaver
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    let log = SwiftyBeaver.self
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -20,6 +23,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //load settings
         SettingsManager.sharedInstance.loadSettings()
         
+        // add log destinations. at least one is needed!
+        let console = ConsoleDestination()  // log to Xcode Console
+        console.detailOutput = true
+        console.colored=false
+        console.dateFormat=""
+        //let file = FileDestination()  // log to default swiftybeaver.log file
+        //let cloud = SBPlatformDestination(appID: "foo", appSecret: "bar", encryptionKey: "123") // to cloud
+        log.addDestination(console)
+        //log.addDestination(file)
+        //log.addDestination(cloud)
+        
+        log.verbose(1)
+        log.info("here")
         return true
     }
 
