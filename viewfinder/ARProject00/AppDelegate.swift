@@ -10,12 +10,14 @@
 import UIKit
 import SwiftyBeaver
 
+let sblog = SwiftyBeaver.self
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    let log = SwiftyBeaver.self
+
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -30,12 +32,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         console.dateFormat=""
         //let file = FileDestination()  // log to default swiftybeaver.log file
         //let cloud = SBPlatformDestination(appID: "foo", appSecret: "bar", encryptionKey: "123") // to cloud
-        log.addDestination(console)
+        sblog.addDestination(console)
         //log.addDestination(file)
         //log.addDestination(cloud)
-        
-        log.verbose(1)
-        log.info("here")
+
+        sblog.info("appDelegate didLaunch")
         return true
     }
 

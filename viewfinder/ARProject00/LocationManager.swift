@@ -53,7 +53,8 @@ class LocationManager: HardwareManager {
 //        let locationManager = LKLocationManager()
         // The debug flag is not necessary (and should not be enabled in prod)
         // but does help to ensure things are working correctly
-        manager.debug = true
+//        manager.debug = true
+        manager.debug = false
         manager.apiToken = "b93e57618fcbd8d4"
 
         manager.advancedDelegate = Brain.sharedInstance

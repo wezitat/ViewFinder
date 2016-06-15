@@ -15,6 +15,8 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var bothButton: UIButton!
     
     override func viewDidLoad() {
+        
+        sblog.info("menuViewController didLoad")
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.

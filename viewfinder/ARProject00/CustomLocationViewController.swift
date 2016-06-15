@@ -22,6 +22,7 @@ class CustomLocationViewController: UIViewController, LKLocationManagerDelegate 
 //    var debugLocationManager: DebugLocationManager! = DebugLocationManager()
     
     override func viewDidLoad() {
+                sblog.info ("DidLoad CustomLocationViewController")
         super.viewDidLoad()
         
         Brain.sharedInstance.startLocationManager()

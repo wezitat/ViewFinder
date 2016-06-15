@@ -36,6 +36,7 @@ class RenderingBaseViewController: UIViewController, RenderingSceneDelegate {
     var deviceCameraLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer()
     
     override func viewDidLoad() {
+        sblog.info ("DidLoad RenderingBaseViewController")
         super.viewDidLoad()
     }
     

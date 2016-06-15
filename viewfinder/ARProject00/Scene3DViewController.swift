@@ -19,6 +19,7 @@ class Scene3DViewController: ScreenBaseViewController, UIProtocol {
 //    @IBOutlet weak var refreshSceneButton: UIButton!
     
     override func viewDidLoad() {
+                sblog.info ("DidLoad Scene3DViewController")
         super.viewDidLoad()
         
 //        refreshSceneButton.enabled = false
@@ -162,7 +163,7 @@ class Scene3DViewController: ScreenBaseViewController, UIProtocol {
         
         // Use the true heading if it is valid.
         
-        print("heading = \((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading)")
+      //  print("heading = \((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading)")
         
         Brain.sharedInstance.locationManager.deviceCalibrateDelegate?.headingUpdated(((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading))
     }

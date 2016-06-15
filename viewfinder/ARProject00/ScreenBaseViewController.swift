@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import SceneKit
+import SwiftyBeaver
 
 enum AppStatus {
     case GettingLocation
@@ -26,6 +27,7 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate, WitMarker
     var appStatus: AppStatus = .Unknown
     
     let DEFAULT_CALIBRATING_TIME = 5
+
     
     //array of wit markers
     var witMarkers: [WitMarker] = [WitMarker]()
@@ -55,6 +57,7 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate, WitMarker
     var demoData = DemoDataClass()
     
     override func viewDidLoad() {
+        sblog.info ("DidLoad screenbaseViewController")
         super.viewDidLoad()
         
 //        refreshSceneButton.enabled = false
@@ -384,7 +387,7 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate, WitMarker
     
     // Wits
     
-    func addWits() {  // gary; should only be adding wits that are near  ... and then should refresh scene when location changes by xxxx
+    func addWits() {
         
         demoData.initData()
         
@@ -392,24 +395,24 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate, WitMarker
         
         for wit3DModel in demoData.objects {
             let wit3DModel = Wit3DModel(wit: wit3DModel)
-            
             addNewWitMarkerWithWitModel(wit3DModel)
-            print ("adding wit \(wit3DModel.wObject.witDescription)")
+            sblog.info ("adding wit to scene \(wit3DModel.wObject.witDescription)")  // gary; should only be adding wits that are near  ... and then should refresh scene when location changes by xxxx
             renderingViewController?.geometryNode.addChildNode(wit3DModel.objectGeometry)
-            
             wit3DModels.append(wit3DModel)
         }
     }
 
     func update3DModels(location: CLLocation) {
+
         for object in wit3DModels {
-            print ("updating 3dmodels")
+            sblog.info ("updating 3dmodels")
             object.updateWitObjectSize(location)
         }
     }
     
     func addNewWitMarkerWithWitModel(witModel: Wit3DModel) {
         // add new witmarker on screen
+        sblog.info ("adding witmarker \(witModel.wObject.witDescription)")
         let marker = WitMarker()
         
         marker.registerObject(witModel.wObject)
@@ -427,13 +430,13 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate, WitMarker
         
         for object in wit3DModels {
             if result.node == object.objectGeometry {
-                print ("showing object details \(object.wObject.witDescription)")
+                sblog.info("showing scn wit object details \(object.wObject.witDescription)")
                 showObjectDetails(object.wObject)
             }
         }
     }
     
-    func addNewWitMarker(wObject: WitObject) {
+    func addNewWitMarker(wObject: WitObject) {   // gary ... never used, obsolete?
         // add new witmarker on screen
         let marker = WitMarker()
         
@@ -540,7 +543,7 @@ class ScreenBaseViewController: UIViewController, SceneEventsDelegate, WitMarker
             
             self.detailsDescription.text = "\(wObject.witDescription)\n\nBy: \(wObject.author) Claimed: \(claimed)"
         }
-        
+        sblog.info("building details dialog")        
         detailsView.hidden = false
     }
     

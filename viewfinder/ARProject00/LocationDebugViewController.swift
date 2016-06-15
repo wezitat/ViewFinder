@@ -99,7 +99,7 @@ class LocationDebugViewController: UIViewController, UIProtocol {
         
         headingLabel.text = "\(heading)"
         
-        print("heading = \(heading)")
+//        print("heading = \(heading)")
         
         compassImageView.transform = CGAffineTransformMakeRotation(-CGFloat((heading*M_PI)/180.0))
     }

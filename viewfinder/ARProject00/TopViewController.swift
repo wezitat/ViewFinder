@@ -20,6 +20,7 @@ class TopViewController: ScreenBaseViewController, UIProtocol {
     @IBOutlet weak var refreshSceneButton: UIButton!
 
     override func viewDidLoad() {
+                 sblog.info ("DidLoad TopViewController")
         super.viewDidLoad()
         
         refreshSceneButton.enabled = false
